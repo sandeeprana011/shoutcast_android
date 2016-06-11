@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:id="@+id/play_layout"
+    android:layout_alignParentBottom="true"
+    android:background="@color/colorPrimaryDark"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+
+    <ImageButton
+        android:onClick="playpause"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/media_button"
+        android:id="@+id/but_media_play"
+        android:src="@mipmap/ic_stop"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+    <ImageButton
+        android:layout_marginLeft="30dp"
+        android:onClick="listshow"
+        android:src="@mipmap/ic_list"
+        android:background="@drawable/media_button"
+        android:id="@+id/but_media_list"
+        android:layout_toRightOf="@+id/but_media_play"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+</RelativeLayout>

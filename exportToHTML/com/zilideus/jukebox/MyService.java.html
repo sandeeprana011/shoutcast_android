@@ -1,0 +1,214 @@
+<html>
+<head>
+<title>MyService.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { }
+.s2 { color: rgb(0,0,255); }
+.s3 { color: rgb(0,128,0); font-weight: bold; }
+.s4 { color: rgb(128,128,128); font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MyService.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">com.zilideus.jukebox; 
+ 
+</span><span class="s0">import </span><span class="s1">android.app.Notification; 
+</span><span class="s0">import </span><span class="s1">android.app.NotificationManager; 
+</span><span class="s0">import </span><span class="s1">android.app.PendingIntent; 
+</span><span class="s0">import </span><span class="s1">android.app.Service; 
+</span><span class="s0">import </span><span class="s1">android.content.BroadcastReceiver; 
+</span><span class="s0">import </span><span class="s1">android.content.Context; 
+</span><span class="s0">import </span><span class="s1">android.content.Intent; 
+</span><span class="s0">import </span><span class="s1">android.content.IntentFilter; 
+</span><span class="s0">import </span><span class="s1">android.net.Uri; 
+</span><span class="s0">import </span><span class="s1">android.os.Binder; 
+</span><span class="s0">import </span><span class="s1">android.os.IBinder; 
+</span><span class="s0">import </span><span class="s1">android.support.v4.app.NotificationCompat; 
+</span><span class="s0">import </span><span class="s1">android.widget.RemoteViews; 
+</span><span class="s0">import </span><span class="s1">android.widget.Toast; 
+ 
+</span><span class="s0">import </span><span class="s1">com.google.android.exoplayer.ExoPlaybackException; 
+</span><span class="s0">import </span><span class="s1">com.google.android.exoplayer.ExoPlayer; 
+</span><span class="s0">import </span><span class="s1">com.google.android.exoplayer.MediaCodecAudioTrackRenderer; 
+</span><span class="s0">import </span><span class="s1">com.google.android.exoplayer.extractor.ExtractorSampleSource; 
+</span><span class="s0">import </span><span class="s1">com.google.android.exoplayer.upstream.Allocator; 
+</span><span class="s0">import </span><span class="s1">com.google.android.exoplayer.upstream.DataSource; 
+</span><span class="s0">import </span><span class="s1">com.google.android.exoplayer.upstream.DefaultAllocator; 
+</span><span class="s0">import </span><span class="s1">com.google.android.exoplayer.upstream.DefaultUriDataSource; 
+</span><span class="s0">import </span><span class="s1">com.google.android.exoplayer.util.Util; 
+</span><span class="s0">import </span><span class="s1">com.zilideus.jukebox.flags.Flags; 
+</span><span class="s0">import </span><span class="s1">com.zilideus.jukebox.parser.Station; 
+ 
+</span><span class="s0">public class </span><span class="s1">MyService </span><span class="s0">extends </span><span class="s1">Service { 
+ 
+   </span><span class="s0">private static final int </span><span class="s1">BUFFER_SEGMENT_SIZE = </span><span class="s2">64 </span><span class="s1">* </span><span class="s2">1024</span><span class="s1">; 
+   </span><span class="s0">private static final int </span><span class="s1">BUFFER_SEGMENT_COUNT = </span><span class="s2">256</span><span class="s1">; 
+   </span><span class="s0">private int </span><span class="s1">NOTIFICATION_ID = </span><span class="s2">48</span><span class="s1">; 
+   </span><span class="s0">private </span><span class="s1">String stationTitle, urlStation, urlStationImage, bitrate, genre; 
+   </span><span class="s0">private </span><span class="s1">IBinder binder = </span><span class="s0">new </span><span class="s1">ServiceBinder(); 
+   </span><span class="s0">private </span><span class="s1">Exo player; 
+   </span><span class="s0">private </span><span class="s1">NotificationManager mNotificationManager; 
+   </span><span class="s0">private </span><span class="s1">BroadcastReceiver broadcastReceiver; 
+ 
+   </span><span class="s0">public </span><span class="s1">MyService() { 
+   } 
+ 
+   @Override 
+   </span><span class="s0">public void </span><span class="s1">onCreate() { 
+      </span><span class="s0">super</span><span class="s1">.onCreate(); 
+      player = Exo.getInstance(); 
+ 
+ 
+      mNotificationManager = 
+              (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE); 
+ 
+      notification(</span><span class="s3">&quot;Jukebox&quot;</span><span class="s1">, </span><span class="s3">&quot;Shoutcast&quot;</span><span class="s1">); 
+ 
+      broadcastReceiver = </span><span class="s0">new </span><span class="s1">BroadcastReceiver() { 
+         @Override 
+         </span><span class="s0">public void </span><span class="s1">onReceive(Context context, Intent intent) { 
+            player.getPlayer().stop(); 
+            player.getPlayer().release(); 
+ 
+            mNotificationManager.cancel(NOTIFICATION_ID); 
+ 
+</span><span class="s4">//          Toast.makeText(MyService.this, &quot;Broadcast Reciever&quot;, Toast.LENGTH_SHORT).show();</span><span class="s1"> 
+ 
+         } 
+      }; 
+</span><span class="s4">//</span><span class="s1"> 
+      </span><span class="s0">this</span><span class="s1">.registerReceiver(broadcastReceiver, </span><span class="s0">new </span><span class="s1">IntentFilter(Flags.CLOSE_PLAYER)); 
+ 
+ 
+      player.getPlayer().addListener(</span><span class="s0">new </span><span class="s1">ExoPlayer.Listener() { 
+         @Override 
+         </span><span class="s0">public void </span><span class="s1">onPlayerStateChanged(</span><span class="s0">boolean </span><span class="s1">playWhenReady, </span><span class="s0">int </span><span class="s1">playbackState) { 
+            String state; 
+            </span><span class="s0">switch </span><span class="s1">(playbackState) { 
+               </span><span class="s0">case </span><span class="s1">ExoPlayer.STATE_PREPARING: 
+                  state = </span><span class="s3">&quot;Preparing&quot;</span><span class="s1">; 
+                  </span><span class="s0">break</span><span class="s1">; 
+               </span><span class="s0">case </span><span class="s1">ExoPlayer.STATE_BUFFERING: 
+                  state = </span><span class="s3">&quot;Buffering&quot;</span><span class="s1">; 
+                  </span><span class="s0">break</span><span class="s1">; 
+               </span><span class="s0">case </span><span class="s1">ExoPlayer.STATE_ENDED: 
+                  state = </span><span class="s3">&quot;Ended&quot;</span><span class="s1">; 
+                  </span><span class="s0">break</span><span class="s1">; 
+               </span><span class="s0">case </span><span class="s1">ExoPlayer.STATE_READY: 
+                  state = </span><span class="s3">&quot;Ready&quot;</span><span class="s1">; 
+                  </span><span class="s0">break</span><span class="s1">; 
+ 
+            } 
+</span><span class="s4">//          notification();'</span><span class="s1"> 
+ 
+         } 
+ 
+         @Override 
+         </span><span class="s0">public void </span><span class="s1">onPlayWhenReadyCommitted() { 
+ 
+         } 
+ 
+         @Override 
+         </span><span class="s0">public void </span><span class="s1">onPlayerError(ExoPlaybackException error) { 
+ 
+         } 
+      }); 
+   } 
+ 
+   @Override 
+   </span><span class="s0">public int </span><span class="s1">onStartCommand(Intent intent, </span><span class="s0">int </span><span class="s1">flags, </span><span class="s0">int </span><span class="s1">startId) { 
+</span><span class="s4">//    prepare(&quot;icy://37.130.230.93:9092&quot;);</span><span class="s1"> 
+      </span><span class="s0">return super</span><span class="s1">.onStartCommand(intent, flags, startId); 
+   } 
+ 
+   @Override 
+   </span><span class="s0">public </span><span class="s1">IBinder onBind(Intent intent) { 
+      </span><span class="s4">// TODO: Return the communication channel to the service.</span><span class="s1"> 
+      </span><span class="s0">return </span><span class="s1">binder; 
+   } 
+ 
+   </span><span class="s0">public void </span><span class="s1">prepare(String url, Station station) { 
+      </span><span class="s0">if </span><span class="s1">(url != </span><span class="s0">null </span><span class="s1">&amp;&amp; station != </span><span class="s0">null</span><span class="s1">) { 
+ 
+         Allocator allocator = </span><span class="s0">new </span><span class="s1">DefaultAllocator(BUFFER_SEGMENT_SIZE); 
+         DataSource dataSource = </span><span class="s0">new </span><span class="s1">DefaultUriDataSource(</span><span class="s0">this</span><span class="s1">, </span><span class="s0">null</span><span class="s1">, Util.getUserAgent(</span><span class="s0">this</span><span class="s1">, 
+                 </span><span class="s3">&quot;Jukebox&quot;</span><span class="s1">)); 
+         ExtractorSampleSource sampleSource = </span><span class="s0">new </span><span class="s1">ExtractorSampleSource(Uri.parse(url), dataSource, 
+                 allocator, BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE); 
+         MediaCodecAudioTrackRenderer audioRenderer = </span><span class="s0">new </span><span class="s1">MediaCodecAudioTrackRenderer(sampleSource); 
+         player.getPlayer().stop(); 
+         player.getPlayer().prepare(audioRenderer); 
+         player.getPlayer().setPlayWhenReady(</span><span class="s0">true</span><span class="s1">); 
+ 
+         notification(station.getName(), station.getCtqueryString()); 
+      }</span><span class="s0">else </span><span class="s1">{ 
+         Toast.makeText(</span><span class="s0">this</span><span class="s1">,</span><span class="s3">&quot;Invalid Station&quot;</span><span class="s1">,Toast.LENGTH_LONG).show(); 
+      } 
+   } 
+ 
+   </span><span class="s0">public void </span><span class="s1">notification(String title, String contenttext) { 
+ 
+      CharSequence text = getText(R.string.app_name); 
+      PendingIntent contentIntent = PendingIntent.getActivity(</span><span class="s0">this</span><span class="s1">, </span><span class="s2">0</span><span class="s1">, 
+              </span><span class="s0">new </span><span class="s1">Intent(</span><span class="s0">this</span><span class="s1">, MainActivity.</span><span class="s0">class</span><span class="s1">), </span><span class="s2">0</span><span class="s1">); 
+ 
+      RemoteViews remoteViews = </span><span class="s0">new </span><span class="s1">RemoteViews(getPackageName(), R.layout.custom_notification); 
+ 
+      </span><span class="s4">// Set the info for the views that show in the notification panel.</span><span class="s1"> 
+      Notification notification = </span><span class="s0">new </span><span class="s1">NotificationCompat.Builder(</span><span class="s0">this</span><span class="s1">) 
+              .setSmallIcon(R.mipmap.ic_launcher)  </span><span class="s4">// the status icon</span><span class="s1"> 
+              .setTicker(text)  </span><span class="s4">// the status text</span><span class="s1"> 
+              .setOngoing(</span><span class="s0">true</span><span class="s1">) 
+              .setContent(remoteViews) 
+              .setWhen(System.currentTimeMillis())  </span><span class="s4">// the time stamp</span><span class="s1"> 
+              .setContentTitle(title)  </span><span class="s4">// the label of the entry</span><span class="s1"> 
+              .setContentText(contenttext)  </span><span class="s4">// the contents of the entry</span><span class="s1"> 
+              .setContentIntent(contentIntent)  </span><span class="s4">// The intent to send when the entry is clicked</span><span class="s1"> 
+              .build(); 
+ 
+ 
+      remoteViews.setTextViewText(R.id.station_title, title); 
+      remoteViews.setTextViewText(R.id.station_title, contenttext); 
+      remoteViews.setImageViewResource(R.id.station_icon, R.mipmap.ic_launcher); 
+ 
+      PendingIntent pi = PendingIntent.getBroadcast(</span><span class="s0">this</span><span class="s1">, </span><span class="s2">0</span><span class="s1">, 
+              </span><span class="s0">new </span><span class="s1">Intent(Flags.CLOSE_PLAYER), PendingIntent.FLAG_UPDATE_CURRENT); 
+ 
+      remoteViews.setOnClickPendingIntent(R.id.station_close, pi); 
+ 
+ 
+</span><span class="s4">// mId allows you to update the notification later on.</span><span class="s1"> 
+      mNotificationManager.notify(NOTIFICATION_ID, notification); 
+   } 
+ 
+   </span><span class="s0">public void </span><span class="s1">stop() { 
+      player.getPlayer().stop(); 
+      player.getPlayer().release(); 
+   } 
+ 
+   @Override 
+   </span><span class="s0">public void </span><span class="s1">onDestroy() { 
+      </span><span class="s0">super</span><span class="s1">.onDestroy(); 
+      stop(); 
+</span><span class="s4">//    mNotificationManager.cancelAll();</span><span class="s1"> 
+   } 
+ 
+   </span><span class="s0">public class </span><span class="s1">ServiceBinder </span><span class="s0">extends </span><span class="s1">Binder { 
+      </span><span class="s0">public </span><span class="s1">MyService getService() { 
+         </span><span class="s0">return </span><span class="s1">MyService.</span><span class="s0">this</span><span class="s1">; 
+      } 
+   } 
+ 
+} 
+</span></pre>
+</body>
+</html>

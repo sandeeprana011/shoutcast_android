@@ -1,0 +1,64 @@
+{
+  "response": {
+    "statusCode": 200,
+    "data": {
+      "stationlist": {
+        "station": [
+          {
+            "id": 611786,
+            "genre": "R&amp;B and Urban",
+            "mt": "audio/mpeg",
+            "name": "181.FM - The BOX - #1 For Hip-Hop",
+            "lc": 209,
+            "ml": 7000,
+            "br": 128,
+            "ct": "Rihanna - B**ch Better Have My Money (Clean Version)"
+          },
+          {
+            "id": 219515,
+            "genre3": "Reggaeton",
+            "genre": "Top 40",
+            "logo": "http://i.radionomy.com/documents/radio/c/cb36/cb3655c2-ea79-477f-83f3-c100776e09cc.s125.png",
+            "mt": "audio/mpeg",
+            "name": "Las Mas Bailadas",
+            "lc": 73,
+            "ml": 11500,
+            "br": 128,
+            "ct": "Rihanna - Where Have You Been",
+            "genre2": "Latin Pop"
+          },
+          {
+            "id": 423466,
+            "genre": "International",
+            "mt": "audio/aacp",
+            "name": "Web Radio Cam Brasil",
+            "cst": "Rihanna Umbrella Orange Version ft JAY Z",
+            "lc": 31,
+            "ml": 200,
+            "br": 96,
+            "ct": "Raul Seixas Metamorfose Ambulante"
+          },
+          {
+            "id": 99179853,
+            "genre3": "Dance",
+            "genre": "R&amp;B and Urban",
+            "logo": "http://i.radionomy.com/documents/radio/d1032901c4c6461fb105141f46e7f427_635114051157471589.s125.png",
+            "mt": "audio/mpeg",
+            "name": "ABCD Rihanna",
+            "lc": 29,
+            "ml": 10000,
+            "br": 128,
+            "ct": "Rihanna Feat Drake - What's my name",
+            "genre2": "Top 40"
+          }
+        ],
+        "tunein": {
+          "base-m3u": "/sbin/tunein-station.m3u",
+          "base": "/sbin/tunein-station.pls",
+          "base-xspf": "/sbin/tunein-station.xspf"
+        }
+      }
+    },
+    "statusText": "Ok"
+  }
+}

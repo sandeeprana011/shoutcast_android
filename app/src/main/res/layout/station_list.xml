@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ProgressBar
+        android:id="@+id/progressbarlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:src="@drawable/music"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/play_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:layout_below="@id/progressbarlist"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="#88ffffff"
+        android:layout_above="@+id/play_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+       <ListView
+           android:background="#88000000"
+           android:id="@+id/list_stations"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+       </ListView>
+   </RelativeLayout>
+    <include
+        layout="@layout/play_util"/>
+</RelativeLayout>

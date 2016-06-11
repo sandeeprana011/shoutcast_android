@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:background="@color/white"
+    android:clickable="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:layout_above="@+id/include"
+        android:layout_below="@+id/progressbar"
+        android:id="@+id/imageLogoBack"
+        android:src="@drawable/music"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.zilideus.jukebox.VisualizerView
+        android:layout_alignParentTop="true"
+        android:id="@+id/myvisualizerview"
+        android:layout_margin="8dp"
+        android:background="@drawable/visualizer_back"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"/>
+    <RelativeLayout
+        android:layout_below="@+id/myvisualizerview"
+        android:id="@+id/rel_main"
+        android:layout_above="@+id/include"
+        android:background="#88ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/text_title"
+            android:padding="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="30sp"
+            android:text="Haye mera dil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_below="@+id/text_title"
+            android:id="@+id/text_description"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="20sp"
+            android:text="Haye mera dil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <include
+        android:id="@+id/include"
+        layout="@layout/play_util"/>
+</RelativeLayout>

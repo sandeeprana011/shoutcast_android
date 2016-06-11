@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|left"
+    android:gravity="center|left"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/station_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/station_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/station_icon"
+        android:text="Haye mera dil"
+        android:textColor="?colorPrimaryDark"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/station_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/station_title"
+        android:layout_toRightOf="@+id/station_icon"
+        android:text="by Honey Singh &amp; Alfas"
+        android:textColor="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/station_close"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+</RelativeLayout>
