@@ -122,9 +122,15 @@ public class Home extends Fragment {
         // Make sure the visualizer is enabled only when you actually want to
         // receive data, and
         // when it makes sense to receive data.
-        if (visualizer != null) {
+//        if (visualizer != null) {
+        try
+        {
             visualizer.setEnabled(true);
+        }catch (Exception ex){
+            Log.e("except"," f"+ex.getMessage());
         }
+
+//        }
         // When the stream ends, we don't need to collect any more data. We
         // don't do this in
         // setupVisualizerFxAndUI because we likely want to have more,

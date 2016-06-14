@@ -1,51 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-
-    android:background="@drawable/listbackground"
-    android:layout_marginTop="3dp"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="5dp"
-    android:layout_height="match_parent">
-    <RelativeLayout
+    android:layout_height="wrap_content"
+    android:layout_margin="7dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textColor="@color/colorAccent"
-            android:text="Indian Music"
-            android:id="@+id/text_list_title"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_list_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_toLeftOf="@+id/text_list_genre"
+                android:text="Indian Music"
+                android:textColor="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/text_list_genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Hip Hop"
+                android:textColor="@color/textColorDark" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/text_list_genre"
-            android:layout_marginBottom="20dp"/>
-        <TextView
-            android:textColor="@color/textColorDark"
-            android:layout_alignParentRight="true"
-            android:text="Hip Hop"
-            android:id="@+id/text_list_genre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textColor="@color/textColorDark"
-            android:layout_alignParentBottom="true"
-            android:text="Haye mera Dil- Honey Singh"
-            android:id="@+id/text_list_text"
-            android:layout_toLeftOf="@+id/text_list_bt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:textColor="@color/textColorDark"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:text="128 bt"
-            android:id="@+id/text_list_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
-</LinearLayout>
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/text_list_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/text_list_bt"
+                android:text="Haye mera Dil- Honey Singh"
+                android:textColor="@color/textColorDark" />
+
+            <TextView
+                android:id="@+id/text_list_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="128 bt"
+                android:textColor="@color/textColorDark" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

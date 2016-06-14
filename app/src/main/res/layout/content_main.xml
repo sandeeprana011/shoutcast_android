@@ -12,7 +12,8 @@
         android:id="@+id/container_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.zilideus.jukebox.fragment.ListFragment"/>
+        android:name="com.zilideus.jukebox.fragment.ListFragment"
+        tools:layout="@layout/itemlistrow" />
     <!--<TextView-->
         <!--android:text="Hello World!"-->
         <!--android:layout_width="wrap_content"-->
