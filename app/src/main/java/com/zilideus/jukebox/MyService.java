@@ -12,12 +12,14 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.google.android.exoplayer.ExoPlaybackException;
 import com.google.android.exoplayer.ExoPlayer;
 import com.google.android.exoplayer.MediaCodecAudioTrackRenderer;
+import com.google.android.exoplayer.MediaCodecSelector;
 import com.google.android.exoplayer.extractor.ExtractorSampleSource;
 import com.google.android.exoplayer.upstream.Allocator;
 import com.google.android.exoplayer.upstream.DataSource;
@@ -116,7 +118,7 @@ public class MyService extends Service {
                     "Jukebox"));
             ExtractorSampleSource sampleSource = new ExtractorSampleSource(Uri.parse(url), dataSource,
                     allocator, BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE);
-            MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource);
+            MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource, MediaCodecSelector.DEFAULT);
             Exo.getPlayer().stop();
             Exo.getPlayer().prepare(audioRenderer);
             Exo.getPlayer().setPlayWhenReady(true);
@@ -140,7 +142,7 @@ public class MyService extends Service {
                 .setSmallIcon(R.mipmap.ic_launcher)  // the status icon
                 .setTicker(contenttext)  // the status text
                 .setOngoing(true)
-//                .setContent(remoteViews)
+                .setContent(remoteViews)
                 .setWhen(System.currentTimeMillis())  // the time stamp
                 .setContentTitle(title)  // the label of the entry
                 .setContentText(contenttext)  // the contents of the entry
@@ -172,7 +174,12 @@ public class MyService extends Service {
     public void onDestroy() {
         super.onDestroy();
         stop();
-        Exo.getPlayer().release();
+        try {
+            unregisterReceiver(broadcastReceiver);
+        } catch (Exception ex) {
+            Log.e("Exception", " broadcast receiver " + ex.getMessage());
+        }
+
 //	  mNotificationManager.cancelAll();
     }
 

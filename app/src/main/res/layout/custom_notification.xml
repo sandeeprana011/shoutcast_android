@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/station_icon"
         android:text="Haye mera dil"
-        android:textColor="?colorPrimaryDark"
+        android:textColor="@color/colorAccent"
         android:textStyle="bold" />
 
     <TextView

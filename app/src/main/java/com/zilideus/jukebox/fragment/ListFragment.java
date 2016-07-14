@@ -170,7 +170,6 @@ public class ListFragment extends Fragment {
                                             }
                                             Intent intent = new Intent(getActivity(), MyService.class);
                                             getActivity().startService(intent);
-                                            getActivity();
                                             getActivity().bindService(intent, new ServiceConnection() {
                                                 @Override
                                                 public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
