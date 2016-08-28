@@ -3,6 +3,5 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JukeBoxShoutCast" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/linphone-android" vcs="Git" />
   </component>
 </project>

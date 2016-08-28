@@ -169,7 +169,7 @@ public class ListFragment extends Fragment {
                                                 imageButtonPlay.setEnabled(true);
                                             }
                                             Intent intent = new Intent(getActivity(), MyService.class);
-                                            getActivity().startService(intent);
+//                                            getActivity().startService(intent);
                                             getActivity().bindService(intent, new ServiceConnection() {
                                                 @Override
                                                 public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -179,13 +179,14 @@ public class ListFragment extends Fragment {
                                                     try {
                                                         myServiceEngine.prepare(file, station);
                                                     } catch (Exception ex) {
-                                                        Log.e("service", "prepare" + getClass().getName());
+                                                        Log.e("Exception service", "while preparing for" + getClass().getName());
                                                     }
 
                                                 }
 
                                                 @Override
                                                 public void onServiceDisconnected(ComponentName componentName) {
+                                                    Log.e("disconnected", "service");
                                                 }
                                             }, Context.BIND_AUTO_CREATE);
 
@@ -201,6 +202,9 @@ public class ListFragment extends Fragment {
                         Toast.makeText(getContext(), "No station found", Toast.LENGTH_LONG).show();
                         preferences.edit().putString(Flags.JSON_URL, new Url_format().getTopStationsXML(Flags
                                 .DEV_ID, "30", null, null)).apply();
+                        if (progressBar != null && progressBar.isShown()) {
+                            progressBar.setVisibility(View.GONE);
+                        }
 
                     }
 
