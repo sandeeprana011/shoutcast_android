@@ -12,6 +12,5 @@ import com.google.android.exoplayer.ExoPlaybackException;
  */
 interface OnChangePlayerState {
     void onStateChanged(boolean playWhenReady, int playbackState);
-
     void onPlayerError(ExoPlaybackException error);
 }

@@ -1,5 +1,6 @@
 package com.zilideus.jukebox.parser;
 
+import com.zilideus.jukebox.flags.JKeys;
 import com.zilideus.jukebox.flags.Url_format;
 import com.zilideus.jukebox.network.DownloadContent;
 
@@ -16,538 +17,538 @@ import java.util.ArrayList;
  */
 public class ParserXMLtoJSON {
 
-   public StationList getTopStationswithLIMIT(String data) throws IOException, JSONException {
+    public StationList getTopStationswithLIMIT(String data) throws IOException, JSONException {
 
 
-	  JSONObject objectRoot = XML.toJSONObject(data);
-	  JSONObject object = objectRoot.getJSONObject("stationlist");
+        JSONObject objectRoot = XML.toJSONObject(data);
+        JSONObject object = objectRoot.getJSONObject(JKeys.STATION_LIST);
 
-	  StationList stationList = new StationList();
-	  if (object.has("tunein") && !object.isNull("tunein")) {
-		 TuneIn tuneIn = new TuneIn();
-		 if (object.has("base") && !object.isNull("base")) {
-			tuneIn.setBase(object.getString("base"));
-		 }
-		 if (object.has("base-m3u") && !object.isNull("base-m3u")) {
-			tuneIn.setBase(object.getString("base-m3u"));
-		 }
-		 if (object.has("base-xspf") && !object.isNull("base-xspf")) {
-			tuneIn.setBase(object.getString("base-xspf"));
-		 }
-		 stationList.setTuneIn(tuneIn);
-	  }
-
-
-	  if (object.has("station") && !object.isNull("station")) {
-		 Object objectArrayOrObject = object.get("station");
-		 if (objectArrayOrObject instanceof JSONObject) {
-			Station station = new Station();
-			JSONObject o = (JSONObject) objectArrayOrObject;
-			if (o.has("name") && !o.isNull("name")) {
-			   station.setName(o.getString("name"));
-			}
-			if (o.has("br") && !o.isNull("br")) {
-			   station.setBrbitrate(o.getString("br"));
-			}
-			if (o.has("ct") && !o.isNull("ct")) {
-			   station.setCtqueryString(o.getString("ct"));
-			}
-			if (o.has("genre") && !o.isNull("genre")) {
-			   station.setGenre(o.getString("genre"));
-			}
-			if (o.has("id") && !o.isNull("id")) {
-			   station.setId(o.getString("id"));
-			}
-			if (o.has("lc") && !o.isNull("lc")) {
-			   station.setLc(o.getString("lc"));
-			}
-			if (o.has("mt") && !o.isNull("mt")) {
-			   station.setMt(o.getString("mt"));
-			}
-			if (o.has("logo") && !o.isNull("logo")) {
-			   station.setLogo(o.getString("logo"));
-			}
-			if (o.has("ml") && !o.isNull("ml")) {
-			   station.setMl(o.getString("ml"));
-			}
-			if (o.has("cst") && !o.isNull("cst")) {
-			   station.setCst(o.getString("cst"));
-			}
-			if (o.has("genre2") && !o.isNull("genre2")) {
-			   station.setGenre2(o.getString("genre2"));
-			}
-			if (o.has("genre3") && !o.isNull("genre3")) {
-			   station.setGenre3(o.getString("genre3"));
-			}
+        StationList stationList = new StationList();
+        if (object.has(JKeys.TUNE_IN) && !object.isNull(JKeys.TUNE_IN)) {
+            TuneIn tuneIn = new TuneIn();
+            if (object.has(JKeys.BASE) && !object.isNull(JKeys.BASE)) {
+                tuneIn.setBase(object.getString(JKeys.BASE));
+            }
+            if (object.has(JKeys.BASE_M3U) && !object.isNull(JKeys.BASE_M3U)) {
+                tuneIn.setBase(object.getString(JKeys.BASE_M3U));
+            }
+            if (object.has(JKeys.BASE_XSPF) && !object.isNull(JKeys.BASE_XSPF)) {
+                tuneIn.setBase(object.getString(JKeys.BASE_XSPF));
+            }
+            stationList.setTuneIn(tuneIn);
+        }
 
 
-			ArrayList<Station> arrayList = new ArrayList<>();
-			arrayList.add(station);
-
-			stationList.setArrayListStations(arrayList);
-		 } else {
-			JSONArray arr = (JSONArray) objectArrayOrObject;
-			ArrayList<Station> arrayList = new ArrayList<>();
-			for (int j = 0; j < arr.length(); j++) {
-			   Station station = new Station();
-			   JSONObject o = arr.getJSONObject(j);
-			   if (o.has("name") && !o.isNull("name")) {
-				  station.setName(o.getString("name"));
-			   }
-			   if (o.has("br") && !o.isNull("br")) {
-				  station.setBrbitrate(o.getString("br"));
-			   }
-			   if (o.has("ct") && !o.isNull("ct")) {
-				  station.setCtqueryString(o.getString("ct"));
-			   }
-			   if (o.has("genre") && !o.isNull("genre")) {
-				  station.setGenre(o.getString("genre"));
-			   }
-			   if (o.has("id") && !o.isNull("id")) {
-				  station.setId(o.getString("id"));
-			   }
-			   if (o.has("lc") && !o.isNull("lc")) {
-				  station.setLc(o.getString("lc"));
-			   }
-			   if (o.has("mt") && !o.isNull("mt")) {
-				  station.setMt(o.getString("mt"));
-			   }
-			   if (o.has("logo") && !o.isNull("logo")) {
-				  station.setLogo(o.getString("logo"));
-			   }
-			   if (o.has("ml") && !o.isNull("ml")) {
-				  station.setMl(o.getString("ml"));
-			   }
-			   if (o.has("cst") && !o.isNull("cst")) {
-				  station.setCst(o.getString("cst"));
-			   }
-			   if (o.has("genre2") && !o.isNull("genre2")) {
-				  station.setGenre2(o.getString("genre2"));
-			   }
-			   if (o.has("genre3") && !o.isNull("genre3")) {
-				  station.setGenre3(o.getString("genre3"));
-			   }
-
-			   arrayList.add(station);
-
-			}
-			stationList.setArrayListStations(arrayList);
-		 }
-
-	  }
-
-	  return stationList;
-   }
+        if (object.has(JKeys.STATION) && !object.isNull(JKeys.STATION)) {
+            Object objectArrayOrObject = object.get(JKeys.STATION);
+            if (objectArrayOrObject instanceof JSONObject) {
+                Station station = new Station();
+                JSONObject o = (JSONObject) objectArrayOrObject;
+                if (o.has(JKeys.NAME) && !o.isNull(JKeys.NAME)) {
+                    station.setName(o.getString(JKeys.NAME));
+                }
+                if (o.has(JKeys.BR) && !o.isNull(JKeys.BR)) {
+                    station.setBrbitrate(o.getString(JKeys.BR));
+                }
+                if (o.has(JKeys.CT) && !o.isNull(JKeys.CT)) {
+                    station.setCtqueryString(o.getString(JKeys.CT));
+                }
+                if (o.has(JKeys.GENRE) && !o.isNull(JKeys.GENRE)) {
+                    station.setGenre(o.getString(JKeys.GENRE));
+                }
+                if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
+                    station.setId(o.getString(JKeys.ID));
+                }
+                if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
+                    station.setLc(o.getString(JKeys.LC));
+                }
+                if (o.has(JKeys.MT) && !o.isNull(JKeys.MT)) {
+                    station.setMt(o.getString(JKeys.MT));
+                }
+                if (o.has(JKeys.LOGO) && !o.isNull(JKeys.LOGO)) {
+                    station.setLogo(o.getString(JKeys.LOGO));
+                }
+                if (o.has(JKeys.ML) && !o.isNull(JKeys.ML)) {
+                    station.setMl(o.getString(JKeys.ML));
+                }
+                if (o.has(JKeys.CST) && !o.isNull(JKeys.CST)) {
+                    station.setCst(o.getString(JKeys.CST));
+                }
+                if (o.has(JKeys.GENRE2) && !o.isNull(JKeys.GENRE2)) {
+                    station.setGenre2(o.getString(JKeys.GENRE2));
+                }
+                if (o.has(JKeys.GENRE3) && !o.isNull(JKeys.GENRE3)) {
+                    station.setGenre3(o.getString(JKeys.GENRE3));
+                }
 
 
-   public StationList getStationByKeySearch(String devID, String search, String limit, String bitrate, String mediaType) throws IOException, JSONException {
-	  Url_format uri_format = new Url_format();
-	  String data = DownloadContent.downloadContent(uri_format.getStationByKeywords(devID, search, limit,
-			  bitrate,
-			  mediaType));
+                ArrayList<Station> arrayList = new ArrayList<>();
+                arrayList.add(station);
 
-	  JSONObject objectRoot = XML.toJSONObject(data);
-	  JSONObject object = objectRoot.getJSONObject("stationlist");
+                stationList.setArrayListStations(arrayList);
+            } else {
+                JSONArray arr = (JSONArray) objectArrayOrObject;
+                ArrayList<Station> arrayList = new ArrayList<>();
+                for (int j = 0; j < arr.length(); j++) {
+                    Station station = new Station();
+                    JSONObject o = arr.getJSONObject(j);
+                    if (o.has(JKeys.NAME) && !o.isNull(JKeys.NAME)) {
+                        station.setName(o.getString(JKeys.NAME));
+                    }
+                    if (o.has(JKeys.BR) && !o.isNull(JKeys.BR)) {
+                        station.setBrbitrate(o.getString(JKeys.BR));
+                    }
+                    if (o.has(JKeys.CT) && !o.isNull(JKeys.CT)) {
+                        station.setCtqueryString(o.getString(JKeys.CT));
+                    }
+                    if (o.has(JKeys.GENRE) && !o.isNull(JKeys.GENRE)) {
+                        station.setGenre(o.getString(JKeys.GENRE));
+                    }
+                    if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
+                        station.setId(o.getString(JKeys.ID));
+                    }
+                    if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
+                        station.setLc(o.getString(JKeys.LC));
+                    }
+                    if (o.has(JKeys.MT) && !o.isNull(JKeys.MT)) {
+                        station.setMt(o.getString(JKeys.MT));
+                    }
+                    if (o.has(JKeys.LOGO) && !o.isNull(JKeys.LOGO)) {
+                        station.setLogo(o.getString(JKeys.LOGO));
+                    }
+                    if (o.has(JKeys.ML) && !o.isNull(JKeys.ML)) {
+                        station.setMl(o.getString(JKeys.ML));
+                    }
+                    if (o.has(JKeys.CST) && !o.isNull(JKeys.CST)) {
+                        station.setCst(o.getString(JKeys.CST));
+                    }
+                    if (o.has(JKeys.GENRE2) && !o.isNull(JKeys.GENRE2)) {
+                        station.setGenre2(o.getString(JKeys.GENRE2));
+                    }
+                    if (o.has(JKeys.GENRE3) && !o.isNull(JKeys.GENRE3)) {
+                        station.setGenre3(o.getString(JKeys.GENRE3));
+                    }
 
-	  StationList stationList = new StationList();
-	  if (object.has("tunein") && !object.isNull("tunein")) {
-		 TuneIn tuneIn = new TuneIn();
-		 if (object.has("base") && !object.isNull("base")) {
-			tuneIn.setBase(object.getString("base"));
-		 }
-		 if (object.has("base-m3u") && !object.isNull("base-m3u")) {
-			tuneIn.setBase(object.getString("base-m3u"));
-		 }
-		 if (object.has("base-xspf") && !object.isNull("base-xspf")) {
-			tuneIn.setBase(object.getString("base-xspf"));
-		 }
-		 stationList.setTuneIn(tuneIn);
-	  }
+                    arrayList.add(station);
 
+                }
+                stationList.setArrayListStations(arrayList);
+            }
 
-	  if (object.has("station") && !object.isNull("station")) {
-		 Object objectArrayOrObject = object.get("station");
-		 if (objectArrayOrObject instanceof JSONObject) {
-			Station station = new Station();
-			JSONObject o = (JSONObject) objectArrayOrObject;
-			if (o.has("name") && !o.isNull("name")) {
-			   station.setName(o.getString("name"));
-			}
-			if (o.has("br") && !o.isNull("br")) {
-			   station.setBrbitrate(o.getString("br"));
-			}
-			if (o.has("ct") && !o.isNull("ct")) {
-			   station.setCtqueryString(o.getString("ct"));
-			}
-			if (o.has("genre") && !o.isNull("genre")) {
-			   station.setGenre(o.getString("genre"));
-			}
-			if (o.has("id") && !o.isNull("id")) {
-			   station.setId(o.getString("id"));
-			}
-			if (o.has("lc") && !o.isNull("lc")) {
-			   station.setLc(o.getString("lc"));
-			}
-			if (o.has("mt") && !o.isNull("mt")) {
-			   station.setMt(o.getString("mt"));
-			}
-			if (o.has("logo") && !o.isNull("logo")) {
-			   station.setLogo(o.getString("logo"));
-			}
-			if (o.has("ml") && !o.isNull("ml")) {
-			   station.setMl(o.getString("ml"));
-			}
-			if (o.has("cst") && !o.isNull("cst")) {
-			   station.setCst(o.getString("cst"));
-			}
-			if (o.has("genre2") && !o.isNull("genre2")) {
-			   station.setGenre2(o.getString("genre2"));
-			}
-			if (o.has("genre3") && !o.isNull("genre3")) {
-			   station.setGenre3(o.getString("genre3"));
-			}
+        }
 
-			ArrayList<Station> arrayList = new ArrayList<>();
-			arrayList.add(station);
-
-			stationList.setArrayListStations(arrayList);
-		 } else {
-			JSONArray arr = (JSONArray) objectArrayOrObject;
-			ArrayList<Station> arrayList = new ArrayList<>();
-			for (int j = 0; j < arr.length(); j++) {
-			   Station station = new Station();
-			   JSONObject o = arr.getJSONObject(j);
-			   if (o.has("name") && !o.isNull("name")) {
-				  station.setName(o.getString("name"));
-			   }
-			   if (o.has("br") && !o.isNull("br")) {
-				  station.setBrbitrate(o.getString("br"));
-			   }
-			   if (o.has("ct") && !o.isNull("ct")) {
-				  station.setCtqueryString(o.getString("ct"));
-			   }
-			   if (o.has("genre") && !o.isNull("genre")) {
-				  station.setGenre(o.getString("genre"));
-			   }
-			   if (o.has("id") && !o.isNull("id")) {
-				  station.setId(o.getString("id"));
-			   }
-			   if (o.has("lc") && !o.isNull("lc")) {
-				  station.setLc(o.getString("lc"));
-			   }
-			   if (o.has("mt") && !o.isNull("mt")) {
-				  station.setMt(o.getString("mt"));
-			   }
-			   if (o.has("logo") && !o.isNull("logo")) {
-				  station.setLogo(o.getString("logo"));
-			   }
-			   if (o.has("ml") && !o.isNull("ml")) {
-				  station.setMl(o.getString("ml"));
-			   }
-			   if (o.has("cst") && !o.isNull("cst")) {
-				  station.setCst(o.getString("cst"));
-			   }
-			   if (o.has("genre2") && !o.isNull("genre2")) {
-				  station.setGenre2(o.getString("genre2"));
-			   }
-			   if (o.has("genre3") && !o.isNull("genre3")) {
-				  station.setGenre3(o.getString("genre3"));
-			   }
-
-			   arrayList.add(station);
-
-			}
-			stationList.setArrayListStations(arrayList);
-		 }
-
-	  }
-
-	  return stationList;
-   }
+        return stationList;
+    }
 
 
-   public StationList getStationByGenre(String devID, String genre, String limit, String bitrate, String mediaType) throws IOException, JSONException {
-	  Url_format uri_format = new Url_format();
-	  String data = DownloadContent.downloadContent(uri_format.getStationsByGenre(devID, genre, limit,
-			  bitrate,
-			  mediaType));
+    public StationList getStationByKeySearch(String devID, String search, String limit, String bitrate, String mediaType) throws IOException, JSONException {
+        Url_format uri_format = new Url_format();
+        String data = DownloadContent.downloadContent(uri_format.getStationByKeywords(devID, search, limit,
+                bitrate,
+                mediaType));
 
-	  JSONObject objectRoot = XML.toJSONObject(data);
-	  JSONObject object = objectRoot.getJSONObject("stationlist");
+        JSONObject objectRoot = XML.toJSONObject(data);
+        JSONObject object = objectRoot.getJSONObject(JKeys.STATION_LIST);
 
-	  StationList stationList = new StationList();
-	  if (object.has("tunein") && !object.isNull("tunein")) {
-		 TuneIn tuneIn = new TuneIn();
-		 if (object.has("base") && !object.isNull("base")) {
-			tuneIn.setBase(object.getString("base"));
-		 }
-		 if (object.has("base-m3u") && !object.isNull("base-m3u")) {
-			tuneIn.setBase(object.getString("base-m3u"));
-		 }
-		 if (object.has("base-xspf") && !object.isNull("base-xspf")) {
-			tuneIn.setBase(object.getString("base-xspf"));
-		 }
-		 stationList.setTuneIn(tuneIn);
-	  }
-
-
-	  if (object.has("station") && !object.isNull("station")) {
-		 Object objectArrayOrObject = object.get("station");
-		 if (objectArrayOrObject instanceof JSONObject) {
-			Station station = new Station();
-			JSONObject o = (JSONObject) objectArrayOrObject;
-			if (o.has("name") && !o.isNull("name")) {
-			   station.setName(o.getString("name"));
-			}
-			if (o.has("br") && !o.isNull("br")) {
-			   station.setBrbitrate(o.getString("br"));
-			}
-			if (o.has("ct") && !o.isNull("ct")) {
-			   station.setCtqueryString(o.getString("ct"));
-			}
-			if (o.has("genre") && !o.isNull("genre")) {
-			   station.setGenre(o.getString("genre"));
-			}
-			if (o.has("id") && !o.isNull("id")) {
-			   station.setId(o.getString("id"));
-			}
-			if (o.has("lc") && !o.isNull("lc")) {
-			   station.setLc(o.getString("lc"));
-			}
-			if (o.has("mt") && !o.isNull("mt")) {
-			   station.setMt(o.getString("mt"));
-			}
-			if (o.has("logo") && !o.isNull("logo")) {
-			   station.setLogo(o.getString("logo"));
-			}
-			if (o.has("ml") && !o.isNull("ml")) {
-			   station.setMl(o.getString("ml"));
-			}
-			if (o.has("cst") && !o.isNull("cst")) {
-			   station.setCst(o.getString("cst"));
-			}
-			if (o.has("genre2") && !o.isNull("genre2")) {
-			   station.setGenre2(o.getString("genre2"));
-			}
-			if (o.has("genre3") && !o.isNull("genre3")) {
-			   station.setGenre3(o.getString("genre3"));
-			}
-
-			ArrayList<Station> arrayList = new ArrayList<>();
-			arrayList.add(station);
-
-			stationList.setArrayListStations(arrayList);
-		 } else {
-			JSONArray arr = (JSONArray) objectArrayOrObject;
-			ArrayList<Station> arrayList = new ArrayList<>();
-			for (int j = 0; j < arr.length(); j++) {
-			   Station station = new Station();
-			   JSONObject o = arr.getJSONObject(j);
-			   if (o.has("name") && !o.isNull("name")) {
-				  station.setName(o.getString("name"));
-			   }
-			   if (o.has("br") && !o.isNull("br")) {
-				  station.setBrbitrate(o.getString("br"));
-			   }
-			   if (o.has("ct") && !o.isNull("ct")) {
-				  station.setCtqueryString(o.getString("ct"));
-			   }
-			   if (o.has("genre") && !o.isNull("genre")) {
-				  station.setGenre(o.getString("genre"));
-			   }
-			   if (o.has("id") && !o.isNull("id")) {
-				  station.setId(o.getString("id"));
-			   }
-			   if (o.has("lc") && !o.isNull("lc")) {
-				  station.setLc(o.getString("lc"));
-			   }
-			   if (o.has("mt") && !o.isNull("mt")) {
-				  station.setMt(o.getString("mt"));
-			   }
-			   if (o.has("logo") && !o.isNull("logo")) {
-				  station.setLogo(o.getString("logo"));
-			   }
-			   if (o.has("ml") && !o.isNull("ml")) {
-				  station.setMl(o.getString("ml"));
-			   }
-			   if (o.has("cst") && !o.isNull("cst")) {
-				  station.setCst(o.getString("cst"));
-			   }
-			   if (o.has("genre2") && !o.isNull("genre2")) {
-				  station.setGenre2(o.getString("genre2"));
-			   }
-			   if (o.has("genre3") && !o.isNull("genre3")) {
-				  station.setGenre3(o.getString("genre3"));
-			   }
-
-			   arrayList.add(station);
-
-			}
-			stationList.setArrayListStations(arrayList);
-		 }
-
-	  }
-
-	  return stationList;
-   }
-
-   public StationList getStationBasedOnNowPlaying(String devID, String ct_queryString, String limit, String bitrate, String mediaType) throws IOException, JSONException {
-	  Url_format uri_format = new Url_format();
-	  String data = DownloadContent.downloadContent(uri_format.getStationsJSONBasedOnNowPlaying(devID, ct_queryString, limit,
-			  bitrate,
-			  mediaType));
-
-	  JSONObject objectRoot = new JSONObject(data).getJSONObject("data");
-	  JSONObject object = objectRoot.getJSONObject("stationlist");
-
-	  StationList stationList = new StationList();
-	  if (object.has("tunein") && !object.isNull("tunein")) {
-		 TuneIn tuneIn = new TuneIn();
-		 if (object.has("base") && !object.isNull("base")) {
-			tuneIn.setBase(object.getString("base"));
-		 }
-		 if (object.has("base-m3u") && !object.isNull("base-m3u")) {
-			tuneIn.setBase(object.getString("base-m3u"));
-		 }
-		 if (object.has("base-xspf") && !object.isNull("base-xspf")) {
-			tuneIn.setBase(object.getString("base-xspf"));
-		 }
-		 stationList.setTuneIn(tuneIn);
-	  }
+        StationList stationList = new StationList();
+        if (object.has(JKeys.TUNE_IN) && !object.isNull(JKeys.TUNE_IN)) {
+            TuneIn tuneIn = new TuneIn();
+            if (object.has(JKeys.BASE) && !object.isNull(JKeys.BASE)) {
+                tuneIn.setBase(object.getString(JKeys.BASE));
+            }
+            if (object.has(JKeys.BASE_M3U) && !object.isNull(JKeys.BASE_M3U)) {
+                tuneIn.setBase(object.getString(JKeys.BASE_M3U));
+            }
+            if (object.has(JKeys.BASE_XSPF) && !object.isNull(JKeys.BASE_XSPF)) {
+                tuneIn.setBase(object.getString(JKeys.BASE_XSPF));
+            }
+            stationList.setTuneIn(tuneIn);
+        }
 
 
-	  if (object.has("station") && !object.isNull("station")) {
-		 JSONArray arr = object.getJSONArray("station");
-		 ArrayList<Station> arrayList = new ArrayList<>();
-		 for (int j = 0; j < arr.length(); j++) {
-			Station station = new Station();
-			JSONObject o = arr.getJSONObject(j);
-			if (o.has("name") && !o.isNull("name")) {
-			   station.setName(o.getString("name"));
-			}
-			if (o.has("br") && !o.isNull("br")) {
-			   station.setBrbitrate(o.getString("br"));
-			}
-			if (o.has("ct") && !o.isNull("ct")) {
-			   station.setCtqueryString(o.getString("ct"));
-			}
-			if (o.has("genre") && !o.isNull("genre")) {
-			   station.setGenre(o.getString("genre"));
-			}
-			if (o.has("id") && !o.isNull("id")) {
-			   station.setId(o.getString("id"));
-			}
-			if (o.has("lc") && !o.isNull("lc")) {
-			   station.setLc(o.getString("lc"));
-			}
-			if (o.has("mt") && !o.isNull("mt")) {
-			   station.setMt(o.getString("mt"));
-			}
-			if (o.has("logo") && !o.isNull("logo")) {
-			   station.setLogo(o.getString("logo"));
-			}
-			if (o.has("ml") && !o.isNull("ml")) {
-			   station.setMl(o.getString("ml"));
-			}
-			if (o.has("cst") && !o.isNull("cst")) {
-			   station.setCst(o.getString("cst"));
-			}
-			if (o.has("genre2") && !o.isNull("genre2")) {
-			   station.setGenre2(o.getString("genre2"));
-			}
-			if (o.has("genre3") && !o.isNull("genre3")) {
-			   station.setGenre3(o.getString("genre3"));
-			}
+        if (object.has(JKeys.STATION) && !object.isNull(JKeys.STATION)) {
+            Object objectArrayOrObject = object.get(JKeys.STATION);
+            if (objectArrayOrObject instanceof JSONObject) {
+                Station station = new Station();
+                JSONObject o = (JSONObject) objectArrayOrObject;
+                if (o.has(JKeys.NAME) && !o.isNull(JKeys.NAME)) {
+                    station.setName(o.getString(JKeys.NAME));
+                }
+                if (o.has(JKeys.BR) && !o.isNull(JKeys.BR)) {
+                    station.setBrbitrate(o.getString(JKeys.BR));
+                }
+                if (o.has(JKeys.CT) && !o.isNull(JKeys.CT)) {
+                    station.setCtqueryString(o.getString(JKeys.CT));
+                }
+                if (o.has(JKeys.GENRE) && !o.isNull(JKeys.GENRE)) {
+                    station.setGenre(o.getString(JKeys.GENRE));
+                }
+                if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
+                    station.setId(o.getString(JKeys.ID));
+                }
+                if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
+                    station.setLc(o.getString(JKeys.LC));
+                }
+                if (o.has(JKeys.MT) && !o.isNull(JKeys.MT)) {
+                    station.setMt(o.getString(JKeys.MT));
+                }
+                if (o.has(JKeys.LOGO) && !o.isNull(JKeys.LOGO)) {
+                    station.setLogo(o.getString(JKeys.LOGO));
+                }
+                if (o.has(JKeys.ML) && !o.isNull(JKeys.ML)) {
+                    station.setMl(o.getString(JKeys.ML));
+                }
+                if (o.has(JKeys.CST) && !o.isNull(JKeys.CST)) {
+                    station.setCst(o.getString(JKeys.CST));
+                }
+                if (o.has(JKeys.GENRE2) && !o.isNull(JKeys.GENRE2)) {
+                    station.setGenre2(o.getString(JKeys.GENRE2));
+                }
+                if (o.has(JKeys.GENRE3) && !o.isNull(JKeys.GENRE3)) {
+                    station.setGenre3(o.getString(JKeys.GENRE3));
+                }
 
-			arrayList.add(station);
+                ArrayList<Station> arrayList = new ArrayList<>();
+                arrayList.add(station);
 
-		 }
-		 stationList.setArrayListStations(arrayList);
-	  }
+                stationList.setArrayListStations(arrayList);
+            } else {
+                JSONArray arr = (JSONArray) objectArrayOrObject;
+                ArrayList<Station> arrayList = new ArrayList<>();
+                for (int j = 0; j < arr.length(); j++) {
+                    Station station = new Station();
+                    JSONObject o = arr.getJSONObject(j);
+                    if (o.has(JKeys.NAME) && !o.isNull(JKeys.NAME)) {
+                        station.setName(o.getString(JKeys.NAME));
+                    }
+                    if (o.has(JKeys.BR) && !o.isNull(JKeys.BR)) {
+                        station.setBrbitrate(o.getString(JKeys.BR));
+                    }
+                    if (o.has(JKeys.CT) && !o.isNull(JKeys.CT)) {
+                        station.setCtqueryString(o.getString(JKeys.CT));
+                    }
+                    if (o.has(JKeys.GENRE) && !o.isNull(JKeys.GENRE)) {
+                        station.setGenre(o.getString(JKeys.GENRE));
+                    }
+                    if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
+                        station.setId(o.getString(JKeys.ID));
+                    }
+                    if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
+                        station.setLc(o.getString(JKeys.LC));
+                    }
+                    if (o.has(JKeys.MT) && !o.isNull(JKeys.MT)) {
+                        station.setMt(o.getString(JKeys.MT));
+                    }
+                    if (o.has(JKeys.LOGO) && !o.isNull(JKeys.LOGO)) {
+                        station.setLogo(o.getString(JKeys.LOGO));
+                    }
+                    if (o.has(JKeys.ML) && !o.isNull(JKeys.ML)) {
+                        station.setMl(o.getString(JKeys.ML));
+                    }
+                    if (o.has(JKeys.CST) && !o.isNull(JKeys.CST)) {
+                        station.setCst(o.getString(JKeys.CST));
+                    }
+                    if (o.has(JKeys.GENRE2) && !o.isNull(JKeys.GENRE2)) {
+                        station.setGenre2(o.getString(JKeys.GENRE2));
+                    }
+                    if (o.has(JKeys.GENRE3) && !o.isNull(JKeys.GENRE3)) {
+                        station.setGenre3(o.getString(JKeys.GENRE3));
+                    }
 
+                    arrayList.add(station);
 
-	  return stationList;
-   }
+                }
+                stationList.setArrayListStations(arrayList);
+            }
 
-   public StationList getStationRandom(String devID, String genre, String limit, String
-		   bitrate, String mediaType) throws IOException, JSONException {
-	  Url_format uri_format = new Url_format();
-	  String data = DownloadContent.downloadContent(uri_format.getStationsJSONRandom(devID, genre,
-			  limit,
-			  bitrate,
-			  mediaType));
+        }
 
-	  JSONObject objectRoot = new JSONObject(data).getJSONObject("data");
-	  JSONObject object = objectRoot.getJSONObject("stationlist");
-
-	  StationList stationList = new StationList();
-	  if (object.has("tunein") && !object.isNull("tunein")) {
-		 TuneIn tuneIn = new TuneIn();
-		 if (object.has("base") && !object.isNull("base")) {
-			tuneIn.setBase(object.getString("base"));
-		 }
-		 if (object.has("base-m3u") && !object.isNull("base-m3u")) {
-			tuneIn.setBase(object.getString("base-m3u"));
-		 }
-		 if (object.has("base-xspf") && !object.isNull("base-xspf")) {
-			tuneIn.setBase(object.getString("base-xspf"));
-		 }
-		 stationList.setTuneIn(tuneIn);
-	  }
-
-
-	  if (object.has("station") && !object.isNull("station")) {
-		 JSONArray arr = object.getJSONArray("station");
-		 ArrayList<Station> arrayList = new ArrayList<>();
-		 for (int j = 0; j < arr.length(); j++) {
-			Station station = new Station();
-			JSONObject o = arr.getJSONObject(j);
-			if (o.has("name") && !o.isNull("name")) {
-			   station.setName(o.getString("name"));
-			}
-			if (o.has("br") && !o.isNull("br")) {
-			   station.setBrbitrate(o.getString("br"));
-			}
-			if (o.has("ct") && !o.isNull("ct")) {
-			   station.setCtqueryString(o.getString("ct"));
-			}
-			if (o.has("genre") && !o.isNull("genre")) {
-			   station.setGenre(o.getString("genre"));
-			}
-			if (o.has("id") && !o.isNull("id")) {
-			   station.setId(o.getString("id"));
-			}
-			if (o.has("lc") && !o.isNull("lc")) {
-			   station.setLc(o.getString("lc"));
-			}
-			if (o.has("mt") && !o.isNull("mt")) {
-			   station.setMt(o.getString("mt"));
-			}
-			if (o.has("logo") && !o.isNull("logo")) {
-			   station.setLogo(o.getString("logo"));
-			}
-			if (o.has("ml") && !o.isNull("ml")) {
-			   station.setMl(o.getString("ml"));
-			}
-			if (o.has("cst") && !o.isNull("cst")) {
-			   station.setCst(o.getString("cst"));
-			}
-			if (o.has("genre2") && !o.isNull("genre2")) {
-			   station.setGenre2(o.getString("genre2"));
-			}
-			if (o.has("genre3") && !o.isNull("genre3")) {
-			   station.setGenre3(o.getString("genre3"));
-			}
-
-			arrayList.add(station);
-
-		 }
-		 stationList.setArrayListStations(arrayList);
-	  }
+        return stationList;
+    }
 
 
-	  return stationList;
-   }
+    public StationList getStationByGenre(String devID, String genre, String limit, String bitrate, String mediaType) throws IOException, JSONException {
+        Url_format uri_format = new Url_format();
+        String data = DownloadContent.downloadContent(uri_format.getStationsByGenre(devID, genre, limit,
+                bitrate,
+                mediaType));
+
+        JSONObject objectRoot = XML.toJSONObject(data);
+        JSONObject object = objectRoot.getJSONObject("stationlist");
+
+        StationList stationList = new StationList();
+        if (object.has(JKeys.TUNE_IN) && !object.isNull(JKeys.TUNE_IN)) {
+            TuneIn tuneIn = new TuneIn();
+            if (object.has(JKeys.BASE) && !object.isNull(JKeys.BASE)) {
+                tuneIn.setBase(object.getString(JKeys.BASE));
+            }
+            if (object.has(JKeys.BASE_M3U) && !object.isNull(JKeys.BASE_M3U)) {
+                tuneIn.setBase(object.getString(JKeys.BASE_M3U));
+            }
+            if (object.has(JKeys.BASE_XSPF) && !object.isNull(JKeys.BASE_XSPF)) {
+                tuneIn.setBase(object.getString(JKeys.BASE_XSPF));
+            }
+            stationList.setTuneIn(tuneIn);
+        }
+
+
+        if (object.has(JKeys.STATION) && !object.isNull(JKeys.STATION)) {
+            Object objectArrayOrObject = object.get(JKeys.STATION);
+            if (objectArrayOrObject instanceof JSONObject) {
+                Station station = new Station();
+                JSONObject o = (JSONObject) objectArrayOrObject;
+                if (o.has(JKeys.NAME) && !o.isNull(JKeys.NAME)) {
+                    station.setName(o.getString(JKeys.NAME));
+                }
+                if (o.has(JKeys.BR) && !o.isNull(JKeys.BR)) {
+                    station.setBrbitrate(o.getString(JKeys.BR));
+                }
+                if (o.has(JKeys.CT) && !o.isNull(JKeys.CT)) {
+                    station.setCtqueryString(o.getString(JKeys.CT));
+                }
+                if (o.has(JKeys.GENRE) && !o.isNull(JKeys.GENRE)) {
+                    station.setGenre(o.getString(JKeys.GENRE));
+                }
+                if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
+                    station.setId(o.getString(JKeys.ID));
+                }
+                if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
+                    station.setLc(o.getString(JKeys.LC));
+                }
+                if (o.has(JKeys.MT) && !o.isNull(JKeys.MT)) {
+                    station.setMt(o.getString(JKeys.MT));
+                }
+                if (o.has(JKeys.LOGO) && !o.isNull(JKeys.LOGO)) {
+                    station.setLogo(o.getString(JKeys.LOGO));
+                }
+                if (o.has(JKeys.ML) && !o.isNull(JKeys.ML)) {
+                    station.setMl(o.getString(JKeys.ML));
+                }
+                if (o.has(JKeys.CST) && !o.isNull(JKeys.CST)) {
+                    station.setCst(o.getString(JKeys.CST));
+                }
+                if (o.has(JKeys.GENRE2) && !o.isNull(JKeys.GENRE2)) {
+                    station.setGenre2(o.getString(JKeys.GENRE2));
+                }
+                if (o.has(JKeys.GENRE3) && !o.isNull(JKeys.GENRE3)) {
+                    station.setGenre3(o.getString(JKeys.GENRE3));
+                }
+
+                ArrayList<Station> arrayList = new ArrayList<>();
+                arrayList.add(station);
+
+                stationList.setArrayListStations(arrayList);
+            } else {
+                JSONArray arr = (JSONArray) objectArrayOrObject;
+                ArrayList<Station> arrayList = new ArrayList<>();
+                for (int j = 0; j < arr.length(); j++) {
+                    Station station = new Station();
+                    JSONObject o = arr.getJSONObject(j);
+                    if (o.has(JKeys.NAME) && !o.isNull(JKeys.NAME)) {
+                        station.setName(o.getString(JKeys.NAME));
+                    }
+                    if (o.has(JKeys.BR) && !o.isNull(JKeys.BR)) {
+                        station.setBrbitrate(o.getString(JKeys.BR));
+                    }
+                    if (o.has(JKeys.CT) && !o.isNull(JKeys.CT)) {
+                        station.setCtqueryString(o.getString(JKeys.CT));
+                    }
+                    if (o.has(JKeys.GENRE) && !o.isNull(JKeys.GENRE)) {
+                        station.setGenre(o.getString(JKeys.GENRE));
+                    }
+                    if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
+                        station.setId(o.getString(JKeys.ID));
+                    }
+                    if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
+                        station.setLc(o.getString(JKeys.LC));
+                    }
+                    if (o.has(JKeys.MT) && !o.isNull(JKeys.MT)) {
+                        station.setMt(o.getString(JKeys.MT));
+                    }
+                    if (o.has(JKeys.LOGO) && !o.isNull(JKeys.LOGO)) {
+                        station.setLogo(o.getString(JKeys.LOGO));
+                    }
+                    if (o.has(JKeys.ML) && !o.isNull(JKeys.ML)) {
+                        station.setMl(o.getString(JKeys.ML));
+                    }
+                    if (o.has(JKeys.CST) && !o.isNull(JKeys.CST)) {
+                        station.setCst(o.getString(JKeys.CST));
+                    }
+                    if (o.has(JKeys.GENRE2) && !o.isNull(JKeys.GENRE2)) {
+                        station.setGenre2(o.getString(JKeys.GENRE2));
+                    }
+                    if (o.has(JKeys.GENRE3) && !o.isNull(JKeys.GENRE3)) {
+                        station.setGenre3(o.getString(JKeys.GENRE3));
+                    }
+
+                    arrayList.add(station);
+
+                }
+                stationList.setArrayListStations(arrayList);
+            }
+
+        }
+
+        return stationList;
+    }
+
+    public StationList getStationBasedOnNowPlaying(String devID, String ct_queryString, String limit, String bitrate, String mediaType) throws IOException, JSONException {
+        Url_format uri_format = new Url_format();
+        String data = DownloadContent.downloadContent(uri_format.getStationsJSONBasedOnNowPlaying(devID, ct_queryString, limit,
+                bitrate,
+                mediaType));
+
+        JSONObject objectRoot = new JSONObject(data).getJSONObject("data");
+        JSONObject object = objectRoot.getJSONObject("stationlist");
+
+        StationList stationList = new StationList();
+        if (object.has(JKeys.TUNE_IN) && !object.isNull(JKeys.TUNE_IN)) {
+            TuneIn tuneIn = new TuneIn();
+            if (object.has(JKeys.BASE) && !object.isNull(JKeys.BASE)) {
+                tuneIn.setBase(object.getString(JKeys.BASE));
+            }
+            if (object.has(JKeys.BASE_M3U) && !object.isNull(JKeys.BASE_M3U)) {
+                tuneIn.setBase(object.getString(JKeys.BASE_M3U));
+            }
+            if (object.has(JKeys.BASE_XSPF) && !object.isNull(JKeys.BASE_XSPF)) {
+                tuneIn.setBase(object.getString(JKeys.BASE_XSPF));
+            }
+            stationList.setTuneIn(tuneIn);
+        }
+
+
+        if (object.has(JKeys.STATION) && !object.isNull(JKeys.STATION)) {
+            JSONArray arr = object.getJSONArray(JKeys.STATION);
+            ArrayList<Station> arrayList = new ArrayList<>();
+            for (int j = 0; j < arr.length(); j++) {
+                Station station = new Station();
+                JSONObject o = arr.getJSONObject(j);
+                if (o.has(JKeys.NAME) && !o.isNull(JKeys.NAME)) {
+                    station.setName(o.getString(JKeys.NAME));
+                }
+                if (o.has(JKeys.BR) && !o.isNull(JKeys.BR)) {
+                    station.setBrbitrate(o.getString(JKeys.BR));
+                }
+                if (o.has(JKeys.CT) && !o.isNull(JKeys.CT)) {
+                    station.setCtqueryString(o.getString(JKeys.CT));
+                }
+                if (o.has(JKeys.GENRE) && !o.isNull(JKeys.GENRE)) {
+                    station.setGenre(o.getString(JKeys.GENRE));
+                }
+                if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
+                    station.setId(o.getString(JKeys.ID));
+                }
+                if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
+                    station.setLc(o.getString(JKeys.LC));
+                }
+                if (o.has(JKeys.MT) && !o.isNull(JKeys.MT)) {
+                    station.setMt(o.getString(JKeys.MT));
+                }
+                if (o.has(JKeys.LOGO) && !o.isNull(JKeys.LOGO)) {
+                    station.setLogo(o.getString(JKeys.LOGO));
+                }
+                if (o.has(JKeys.ML) && !o.isNull(JKeys.ML)) {
+                    station.setMl(o.getString(JKeys.ML));
+                }
+                if (o.has(JKeys.CST) && !o.isNull(JKeys.CST)) {
+                    station.setCst(o.getString(JKeys.CST));
+                }
+                if (o.has(JKeys.GENRE2) && !o.isNull(JKeys.GENRE2)) {
+                    station.setGenre2(o.getString(JKeys.GENRE2));
+                }
+                if (o.has(JKeys.GENRE3) && !o.isNull(JKeys.GENRE3)) {
+                    station.setGenre3(o.getString(JKeys.GENRE3));
+                }
+
+                arrayList.add(station);
+
+            }
+            stationList.setArrayListStations(arrayList);
+        }
+
+
+        return stationList;
+    }
+
+    public StationList getStationRandom(String devID, String genre, String limit, String
+            bitrate, String mediaType) throws IOException, JSONException {
+        Url_format uri_format = new Url_format();
+        String data = DownloadContent.downloadContent(uri_format.getStationsJSONRandom(devID, genre,
+                limit,
+                bitrate,
+                mediaType));
+
+        JSONObject objectRoot = new JSONObject(data).getJSONObject("data");
+        JSONObject object = objectRoot.getJSONObject("stationlist");
+
+        StationList stationList = new StationList();
+        if (object.has(JKeys.TUNE_IN) && !object.isNull(JKeys.TUNE_IN)) {
+            TuneIn tuneIn = new TuneIn();
+            if (object.has(JKeys.BASE) && !object.isNull(JKeys.BASE)) {
+                tuneIn.setBase(object.getString(JKeys.BASE));
+            }
+            if (object.has(JKeys.BASE_M3U) && !object.isNull(JKeys.BASE_M3U)) {
+                tuneIn.setBase(object.getString(JKeys.BASE_M3U));
+            }
+            if (object.has(JKeys.BASE_XSPF) && !object.isNull(JKeys.BASE_XSPF)) {
+                tuneIn.setBase(object.getString(JKeys.BASE_XSPF));
+            }
+            stationList.setTuneIn(tuneIn);
+        }
+
+
+        if (object.has(JKeys.STATION) && !object.isNull(JKeys.STATION)) {
+            JSONArray arr = object.getJSONArray(JKeys.STATION);
+            ArrayList<Station> arrayList = new ArrayList<>();
+            for (int j = 0; j < arr.length(); j++) {
+                Station station = new Station();
+                JSONObject o = arr.getJSONObject(j);
+                if (o.has(JKeys.NAME) && !o.isNull(JKeys.NAME)) {
+                    station.setName(o.getString(JKeys.NAME));
+                }
+                if (o.has(JKeys.BR) && !o.isNull(JKeys.BR)) {
+                    station.setBrbitrate(o.getString(JKeys.BR));
+                }
+                if (o.has(JKeys.CT) && !o.isNull(JKeys.CT)) {
+                    station.setCtqueryString(o.getString(JKeys.CT));
+                }
+                if (o.has(JKeys.GENRE) && !o.isNull(JKeys.GENRE)) {
+                    station.setGenre(o.getString(JKeys.GENRE));
+                }
+                if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
+                    station.setId(o.getString(JKeys.ID));
+                }
+                if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
+                    station.setLc(o.getString(JKeys.LC));
+                }
+                if (o.has(JKeys.MT) && !o.isNull(JKeys.MT)) {
+                    station.setMt(o.getString(JKeys.MT));
+                }
+                if (o.has(JKeys.LOGO) && !o.isNull(JKeys.LOGO)) {
+                    station.setLogo(o.getString(JKeys.LOGO));
+                }
+                if (o.has(JKeys.ML) && !o.isNull(JKeys.ML)) {
+                    station.setMl(o.getString(JKeys.ML));
+                }
+                if (o.has(JKeys.CST) && !o.isNull(JKeys.CST)) {
+                    station.setCst(o.getString(JKeys.CST));
+                }
+                if (o.has(JKeys.GENRE2) && !o.isNull(JKeys.GENRE2)) {
+                    station.setGenre2(o.getString(JKeys.GENRE2));
+                }
+                if (o.has(JKeys.GENRE3) && !o.isNull(JKeys.GENRE3)) {
+                    station.setGenre3(o.getString(JKeys.GENRE3));
+                }
+
+                arrayList.add(station);
+
+            }
+            stationList.setArrayListStations(arrayList);
+        }
+
+
+        return stationList;
+    }
 
 
 }
