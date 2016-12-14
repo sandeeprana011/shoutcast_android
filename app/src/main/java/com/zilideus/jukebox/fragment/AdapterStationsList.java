@@ -30,6 +30,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
 
     private final Context context;
     private final List<Station> stationList;
+    private DownloadSongDetailAndPlayOnClick downloadSongDetailAndPlayOnclick;
 
     public AdapterStationsList(Context context, List<Station> stationList) {
 
@@ -83,7 +84,10 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
                 public void onClick(View view) {
                     Station station = stationList.get(ViewHolder.this.getAdapterPosition());
                     if (station != null) {
-                        DownloadSongDetailAndPlayOnClick downloadSongDetailAndPlayOnclick = new DownloadSongDetailAndPlayOnClick(station, (MainActivity) context);
+                        if (downloadSongDetailAndPlayOnclick != null) {
+                            downloadSongDetailAndPlayOnclick.cancel(true);
+                        }
+                        downloadSongDetailAndPlayOnclick = new DownloadSongDetailAndPlayOnClick(station, (MainActivity) context);
                         downloadSongDetailAndPlayOnclick.execute(station);
                     }
                 }

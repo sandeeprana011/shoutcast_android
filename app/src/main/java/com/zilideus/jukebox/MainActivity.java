@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -125,9 +126,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-//	  if (id == R.id.action_settings) {
-//		 return true;
-//	  }
+        if (id == R.id.action_search) {
+            final FragmentManager fragmentManager = getSupportFragmentManager();
+            fragment = new SearchFragment();
+
+            FragmentTransaction trasaction = fragmentManager.beginTransaction();
+//            trasaction.setCustomAnimations(android.R.anim.bounce_interpolator, android.R.anim.bounce_interpolator);
+            trasaction.replace(R.id.container_fragment, fragment).commit();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
