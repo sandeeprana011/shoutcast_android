@@ -1,10 +1,7 @@
 package com.zilideus.jukebox.fragment;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.audiofx.Visualizer;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,16 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.zilideus.jukebox.Exo;
 import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.VisualizerView;
 import com.zilideus.jukebox.flags.Flags;
-import com.zilideus.jukebox.network.DownloadContent;
-
-import java.io.IOException;
-import java.net.URL;
 
 public class Home extends Fragment {
     Context context;
@@ -55,31 +48,11 @@ public class Home extends Fragment {
         }
 
         if (Flags.SONG_IMAGE_URL != null && imageLogoBack != null) {
-            if (DownloadContent.isAvailable(context)) {
-                new AsyncTask<Void, Void, Bitmap>() {
-                    public Bitmap bitmap;
+            Glide.with(this)
+                    .load(Flags.SONG_IMAGE_URL)
+                    .placeholder(R.drawable.music)
+                    .into(imageLogoBack);
 
-                    @Override
-                    protected Bitmap doInBackground(Void... params) {
-                        try {
-                            URL url = new URL(Flags.SONG_IMAGE_URL);
-                            bitmap = BitmapFactory.decodeStream(url.openStream());
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return bitmap;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Bitmap bitmap) {
-                        super.onPostExecute(bitmap);
-                        imageLogoBack.setImageBitmap(bitmap);
-                    }
-                }.execute();
-            } else {
-                Toast.makeText(context, "Network not available", Toast.LENGTH_LONG).show();
-            }
         }
         textDesc.setText(Flags.SONG_DESCRIPTION);
         textTitle.setText(Flags.SONG_TITLE);
