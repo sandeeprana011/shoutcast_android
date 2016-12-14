@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.google.android.exoplayer.ExoPlaybackException;
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.flags.Url_format;
 import com.zilideus.jukebox.fragment.AboutUs;
@@ -32,9 +33,10 @@ import com.zilideus.jukebox.fragment.ListFragment;
 import com.zilideus.jukebox.fragment.SearchFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener, OnChangePlayerState {
     private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
     private static final int BUFFER_SEGMENT_COUNT = 256;
+    private static final String TAG = "JUKEBOX";
     //   private static ExoPlayer player;
     private Context context;
     private MyService myServiceEngine;
@@ -55,10 +57,13 @@ public class MainActivity extends AppCompatActivity
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                 MyService.ServiceBinder servicBinder = (MyService.ServiceBinder) iBinder;
                 myServiceEngine = servicBinder.getService();
+                myServiceEngine.setOnChangePlayerStateListener(MainActivity.this);
+                Log.e(TAG, "SERVICE CONNECTED");
             }
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
+                Log.e(TAG, "SERVICE DISCONNECTED");
             }
         };
 
@@ -229,5 +234,15 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception ex) {
             Log.e("error", "connection error");
         }
+    }
+
+    @Override
+    public void onStateChanged(boolean playWhenReady, int playbackState) {
+        Log.d(TAG, "PLayer state changed");
+    }
+
+    @Override
+    public void onPlayerError(ExoPlaybackException error) {
+        Log.d(TAG, "Player Error : " + error.getMessage());
     }
 }

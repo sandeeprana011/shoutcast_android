@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -37,10 +36,10 @@ public class MyService extends Service {
     private static int NOTIFICATION_ID = 48;
     private String stationTitle, urlStation, urlStationImage, bitrate, genre;
     private IBinder binder = new ServiceBinder();
-    private Exo player;
     private NotificationManager mNotificationManager;
     private BroadcastReceiver broadcastReceiver;
     private boolean isPlaying;
+    private OnChangePlayerState onChangePlayerStateListener;
 
     public MyService() {
     }
@@ -48,7 +47,7 @@ public class MyService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        player = Exo.getInstance();
+
 
         mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -74,11 +73,12 @@ public class MyService extends Service {
         Exo.getPlayer().addListener(new ExoPlayer.Listener() {
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                if (onChangePlayerStateListener != null) {
+                    onChangePlayerStateListener.onStateChanged(playWhenReady, playbackState);
+                }
                 Flags.STATE = playbackState;
                 if (playbackState == ExoPlayer.STATE_READY) {
                     setIsPlaying(true);
-//			   ImageButton imageButton=getApplicationContext().)
-//			   getSharedPreferences(Flags.SETTINGS,MODE_PRIVATE).edit().putString("state","play");
                 } else {
                     setIsPlaying(false);
                 }
@@ -93,9 +93,14 @@ public class MyService extends Service {
 
             @Override
             public void onPlayerError(ExoPlaybackException error) {
+                onChangePlayerStateListener.onPlayerError(error);
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void setOnChangePlayerStateListener(OnChangePlayerState onChangePlayerStateListener) {
+        this.onChangePlayerStateListener = onChangePlayerStateListener;
     }
 
     @Override
@@ -110,13 +115,12 @@ public class MyService extends Service {
         return binder;
     }
 
-    public void prepare(String url, Station station) {
-        if (url != null && station != null) {
-
+    public void prepare(Station station) {
+        if (station != null && station.getUriArrayList().size() > 0) {
             Allocator allocator = new DefaultAllocator(BUFFER_SEGMENT_SIZE);
             DataSource dataSource = new DefaultUriDataSource(this, null, Util.getUserAgent(this,
                     "Jukebox"));
-            ExtractorSampleSource sampleSource = new ExtractorSampleSource(Uri.parse(url), dataSource,
+            ExtractorSampleSource sampleSource = new ExtractorSampleSource(station.getUriArrayList().get(0), dataSource,
                     allocator, BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE);
             MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource, MediaCodecSelector.DEFAULT);
             Exo.getPlayer().stop();
@@ -163,6 +167,8 @@ public class MyService extends Service {
 
 // mId allows you to update the notification later on.
         mNotificationManager.notify(NOTIFICATION_ID, notification);
+
+
     }
 
     public void stop() {
@@ -173,6 +179,9 @@ public class MyService extends Service {
     public void onDestroy() {
         super.onDestroy();
         stop();
+        if (mNotificationManager != null) {
+            mNotificationManager.cancelAll();
+        }
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception ex) {

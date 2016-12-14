@@ -216,21 +216,21 @@ public class ListFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Uri> uriArrayList) {
+        protected void onPostExecute(final ArrayList<Uri> uriArrayList) {
             super.onPostExecute(uriArrayList);
             if (imageButtonPlay != null) {
                 imageButtonPlay.setEnabled(true);
             }
             Intent intent = new Intent(getActivity(), MyService.class);
-//                                            getActivity().startService(intent);
             getActivity().bindService(intent, new ServiceConnection() {
                 @Override
                 public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                     MyService.ServiceBinder servicBinder = (MyService.ServiceBinder) iBinder;
                     MyService myServiceEngine = servicBinder.getService();
-//				  myServiceEngine.prepare(url,"icy://37.130.230.93:9092");
+//  				myServiceEngine.prepare(url,"icy://37.130.230.93:9092");
                     try {
-                        myServiceEngine.prepare(file, station);
+                        station.setUriArrayList(uriArrayList); //Must be not null
+                        myServiceEngine.prepare(station);
                     } catch (Exception ex) {
                         Log.e("Exception service", "while preparing for" + getClass().getName());
                     }
