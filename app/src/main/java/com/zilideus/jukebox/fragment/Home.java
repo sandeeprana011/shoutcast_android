@@ -35,35 +35,7 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getActivity();
-//	  context=getActivity();
-        // Inflate the layout for this fragment
-//new AsyncTask<Void, Void, StationList>(){
-//   public StationList stationList;
-//
-//   @Override
-//   protected StationList doInBackground(Void... params) {
-//	  try {
-//		 String string= DownloadContent.downloadContent(new Url_format().getTopStationsXML(Flags
-//				 .DEV_ID,"20",null,null));
-//		 ParserXMLtoJSON parserXMLtoJSON=new ParserXMLtoJSON();
-//		 stationList=parserXMLtoJSON.getTopStationswithLIMIT(string);
-//
-//
-//	  } catch (IOException e) {
-//		 e.printStackTrace();
-//	  } catch (JSONException e) {
-//		 e.printStackTrace();
-//	  }
-//	  return stationList;
-//   }
-//
-//   @Override
-//   protected void onPostExecute(StationList stationList) {
-//	  super.onPostExecute(stationList);
-//	  ListAdapterStations adapterStations=new ListAdapterStations(context,R.id.list_stations,
-//			  stationList.getArrayListStations());
-//   }
-//}.execute();
+
         return inflater.inflate(R.layout.home_fragment, container, false);
     }
 
@@ -123,11 +95,10 @@ public class Home extends Fragment {
         // receive data, and
         // when it makes sense to receive data.
 //        if (visualizer != null) {
-        try
-        {
+        try {
             visualizer.setEnabled(true);
-        }catch (Exception ex){
-            Log.e("except"," f"+ex.getMessage());
+        } catch (Exception ex) {
+            Log.e("except", " f" + ex.getMessage());
         }
 
 //        }

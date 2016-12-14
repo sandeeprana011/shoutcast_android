@@ -5,13 +5,14 @@
     android:elevation="7dp"
     android:layout_margin="10dp">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        android:background="@color/white"
         android:id="@+id/rel_upper"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_marginTop="3dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
         android:padding="5dp"
-        android:orientation="vertical">
+        >
 
         <TextView
             android:id="@+id/text_list_title"
@@ -35,7 +36,6 @@
             android:id="@+id/text_list_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/text_list_bt"
             android:text="Haye mera Dil- Honey Singh"
             android:textColor="@color/textColorDark" />
@@ -45,7 +45,6 @@
             android:id="@+id/text_list_bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:text="128 bt"
             android:textColor="@color/textColorDark" />

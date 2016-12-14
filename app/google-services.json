@@ -1,0 +1,143 @@
+{
+  "project_info": {
+    "project_number": "626767869434",
+    "firebase_url": "https://shopping-kart-20b6b.firebaseio.com",
+    "project_id": "shopping-kart-20b6b",
+    "storage_bucket": "shopping-kart-20b6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626767869434:android:2897387b7624192f",
+        "android_client_info": {
+          "package_name": "com.rana.shopping_kart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626767869434-uuh6lll0sp2nqq8lbq6se20urihnuc5d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rana.shopping_kart",
+            "certificate_hash": "D80C986B611D1ABCC48B8353B11B2196B7C247A2"
+          }
+        },
+        {
+          "client_id": "626767869434-apckjh8vh41p8et8eu464bgi7kq3b812.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKnilZ_ihrU2jDvHzDzz9xcNI7CoVSoyI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626767869434-apckjh8vh41p8et8eu464bgi7kq3b812.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626767869434:android:3c553acd0e491824",
+        "android_client_info": {
+          "package_name": "com.zilideus.speechtotext"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626767869434-v10743hio569ru5jlhf3mqr3r59jrhbq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zilideus.speechtotext",
+            "certificate_hash": "D80C986B611D1ABCC48B8353B11B2196B7C247A2"
+          }
+        },
+        {
+          "client_id": "626767869434-apckjh8vh41p8et8eu464bgi7kq3b812.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKnilZ_ihrU2jDvHzDzz9xcNI7CoVSoyI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626767869434-apckjh8vh41p8et8eu464bgi7kq3b812.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626767869434:android:e52a216ab842993d",
+        "android_client_info": {
+          "package_name": "com.zilideus.jukebox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626767869434-ar7uve52amo0vt1lc9924v4v9a998328.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zilideus.jukebox",
+            "certificate_hash": "D80C986B611D1ABCC48B8353B11B2196B7C247A2"
+          }
+        },
+        {
+          "client_id": "626767869434-apckjh8vh41p8et8eu464bgi7kq3b812.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKnilZ_ihrU2jDvHzDzz9xcNI7CoVSoyI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626767869434-apckjh8vh41p8et8eu464bgi7kq3b812.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

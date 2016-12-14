@@ -17,7 +17,10 @@ public class Exo {
     public static ExoPlayer getPlayer() {
 //	  exoPlayer.
 //	  Flags.AUDIO_SESSION_ID=new PlayerControl(exoPlayer).getAudioSessionId();
-        return exoPlayer;
+        if (exoPlayer != null)
+            return exoPlayer;
+        else
+            return ExoPlayer.Factory.newInstance(1);
     }
 
 }
