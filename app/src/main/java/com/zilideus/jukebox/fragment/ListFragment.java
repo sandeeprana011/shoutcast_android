@@ -1,29 +1,20 @@
 package com.zilideus.jukebox.fragment;
 
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zilideus.jukebox.ListAdapterStations;
-import com.zilideus.jukebox.MyService;
 import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.flags.Url_format;
@@ -84,14 +75,14 @@ public class ListFragment extends Fragment {
     private class DownloadAndShowList extends AsyncTask<String, Void, ArrayList<Station>> {
         ImageButton listButton;
         StationList stationList;
-        ListView listView;
+        RecyclerView listView;
         ProgressBar progressBar;
         ParserXMLtoJSON parser;
         Url_format url_format;
         TuneIn tuneIn;
         private View view;
 
-        public DownloadAndShowList(View view) {
+        DownloadAndShowList(View view) {
 
             this.view = view;
         }
@@ -104,7 +95,7 @@ public class ListFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             parser = new ParserXMLtoJSON();
             url_format = new Url_format();
-            listView = (ListView) view.findViewById(R.id.list_stations);
+            listView = (RecyclerView) view.findViewById(R.id.list_stations);
 
             listButton = (ImageButton) view.findViewById(R.id.but_media_list);
             if (listButton != null) {
@@ -136,19 +127,12 @@ public class ListFragment extends Fragment {
             if (listView != null && stations != null && stations.size() > 0) {
                 super.onPostExecute(stations);
 
-                listView.setAdapter(new ListAdapterStations(getActivity().getApplicationContext(), R.layout.itemlistrow,
-                        stations));
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        final Station station = stations.get(position);
-                        if (station != null) {
+//                listView.setAdapter(new ListAdapterStations(getActivity().getApplicationContext(), R.layout.itemlistrow,
+//                        stations));
+                AdapterStationsList adapterStationsList = new AdapterStationsList(getActivity(), stations);
+                listView.setAdapter(adapterStationsList);
+                listView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-                            DownloadSongDetailAndPlayOnClick downloadSongDetailAndPlayOnclick = new DownloadSongDetailAndPlayOnClick(station);
-                            downloadSongDetailAndPlayOnclick.execute(station);
-                        }
-                    }
-                });
                 listButton.setEnabled(true);
                 progressBar.setVisibility(View.GONE);
             } else {
@@ -166,83 +150,5 @@ public class ListFragment extends Fragment {
 
     }
 
-    class DownloadSongDetailAndPlayOnClick extends AsyncTask<Station, Void, ArrayList<Uri>> {
-        ImageButton imageButtonPlay;
-        String file;
-        private Station station;
 
-        DownloadSongDetailAndPlayOnClick(Station station) {
-            this.station = station;
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-            TextView textTitle, textDesc;
-
-            super.onPreExecute();
-            textTitle = (TextView) getActivity().findViewById(R.id.text_title);
-            textDesc = (TextView) getActivity().findViewById(R.id.text_description);
-            imageButtonPlay = (ImageButton) getActivity().findViewById(R.id
-                    .but_media_play);
-
-            Flags.SONG_TITLE = station.getName();
-            Flags.SONG_DESCRIPTION = station.getCtqueryString();
-
-            Flags.SONG_IMAGE_URL = station.getLogo();
-
-            if (textDesc != null && textTitle != null) {
-                textDesc.setText(station.getCtqueryString());
-                textTitle.setText(station.getName());
-            }
-        }
-
-        @Override
-        protected ArrayList<Uri> doInBackground(Station... params) {
-            ArrayList<String> m3u = DownloadContent.lineArray("http://yp.shoutcast" +
-                    ".com/" + "/sbin/tunein-station.m3u" + "?id=" + params[0].getId());
-            ArrayList<Uri> uriArrayList = new ArrayList<Uri>();
-
-            for (int i = 0; i < m3u.size(); i++) {
-                if (m3u.get(i).startsWith("http")) {
-                    file = m3u.get(i);
-                    file = file.replace("http", "icy");
-                    uriArrayList.add(Uri.parse(file));
-                    break;
-                }
-            }
-
-            return uriArrayList;
-        }
-
-        @Override
-        protected void onPostExecute(final ArrayList<Uri> uriArrayList) {
-            super.onPostExecute(uriArrayList);
-            if (imageButtonPlay != null) {
-                imageButtonPlay.setEnabled(true);
-            }
-            Intent intent = new Intent(getActivity(), MyService.class);
-            getActivity().bindService(intent, new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                    MyService.ServiceBinder servicBinder = (MyService.ServiceBinder) iBinder;
-                    MyService myServiceEngine = servicBinder.getService();
-//  				myServiceEngine.prepare(url,"icy://37.130.230.93:9092");
-                    try {
-                        station.setUriArrayList(uriArrayList); //Must be not null
-                        myServiceEngine.prepare(station);
-                    } catch (Exception ex) {
-                        Log.e("Exception service", "while preparing for" + getClass().getName());
-                    }
-
-                }
-
-                @Override
-                public void onServiceDisconnected(ComponentName componentName) {
-                    Log.e("disconnected", "service");
-                }
-            }, Context.BIND_AUTO_CREATE);
-
-        }
-    }
 }

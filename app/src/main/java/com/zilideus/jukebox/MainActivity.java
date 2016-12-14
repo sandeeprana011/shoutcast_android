@@ -188,9 +188,13 @@ public class MainActivity extends AppCompatActivity
 
     public void playpause(View view) {
         ImageButton imageView = (ImageButton) view;
-        if (myServiceEngine != null && myServiceEngine.isPlaying()) {
-            myServiceEngine.stop();
-            imageView.setEnabled(false);
+
+        if (myServiceEngine != null) {
+            if (myServiceEngine.isPlaying()) {
+                myServiceEngine.stop();
+                imageView.setEnabled(false);
+                imageView.setImageResource(android.R.drawable.ic_media_play);
+            }
         }
     }
 
@@ -238,11 +242,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onStateChanged(boolean playWhenReady, int playbackState) {
-        Log.d(TAG, "PLayer state changed");
+        Log.e(TAG, "PLayer state changed");
     }
 
     @Override
     public void onPlayerError(ExoPlaybackException error) {
-        Log.d(TAG, "Player Error : " + error.getMessage());
+        Log.e(TAG, "Player Error : " + error.getMessage());
     }
 }

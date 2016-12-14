@@ -21,14 +21,19 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/play_layout"
         android:layout_below="@id/progressbarlist"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp">
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
+            android:background="@color/white"
             android:id="@+id/list_stations"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white" />
+            android:layout_height="match_parent" />
+        <!--<ListView-->
+        <!--android:id="@+id/list_stations"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/white" />-->
     </RelativeLayout>
 
     <include layout="@layout/play_util" />

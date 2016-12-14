@@ -11,9 +11,11 @@ import com.zilideus.jukebox.parser.Station;
 
 import java.util.List;
 
+@Deprecated
 public class ListAdapterStations extends ArrayAdapter<Station> {
 
 
+    @Deprecated
     public ListAdapterStations(Context context, int resource, List<Station> objects) {
         super(context, resource, objects);
     }
