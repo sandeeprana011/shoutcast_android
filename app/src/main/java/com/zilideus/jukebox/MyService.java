@@ -34,7 +34,7 @@ public class MyService extends Service {
     private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
     private static final int BUFFER_SEGMENT_COUNT = 256;
     private static final int BROADCAST_INT = 589;
-    private int NOTIFICATION_ID = 48;
+    private static int NOTIFICATION_ID = 48;
     private String stationTitle, urlStation, urlStationImage, bitrate, genre;
     private IBinder binder = new ServiceBinder();
     private Exo player;
@@ -167,7 +167,6 @@ public class MyService extends Service {
 
     public void stop() {
         Exo.getPlayer().stop();
-//	  player.getPlayer().release();
     }
 
     @Override
