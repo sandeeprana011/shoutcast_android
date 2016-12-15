@@ -2,20 +2,24 @@ package com.zilideus.jukebox.parser;
 
 import android.net.Uri;
 
+import com.orm.SugarRecord;
+import com.orm.dsl.Unique;
+
 import java.util.ArrayList;
 
 /**
  * Created by sandeeprana on 20/10/15.
  */
-public class Station {
+public class Station extends SugarRecord {
     private String name;
     private String brbitrate;
-    private String ctqueryString;
+    private String ctquerystring;
     private String genre;
-    private String id;
+
+    @Unique
+    private String stationid;
     private String lc;
     private String mt;
-
     private String logo;
     private String ml;
     private String genre2;
@@ -42,11 +46,11 @@ public class Station {
     }
 
     public String getCtqueryString() {
-        return ctqueryString;
+        return ctquerystring;
     }
 
     public void setCtqueryString(String ctqueryString) {
-        this.ctqueryString = ctqueryString;
+        this.ctquerystring = ctqueryString;
     }
 
     public String getGenre() {
@@ -57,12 +61,12 @@ public class Station {
         this.genre = genre;
     }
 
-    public String getId() {
-        return id;
+    public String getStationId() {
+        return stationid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setStationId(String id) {
+        this.stationid = id;
     }
 
     public String getLc() {

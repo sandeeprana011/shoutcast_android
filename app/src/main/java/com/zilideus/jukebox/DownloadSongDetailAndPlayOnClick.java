@@ -54,7 +54,7 @@ public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Station, Void, A
     @Override
     protected ArrayList<Uri> doInBackground(Station... params) {
         ArrayList<String> m3u = DownloadContent.lineArray("http://yp.shoutcast" +
-                ".com/" + "/sbin/tunein-station.m3u" + "?id=" + params[0].getId());
+                ".com/" + "/sbin/tunein-station.m3u" + "?id=" + params[0].getStationId());
         ArrayList<Uri> uriArrayList = new ArrayList<Uri>();
 
         for (int i = 0; i < m3u.size(); i++) {

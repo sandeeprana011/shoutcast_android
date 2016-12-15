@@ -57,7 +57,7 @@ public class ParserXMLtoJSON {
                     station.setGenre(o.getString(JKeys.GENRE));
                 }
                 if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
-                    station.setId(o.getString(JKeys.ID));
+                    station.setStationId(o.getString(JKeys.ID));
                 }
                 if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
                     station.setLc(o.getString(JKeys.LC));
@@ -105,7 +105,7 @@ public class ParserXMLtoJSON {
                         station.setGenre(o.getString(JKeys.GENRE));
                     }
                     if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
-                        station.setId(o.getString(JKeys.ID));
+                        station.setStationId(o.getString(JKeys.ID));
                     }
                     if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
                         station.setLc(o.getString(JKeys.LC));
@@ -184,7 +184,7 @@ public class ParserXMLtoJSON {
                     station.setGenre(o.getString(JKeys.GENRE));
                 }
                 if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
-                    station.setId(o.getString(JKeys.ID));
+                    station.setStationId(o.getString(JKeys.ID));
                 }
                 if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
                     station.setLc(o.getString(JKeys.LC));
@@ -231,7 +231,7 @@ public class ParserXMLtoJSON {
                         station.setGenre(o.getString(JKeys.GENRE));
                     }
                     if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
-                        station.setId(o.getString(JKeys.ID));
+                        station.setStationId(o.getString(JKeys.ID));
                     }
                     if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
                         station.setLc(o.getString(JKeys.LC));
@@ -310,7 +310,7 @@ public class ParserXMLtoJSON {
                     station.setGenre(o.getString(JKeys.GENRE));
                 }
                 if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
-                    station.setId(o.getString(JKeys.ID));
+                    station.setStationId(o.getString(JKeys.ID));
                 }
                 if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
                     station.setLc(o.getString(JKeys.LC));
@@ -357,7 +357,7 @@ public class ParserXMLtoJSON {
                         station.setGenre(o.getString(JKeys.GENRE));
                     }
                     if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
-                        station.setId(o.getString(JKeys.ID));
+                        station.setStationId(o.getString(JKeys.ID));
                     }
                     if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
                         station.setLc(o.getString(JKeys.LC));
@@ -436,7 +436,7 @@ public class ParserXMLtoJSON {
                     station.setGenre(o.getString(JKeys.GENRE));
                 }
                 if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
-                    station.setId(o.getString(JKeys.ID));
+                    station.setStationId(o.getString(JKeys.ID));
                 }
                 if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
                     station.setLc(o.getString(JKeys.LC));
@@ -516,7 +516,7 @@ public class ParserXMLtoJSON {
                     station.setGenre(o.getString(JKeys.GENRE));
                 }
                 if (o.has(JKeys.ID) && !o.isNull(JKeys.ID)) {
-                    station.setId(o.getString(JKeys.ID));
+                    station.setStationId(o.getString(JKeys.ID));
                 }
                 if (o.has(JKeys.LC) && !o.isNull(JKeys.LC)) {
                     station.setLc(o.getString(JKeys.LC));
