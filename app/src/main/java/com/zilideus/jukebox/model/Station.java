@@ -1,4 +1,4 @@
-package com.zilideus.jukebox.parser;
+package com.zilideus.jukebox.model;
 
 import android.net.Uri;
 
@@ -6,6 +6,7 @@ import com.orm.SugarRecord;
 import com.orm.dsl.Unique;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sandeeprana on 20/10/15.
@@ -131,5 +132,14 @@ public class Station extends SugarRecord {
 
     public void setUriArrayList(ArrayList<Uri> uriArrayList) {
         this.uriArrayList = uriArrayList;
+    }
+
+    public boolean isFavourite() {
+        if (this.getStationId() != null && this.getStationId().equals("")) {
+            List<Station> stationList = Station.find(Station.class, " stationid=?", this.getStationId());
+            return stationList != null && stationList.size() > 0;
+        } else
+            return false;
+
     }
 }

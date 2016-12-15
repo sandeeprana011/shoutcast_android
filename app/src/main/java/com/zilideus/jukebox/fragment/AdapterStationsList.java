@@ -2,6 +2,7 @@ package com.zilideus.jukebox.fragment;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.zilideus.jukebox.DownloadSongDetailAndPlayOnClick;
 import com.zilideus.jukebox.MainActivity;
 import com.zilideus.jukebox.R;
-import com.zilideus.jukebox.parser.Station;
+import com.zilideus.jukebox.model.Station;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
     private final List<Station> stationList;
     private DownloadSongDetailAndPlayOnClick downloadSongDetailAndPlayOnclick;
 
-    public AdapterStationsList(Context context, List<Station> stationList) {
+    AdapterStationsList(Context context, List<Station> stationList) {
 
         this.context = context;
         this.stationList = stationList;
@@ -58,6 +59,12 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
                     .into(holder.imageLogo);
         }
 
+        if (station.isFavourite()) {
+            holder.imageFavourite.setImageResource(R.drawable.favourite);
+        } else {
+            holder.imageFavourite.setImageResource(R.drawable.favourite_grey);
+        }
+
     }
 
     @Override
@@ -66,19 +73,20 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView imageLogo;
+        private final ImageView imageLogo, imageFavourite;
         private final TextView title;
         private final TextView text;
         private final TextView bt;
         private final TextView genre;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v) {
             super(v);
             title = (TextView) v.findViewById(R.id.text_list_title);
             text = (TextView) v.findViewById(R.id.text_list_text);
             bt = (TextView) v.findViewById(R.id.text_list_bt);
             genre = (TextView) v.findViewById(R.id.text_list_genre);
             imageLogo = (ImageView) v.findViewById(R.id.logo);
+            imageFavourite = (ImageView) v.findViewById(R.id.favourite);
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -92,6 +100,15 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
                     }
                 }
             });
+
+            imageFavourite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.e("Favorite", "clicked");
+
+                }
+            });
+
         }
 
     }

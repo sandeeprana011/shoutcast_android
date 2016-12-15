@@ -2,6 +2,7 @@ package com.zilideus.jukebox.parser;
 
 import com.zilideus.jukebox.flags.JKeys;
 import com.zilideus.jukebox.flags.Url_format;
+import com.zilideus.jukebox.model.Station;
 import com.zilideus.jukebox.network.DownloadContent;
 
 import org.json.JSONArray;

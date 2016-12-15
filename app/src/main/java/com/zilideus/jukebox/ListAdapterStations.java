@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.zilideus.jukebox.parser.Station;
+import com.zilideus.jukebox.model.Station;
 
 import java.util.List;
 

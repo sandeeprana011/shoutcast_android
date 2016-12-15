@@ -26,7 +26,7 @@ import com.google.android.exoplayer.upstream.DefaultAllocator;
 import com.google.android.exoplayer.upstream.DefaultUriDataSource;
 import com.google.android.exoplayer.util.Util;
 import com.zilideus.jukebox.flags.Flags;
-import com.zilideus.jukebox.parser.Station;
+import com.zilideus.jukebox.model.Station;
 
 public class MyService extends Service {
 

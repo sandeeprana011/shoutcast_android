@@ -1,5 +1,7 @@
 package com.zilideus.jukebox.parser;
 
+import com.zilideus.jukebox.model.Station;
+
 import java.util.ArrayList;
 
 /**

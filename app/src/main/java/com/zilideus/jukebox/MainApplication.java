@@ -1,9 +1,10 @@
 package com.zilideus.jukebox;
 
-import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+
+import com.orm.SugarContext;
 
 /**
  * Created by sandeeprana on 14/12/16.
@@ -25,10 +26,12 @@ public class MainApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        SugarContext.init(this);
     }
 
     @Override
     public void onTerminate() {
         super.onTerminate();
+        SugarContext.terminate();
     }
 }

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.network.DownloadContent;
-import com.zilideus.jukebox.parser.Station;
+import com.zilideus.jukebox.model.Station;
 
 import java.util.ArrayList;
 
