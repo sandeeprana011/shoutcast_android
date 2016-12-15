@@ -29,6 +29,7 @@ import com.google.android.exoplayer.ExoPlaybackException;
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.flags.Url_format;
 import com.zilideus.jukebox.fragment.AboutUs;
+import com.zilideus.jukebox.fragment.Favourite;
 import com.zilideus.jukebox.fragment.Home;
 import com.zilideus.jukebox.fragment.ListFragment;
 import com.zilideus.jukebox.fragment.SearchFragment;
@@ -150,15 +151,19 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        final FragmentManager fragmentManager = getSupportFragmentManager();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            final FragmentManager fragmentManager = getSupportFragmentManager();
-            fragment = new SearchFragment();
+        FragmentTransaction trasaction = fragmentManager.beginTransaction();
 
-            FragmentTransaction trasaction = fragmentManager.beginTransaction();
-//            trasaction.setCustomAnimations(android.R.anim.bounce_interpolator, android.R.anim.bounce_interpolator);
+        if (id == R.id.action_search) {
+            fragment = new SearchFragment();
+            trasaction.addToBackStack(SearchFragment.TITLE);
             trasaction.replace(R.id.container_fragment, fragment).commit();
             return true;
+        } else if (id == R.id.action_favourite) {
+            fragment = new Favourite();
+            trasaction.addToBackStack(Favourite.TITLE);
+            trasaction.replace(R.id.container_fragment, fragment).commit();
         }
 
         return super.onOptionsItemSelected(item);
