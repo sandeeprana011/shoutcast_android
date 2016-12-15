@@ -32,6 +32,7 @@ import com.zilideus.jukebox.fragment.AboutUs;
 import com.zilideus.jukebox.fragment.Home;
 import com.zilideus.jukebox.fragment.ListFragment;
 import com.zilideus.jukebox.fragment.SearchFragment;
+import com.zilideus.jukebox.model.Station;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener, OnChangePlayerState {
@@ -53,6 +54,11 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         prefrences = getSharedPreferences(Flags.SETTINGS, MODE_PRIVATE);
         setSupportActionBar(toolbar);
+
+
+        prepareDatabase();
+
+
         connectionService = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -98,6 +104,25 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void prepareDatabase() {
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            /**
+             * This block of code is for fixing the SugarORM bug. Related to SDK VERSION
+             * tables not found
+             */
+            long station_id = Station.save(new Station());
+            try {
+                Station station = Station.findById(Station.class, station_id);
+                Station.delete(station);
+            } catch (Exception ignored) {
+                Log.e("Exception Raisd", "EX : " + ignored.getMessage());
+            }
+        } else {
+            Station.findById(Station.class, (long) 1);
+        }
     }
 
 

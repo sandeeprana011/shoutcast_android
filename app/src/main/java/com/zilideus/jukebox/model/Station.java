@@ -29,6 +29,9 @@ public class Station extends SugarRecord {
 
     private ArrayList<Uri> uriArrayList;
 
+    public Station() {
+
+    }
 
     public String getName() {
         return name;
@@ -135,9 +138,14 @@ public class Station extends SugarRecord {
     }
 
     public boolean isFavourite() {
-        if (this.getStationId() != null && this.getStationId().equals("")) {
+        if (this.getStationId() != null && !this.getStationId().equals("")) {
             List<Station> stationList = Station.find(Station.class, " stationid=?", this.getStationId());
-            return stationList != null && stationList.size() > 0;
+            if (stationList != null && stationList.size() > 0) {
+                this.setId(stationList.get(0).getId());
+                return true;
+            } else {
+                return false;
+            }
         } else
             return false;
 

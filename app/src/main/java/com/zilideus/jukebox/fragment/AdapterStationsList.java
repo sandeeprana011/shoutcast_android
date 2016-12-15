@@ -104,7 +104,15 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
             imageFavourite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.e("Favorite", "clicked");
+                    Station station = stationList.get(ViewHolder.this.getAdapterPosition());
+                    Log.e("Favorite", "clicked" + station.getStationId());
+                    if (station.isFavourite()) {
+                        station.delete();
+                        ((ImageView) view).setImageResource(R.drawable.favourite_grey);
+                    } else {
+                        Station.save(station);
+                        ((ImageView) view).setImageResource(R.drawable.favourite);
+                    }
 
                 }
             });
