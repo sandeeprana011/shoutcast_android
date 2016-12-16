@@ -22,7 +22,7 @@
             android:id="@+id/logo"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/music" />
 
         <TextView

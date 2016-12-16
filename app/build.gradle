@@ -8,8 +8,8 @@ android {
         applicationId "com.zilideus.jukebox"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 5
-        versionName "2016 Dec 16 | 5"
+        versionCode 6
+        versionName "2016 Dec 16 | 6"
         multiDexEnabled true
     }
     buildTypes {
@@ -33,5 +33,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:support-v4:25.1.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 }
 apply plugin: 'com.google.gms.google-services'

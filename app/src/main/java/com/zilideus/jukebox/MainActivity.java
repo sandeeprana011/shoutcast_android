@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.google.android.exoplayer.ExoPlaybackException;
+import com.google.android.exoplayer.ExoPlayer;
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.flags.Url_format;
 import com.zilideus.jukebox.fragment.AboutUs;
@@ -279,7 +280,34 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onStateChanged(boolean playWhenReady, int playbackState) {
-        Log.e(TAG, "PLayer state changed");
+        
+        switch (playbackState) {
+            case ExoPlayer.STATE_READY:
+                Log.e(TAG, "State Ready");
+                break;
+            case ExoPlayer.STATE_BUFFERING:
+                Log.e(TAG, "State Buffering");
+                break;
+            case ExoPlayer.STATE_ENDED:
+                Log.e(TAG, "State Ended");
+                break;
+            case ExoPlayer.STATE_IDLE:
+                Log.e(TAG, "State Idle");
+                break;
+            case ExoPlayer.STATE_PREPARING:
+                Log.e(TAG, "State Preparing");
+                break;
+            case ExoPlayer.TRACK_DEFAULT:
+                Log.e(TAG, "State Default");
+                break;
+            case ExoPlayer.TRACK_DISABLED:
+                Log.e(TAG, "State Disabled");
+                break;
+            default:
+                Log.e(TAG, "Default Unknown state");
+                break;
+        }
+//        Log.e(TAG, "PLayer state changed");
     }
 
     @Override

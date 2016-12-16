@@ -18,9 +18,9 @@ import android.widget.Toast;
 import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.flags.Url_format;
+import com.zilideus.jukebox.model.Station;
 import com.zilideus.jukebox.network.DownloadContent;
 import com.zilideus.jukebox.parser.ParserXMLtoJSON;
-import com.zilideus.jukebox.model.Station;
 import com.zilideus.jukebox.parser.StationList;
 import com.zilideus.jukebox.parser.TuneIn;
 

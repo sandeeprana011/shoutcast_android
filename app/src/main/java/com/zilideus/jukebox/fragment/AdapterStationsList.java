@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.zilideus.jukebox.DownloadSongDetailAndPlayOnClick;
@@ -31,9 +33,16 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
 
     private final Context context;
     private final List<Station> stationList;
+    private final TextDrawable.IBuilder builder;
     private DownloadSongDetailAndPlayOnClick downloadSongDetailAndPlayOnclick;
 
     AdapterStationsList(Context context, List<Station> stationList) {
+
+        builder = TextDrawable.builder()
+                .beginConfig()
+                .withBorder(0)
+                .endConfig()
+                .round();
 
         this.context = context;
         this.stationList = stationList;
@@ -52,11 +61,26 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
         holder.text.setText(station.getCtqueryString());
         holder.bt.setText(station.getBrbitrate() + " Hz");
         holder.genre.setText(station.getGenre());
+
+
         if (station.getLogo() != null) {
             Glide.with(context)
                     .load(station.getLogo())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.imageLogo);
+        } else {
+
+            ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+
+            int color = generator.getColor(station.getGenre());
+            TextDrawable drawable = null;
+            if (station.getName() != null && station.getName().length() > 0) {
+                drawable = builder.build(String.valueOf(station.getName().charAt(0)).toUpperCase(), color);
+            } else {
+                drawable = builder.build("#", color);
+            }
+
+            holder.imageLogo.setImageDrawable(drawable);
         }
 
         if (station.isFavourite()) {
