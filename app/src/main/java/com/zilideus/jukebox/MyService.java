@@ -75,7 +75,6 @@ public class MyService extends Service {
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
 
 
-
                 if (onChangePlayerStateListener != null) {
                     onChangePlayerStateListener.onStateChanged(playWhenReady, playbackState);
                 }
@@ -122,7 +121,7 @@ public class MyService extends Service {
         if (station != null && station.getUriArrayList().size() > 0) {
             Allocator allocator = new DefaultAllocator(BUFFER_SEGMENT_SIZE);
             DataSource dataSource = new DefaultUriDataSource(this, null, Util.getUserAgent(this,
-                    "Jukebox"),true);
+                    "Jukebox"), true);
             ExtractorSampleSource sampleSource = new ExtractorSampleSource(station.getUriArrayList().get(0), dataSource,
                     allocator, BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE);
             MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource, MediaCodecSelector.DEFAULT);

@@ -28,6 +28,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -112,6 +113,7 @@ public class ListFragment extends Fragment {
                 stationList = parser.getTopStationswithLIMIT(data);
                 tuneIn = stationList.getTuneIn();
                 if (stationList != null) {
+                    Collections.reverse(stationList.getArrayListStations());
                     return stationList.getArrayListStations();
                 } else return null;
 

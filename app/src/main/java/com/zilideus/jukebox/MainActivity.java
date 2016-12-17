@@ -10,6 +10,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,6 +23,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -280,28 +283,49 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onStateChanged(boolean playWhenReady, int playbackState) {
-        
+        ImageButton imageButtonPlayStop = (ImageButton) findViewById(R.id.but_media_play);
+        RotateAnimation rotateAnimation;
+
+        rotateAnimation = new RotateAnimation(0f, 360f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnimation.setDuration(10000);
+        rotateAnimation.setRepeatCount(Animation.INFINITE);
+
+        if (imageButtonPlayStop == null) return;
         switch (playbackState) {
             case ExoPlayer.STATE_READY:
                 Log.e(TAG, "State Ready");
+                imageButtonPlayStop.startAnimation(rotateAnimation);
+                rotateAnimation.cancel();
+                rotateAnimation.reset();
+                imageButtonPlayStop.setEnabled(true);
+                imageButtonPlayStop.setImageResource(R.drawable.ic_stop);
                 break;
             case ExoPlayer.STATE_BUFFERING:
+                imageButtonPlayStop.setEnabled(false);
+                imageButtonPlayStop.setImageResource(R.drawable.ic_buffering);
+                imageButtonPlayStop.setAnimation(rotateAnimation);
+                Snackbar.make((View) imageButtonPlayStop.getParent(), "Buffering...", Snackbar.LENGTH_SHORT).show();
+//                rotateAnimation.start();
+                imageButtonPlayStop.startAnimation(rotateAnimation);
+
                 Log.e(TAG, "State Buffering");
                 break;
             case ExoPlayer.STATE_ENDED:
+                rotateAnimation.cancel();
+                imageButtonPlayStop.setEnabled(true);
+                imageButtonPlayStop.setImageResource(R.drawable.ic_play);
                 Log.e(TAG, "State Ended");
                 break;
             case ExoPlayer.STATE_IDLE:
+                rotateAnimation.cancel();
+                imageButtonPlayStop.setImageResource(R.drawable.ic_idle);
                 Log.e(TAG, "State Idle");
                 break;
             case ExoPlayer.STATE_PREPARING:
+                Snackbar.make((View) imageButtonPlayStop.getParent(), "Preparing...", Snackbar.LENGTH_SHORT).show();
+                imageButtonPlayStop.setImageResource(R.drawable.ic_preparing);
                 Log.e(TAG, "State Preparing");
-                break;
-            case ExoPlayer.TRACK_DEFAULT:
-                Log.e(TAG, "State Default");
-                break;
-            case ExoPlayer.TRACK_DISABLED:
-                Log.e(TAG, "State Disabled");
                 break;
             default:
                 Log.e(TAG, "Default Unknown state");
