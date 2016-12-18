@@ -12,10 +12,7 @@ public class VisualizerView extends View {
 
     public static final int TYPE_BAR = 0;
     public static final int TYPE_LINES = 1;
-
-
-    public static int typeVisualizer;
-
+    public int typeVisualizer;
     Rect rect = new Rect();
     private byte[] mBytes;
     private float[] mPoints;
@@ -36,6 +33,14 @@ public class VisualizerView extends View {
     public VisualizerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
+    }
+
+    public int getTypeVisualizer() {
+        return typeVisualizer;
+    }
+
+    public void setTypeVisualizer(int typeVisualizer) {
+        this.typeVisualizer = typeVisualizer;
     }
 
     private void init() {
