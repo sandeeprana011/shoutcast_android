@@ -11,29 +11,34 @@
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
+
+    <android.support.v7.widget.CardView
+        android:layout_margin="10dp"
+        android:id="@+id/cardview_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.zilideus.jukebox.VisualizerView
+            android:id="@+id/myvisualizerview"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dp" />
+
+    </android.support.v7.widget.CardView>
+
     <ImageView
         android:id="@+id/imageLogoBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/include"
-        android:layout_alignParentTop="true"
-        android:layout_below="@+id/progressbar"
+        android:layout_below="@+id/cardview_home"
         android:src="@drawable/music" />
-
-    <com.zilideus.jukebox.VisualizerView
-        android:id="@+id/myvisualizerview"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_margin="8dp"
-        android:background="@drawable/visualizer_back" />
 
     <RelativeLayout
         android:id="@+id/rel_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/include"
-        android:layout_below="@+id/myvisualizerview"
+        android:layout_below="@+id/cardview_home"
         android:background="#88ffffff">
 
         <TextView

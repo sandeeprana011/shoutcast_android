@@ -7,14 +7,9 @@
     <ProgressBar
         android:id="@+id/progressbarlist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <ImageView
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/play_layout"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/music" />
+        android:background="@color/grey" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
