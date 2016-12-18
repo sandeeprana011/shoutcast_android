@@ -112,7 +112,7 @@ public class ListFragment extends Fragment {
                 String data = DownloadContent.downloadContent(params[0]);
                 stationList = parser.getTopStationswithLIMIT(data);
                 tuneIn = stationList.getTuneIn();
-                if (stationList != null) {
+                if (stationList != null && stationList.getArrayListStations() != null) {
                     Collections.reverse(stationList.getArrayListStations());
                     return stationList.getArrayListStations();
                 } else return null;

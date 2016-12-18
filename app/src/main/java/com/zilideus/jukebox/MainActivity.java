@@ -45,7 +45,7 @@ import com.zilideus.jukebox.fragment.SearchFragment;
 import com.zilideus.jukebox.model.Station;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener, OnChangePlayerState {
+        implements NavigationView.OnNavigationItemSelectedListener, OnChangePlayerState {
     private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
     private static final int BUFFER_SEGMENT_COUNT = 256;
     private static final String TAG = "JUKEBOX";
@@ -238,19 +238,12 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_home) {
-            prefrences = getSharedPreferences(Flags.SETTINGS, MODE_PRIVATE);
-            prefrences.registerOnSharedPreferenceChangeListener(this);
-            if (prefrences.getBoolean("first", true)) {
-                prefrences.edit().putBoolean("first", true).apply();
-            }
 
             fragment = new Home();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.container_fragment, fragment, Home.TITLE).commit();
 
 
-//	  } else if (id == R.id.nav_share) {
-//	  } else if (id == R.id.nav_send) {
         } else if (id == R.id.nav_about) {
             fragment = new AboutUs();
             fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
@@ -287,18 +280,18 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("state")) {
-            if (sharedPreferences.getString(key, "value").equals("play")) {
-                ImageButton button = (ImageButton) findViewById(R.id.but_media_play);
-                button.setImageResource(android.R.drawable.ic_media_pause);
-            } else {
-                ImageButton button = (ImageButton) findViewById(R.id.but_media_play);
-                button.setImageResource(android.R.drawable.ic_media_play);
-            }
-        }
-    }
+//    @Override
+//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+//        if (key.equals("state")) {
+//            if (sharedPreferences.getString(key, "value").equals("play")) {
+//                ImageButton button = (ImageButton) findViewById(R.id.but_media_play);
+//                button.setImageResource(android.R.drawable.ic_media_pause);
+//            } else {
+//                ImageButton button = (ImageButton) findViewById(R.id.but_media_play);
+//                button.setImageResource(android.R.drawable.ic_media_play);
+//            }
+//        }
+//    }
 
     public void searchstation(View view) {
         EditText editText = (EditText) findViewById(R.id.search_text_station);
@@ -327,6 +320,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void onStateChanged(boolean playWhenReady, int playbackState) {
         ImageButton imageButtonPlayStop = (ImageButton) findViewById(R.id.but_media_play);
         RotateAnimation rotateAnimation;
@@ -345,6 +343,10 @@ public class MainActivity extends AppCompatActivity
                 rotateAnimation.reset();
                 imageButtonPlayStop.setEnabled(true);
                 imageButtonPlayStop.setImageResource(R.drawable.ic_stop);
+
+                fragment = new Home();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container_fragment, fragment, Home.TITLE).commit();
 
 
                 Home home = (Home) this.getSupportFragmentManager().findFragmentByTag(Home.TITLE);
