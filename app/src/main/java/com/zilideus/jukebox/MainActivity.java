@@ -244,7 +244,8 @@ public class MainActivity extends AppCompatActivity
             }
 
             fragment = new Home();
-            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.container_fragment, fragment, Home.TITLE).commit();
 
 
 //	  } else if (id == R.id.nav_share) {
@@ -337,6 +338,16 @@ public class MainActivity extends AppCompatActivity
                 rotateAnimation.reset();
                 imageButtonPlayStop.setEnabled(true);
                 imageButtonPlayStop.setImageResource(R.drawable.ic_stop);
+
+
+                Home home = (Home) this.getSupportFragmentManager().findFragmentByTag(Home.TITLE);
+                if (home != null) {
+                    home.setEnabled(false);
+                    home.initAudio();
+                    home.setEnabled(true);
+                }
+
+
                 break;
             case ExoPlayer.STATE_BUFFERING:
                 imageButtonPlayStop.setEnabled(false);

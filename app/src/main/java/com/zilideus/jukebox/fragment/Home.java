@@ -18,6 +18,7 @@ import com.zilideus.jukebox.VisualizerView;
 import com.zilideus.jukebox.flags.Flags;
 
 public class Home extends Fragment {
+    public static final String TITLE = "home_fragment";
     Context context;
     private Visualizer visualizer;
     private VisualizerView visualizerView;
@@ -60,7 +61,7 @@ public class Home extends Fragment {
     }
 
 
-    private void initAudio() {
+    public void initAudio() {
 //	  setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         setupVisualizerFxAndUI();
@@ -80,8 +81,12 @@ public class Home extends Fragment {
         // setupVisualizerFxAndUI because we likely want to have more,
         // non-Visualizer related code
         // in this callback.
-//	  visualizer.setEnabled(false);
+//        visualizer.setEnabled(false);
 
+    }
+
+    public void setEnabled(boolean enabled) {
+        visualizer.setEnabled(enabled);
     }
 
     private void setupVisualizerFxAndUI() {
@@ -93,7 +98,6 @@ public class Home extends Fragment {
 
         try {
             visualizer = new Visualizer(0);
-//	 int a=12;
 
             visualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
             visualizer.setDataCaptureListener(
@@ -108,7 +112,7 @@ public class Home extends Fragment {
                         }
                     }, Visualizer.getMaxCaptureRate() / 2, true, false);
         } catch (Exception ex) {
-            Log.e("error", "initializing visualizer" + getClass().getName());
+            Log.e("error", "initializing visualizer" + getClass().getName() + " \n Exception : " + ex.getMessage());
         }
     }
 
