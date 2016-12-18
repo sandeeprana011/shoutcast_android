@@ -19,6 +19,7 @@
         android:layout_height="wrap_content">
 
         <com.zilideus.jukebox.VisualizerView
+            android:rotation="180"
             android:id="@+id/myvisualizerview"
             android:layout_width="match_parent"
             android:layout_height="150dp"
