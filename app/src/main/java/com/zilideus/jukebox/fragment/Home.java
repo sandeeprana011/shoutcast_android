@@ -69,11 +69,6 @@ public class Home extends Fragment {
         // receive data, and
         // when it makes sense to receive data.
 //        if (visualizer != null) {
-        try {
-            visualizer.setEnabled(true);
-        } catch (Exception ex) {
-            Log.e("except", " f" + ex.getMessage());
-        }
 
 //        }
         // When the stream ends, we don't need to collect any more data. We
@@ -98,7 +93,7 @@ public class Home extends Fragment {
 
         try {
             visualizer = new Visualizer(0);
-
+            visualizer.setEnabled(false);
             visualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
             visualizer.setDataCaptureListener(
                     new Visualizer.OnDataCaptureListener() {
@@ -111,9 +106,12 @@ public class Home extends Fragment {
                                                      byte[] bytes, int samplingRate) {
                         }
                     }, Visualizer.getMaxCaptureRate() / 2, true, false);
+            visualizer.setEnabled(true);
         } catch (Exception ex) {
             Log.e("error", "initializing visualizer" + getClass().getName() + " \n Exception : " + ex.getMessage());
         }
+
+
     }
 
     @Override

@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -302,11 +303,17 @@ public class MainActivity extends AppCompatActivity
     public void searchstation(View view) {
         EditText editText = (EditText) findViewById(R.id.search_text_station);
 
+        //Hiding IME
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow((null == getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
         fragment = new ListFragment();
         prefrences.edit().putString(Flags.JSON_URL, new Url_format().getStationByKeywords(Flags.DEV_ID,
                 editText.getText().toString(), "30", null, null)).apply();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container_fragment, fragment).commit();
+
     }
 
     @Override
@@ -342,9 +349,7 @@ public class MainActivity extends AppCompatActivity
 
                 Home home = (Home) this.getSupportFragmentManager().findFragmentByTag(Home.TITLE);
                 if (home != null) {
-                    home.setEnabled(false);
                     home.initAudio();
-                    home.setEnabled(true);
                 }
 
 
