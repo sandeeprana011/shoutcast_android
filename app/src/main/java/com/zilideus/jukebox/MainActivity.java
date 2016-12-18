@@ -375,4 +375,8 @@ public class MainActivity extends AppCompatActivity
     public void onPlayerError(ExoPlaybackException error) {
         Log.e(TAG, "Player Error : " + error.getMessage());
     }
+
+    public void changeVisualization(View view) {
+        ((VisualizerView) view).changeTypeEqualizer();
+    }
 }

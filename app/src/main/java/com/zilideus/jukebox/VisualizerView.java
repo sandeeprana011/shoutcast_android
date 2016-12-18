@@ -107,4 +107,12 @@ public class VisualizerView extends View {
         canvas.rotate(180);
     }
 
+    public void changeTypeEqualizer() {
+        if (this.typeVisualizer == TYPE_LINES) {
+            this.typeVisualizer = TYPE_BAR;
+        } else {
+            this.typeVisualizer++;
+        }
+    }
+
 }
