@@ -36,5 +36,4 @@
         <!--android:background="@color/white" />-->
     </RelativeLayout>
 
-    <include layout="@layout/play_util" />
 </RelativeLayout>

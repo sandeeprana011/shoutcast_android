@@ -59,7 +59,5 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/play_util" />
+
 </RelativeLayout>
