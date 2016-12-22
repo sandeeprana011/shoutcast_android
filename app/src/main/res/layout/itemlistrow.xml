@@ -29,11 +29,22 @@
             android:id="@+id/text_list_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_toLeftOf="@+id/text_list_bt"
             android:layout_toRightOf="@+id/logo"
             android:text="Indian Music"
             android:textColor="@color/colorAccent" />
+
+
+        <TextView
+            android:id="@+id/text_list_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_list_title"
+            android:layout_toLeftOf="@+id/text_list_bt"
+            android:layout_toRightOf="@+id/logo"
+            android:text="Haye mera Dil- Honey Singh"
+            android:textColor="@color/textColorDark" />
 
         <TextView
             android:id="@+id/text_list_genre"
@@ -46,14 +57,14 @@
             android:textColor="@color/colorAccent" />
 
         <TextView
-            android:id="@+id/text_list_text"
-            android:layout_width="match_parent"
+            android:id="@+id/text_list_listeners"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_list_title"
-            android:layout_toLeftOf="@+id/text_list_bt"
-            android:layout_toRightOf="@+id/logo"
-            android:text="Haye mera Dil- Honey Singh"
-            android:textColor="@color/textColorDark" />
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/logo"
+            android:layout_marginTop="10dp"
+            android:text="Listeners : 11005"
+            android:textColor="@color/colorAccent" />
 
         <TextView
             android:id="@+id/text_list_bt"

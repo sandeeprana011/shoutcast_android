@@ -12,8 +12,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.zilideus.jukebox.flags.Flags;
-import com.zilideus.jukebox.network.DownloadContent;
 import com.zilideus.jukebox.model.Station;
+import com.zilideus.jukebox.network.DownloadContent;
 
 import java.util.ArrayList;
 
@@ -44,6 +44,7 @@ public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Station, Void, A
         Flags.SONG_DESCRIPTION = station.getCtqueryString();
 
         Flags.SONG_IMAGE_URL = station.getLogo();
+        Flags.SONG_LISTENERS = station.getLc();
 
         if (textDesc != null && textTitle != null) {
             textDesc.setText(station.getCtqueryString());

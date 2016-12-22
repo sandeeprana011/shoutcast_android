@@ -24,6 +24,7 @@ public class Home extends Fragment {
     private VisualizerView visualizerView;
     private TextView textDesc, textTitle;
     private ImageView imageLogoBack;
+    private TextView textListenersOnline;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,15 +39,17 @@ public class Home extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         visualizerView = (VisualizerView) view.findViewById(R.id.myvisualizerview);
-        textTitle = (TextView) getActivity().findViewById(R.id.text_title);
-        textDesc = (TextView) getActivity().findViewById(R.id.text_description);
-        imageLogoBack = (ImageView) getActivity().findViewById(R.id.imageLogoBack);
+        textTitle = (TextView) view.findViewById(R.id.text_title);
+        textDesc = (TextView) view.findViewById(R.id.text_description);
+        textListenersOnline = (TextView) view.findViewById(R.id.text_home_listeners_listening);
+        imageLogoBack = (ImageView) view.findViewById(R.id.imageLogoBack);
         if (visualizerView != null) {
             new Exo();
             if (Exo.getPlayer() != null) {
                 initAudio();
             }
         }
+
 
         if (Flags.SONG_IMAGE_URL != null && imageLogoBack != null) {
             Glide.with(this)
@@ -55,8 +58,11 @@ public class Home extends Fragment {
                     .into(imageLogoBack);
 
         }
-        textDesc.setText(Flags.SONG_DESCRIPTION);
-        textTitle.setText(Flags.SONG_TITLE);
+        if (Flags.SONG_TITLE != null) {
+            textTitle.setText(Flags.SONG_TITLE);
+            textDesc.setText(Flags.SONG_DESCRIPTION);
+            textListenersOnline.setText(Flags.SONG_LISTENERS + " peoples are listening to this channel.");
+        }
 
     }
 

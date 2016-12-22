@@ -61,6 +61,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
         holder.text.setText(station.getCtqueryString());
         holder.bt.setText(station.getBrbitrate() + " Hz");
         holder.genre.setText(station.getGenre());
+        holder.peoplesListening.setText(station.getLc());
 
 
         if (station.getLogo() != null) {
@@ -89,6 +90,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
             holder.imageFavourite.setImageResource(R.drawable.favourite_grey);
         }
 
+
     }
 
     @Override
@@ -102,11 +104,13 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
         private final TextView text;
         private final TextView bt;
         private final TextView genre;
+        private final TextView peoplesListening;
 
         ViewHolder(View v) {
             super(v);
             title = (TextView) v.findViewById(R.id.text_list_title);
             text = (TextView) v.findViewById(R.id.text_list_text);
+            peoplesListening = (TextView) v.findViewById(R.id.text_list_listeners);
             bt = (TextView) v.findViewById(R.id.text_list_bt);
             genre = (TextView) v.findViewById(R.id.text_list_genre);
             imageLogo = (ImageView) v.findViewById(R.id.logo);
@@ -140,6 +144,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
 
                 }
             });
+
 
         }
 

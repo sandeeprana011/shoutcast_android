@@ -13,19 +13,19 @@
 
 
     <android.support.v7.widget.CardView
-        android:layout_margin="10dp"
         android:id="@+id/cardview_home"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
 
         <com.zilideus.jukebox.VisualizerView
-            android:onClick="changeVisualization"
-            android:rotation="180"
             android:id="@+id/myvisualizerview"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_alignParentTop="true"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:onClick="changeVisualization"
+            android:rotation="180" />
 
     </android.support.v7.widget.CardView>
 
@@ -64,6 +64,14 @@
             android:padding="10dp"
             android:text="Haye mera dil"
             android:textSize="20sp" />
+
+        <TextView
+            android:text="11500 peoples are listening to this channel."
+            android:id="@+id/text_home_listeners_listening"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="10dp" />
     </RelativeLayout>
 
 
