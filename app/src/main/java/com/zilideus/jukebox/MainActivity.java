@@ -16,9 +16,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +45,7 @@ import com.zilideus.jukebox.fragment.Favourite;
 import com.zilideus.jukebox.fragment.Home;
 import com.zilideus.jukebox.fragment.ListFragment;
 import com.zilideus.jukebox.fragment.SearchFragment;
+import com.zilideus.jukebox.fragment.TopListFragment;
 import com.zilideus.jukebox.model.Station;
 
 public class MainActivity extends AppCompatActivity
@@ -50,12 +54,14 @@ public class MainActivity extends AppCompatActivity
     private static final int BUFFER_SEGMENT_COUNT = 256;
     private static final String TAG = "JUKEBOX";
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 14;
+    PagerAdapter adapter;
     //   private static ExoPlayer player;
     private Context context;
     private MyService myServiceEngine;
     private Fragment fragment;
     private SharedPreferences prefrences;
     private ServiceConnection connectionService;
+    private ViewPager viewPager;
 
 
     @Override
@@ -65,6 +71,11 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         prefrences = getSharedPreferences(Flags.SETTINGS, MODE_PRIVATE);
         setSupportActionBar(toolbar);
+
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        adapter = new ScreenSliderPagerFragment(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1);
 
 
         this.askForRuntimePermissions();
@@ -170,16 +181,6 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
@@ -200,12 +201,12 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_search) {
             fragment = new SearchFragment();
             trasaction.addToBackStack(SearchFragment.TITLE);
-            trasaction.replace(R.id.container_fragment, fragment).commit();
+//            trasaction.replace(R.id.container_fragment, fragment).commit();
             return true;
         } else if (id == R.id.action_favourite) {
             fragment = new Favourite();
             trasaction.addToBackStack(Favourite.TITLE);
-            trasaction.replace(R.id.container_fragment, fragment).commit();
+//            trasaction.replace(R.id.container_fragment, fragment).commit();
         }
 
         return super.onOptionsItemSelected(item);
@@ -223,35 +224,54 @@ public class MainActivity extends AppCompatActivity
 //	  final StationList allStationsListWithTuneIn = null;
         Url_format url_format = new Url_format();
 
-        if (id == R.id.nav_top_music) {
-            // Handle the top music action
-            fragment = new ListFragment();
-
-            prefrences.edit().putString(Flags.JSON_URL, url_format.getTopStationsXML(Flags.DEV_ID,
-                    "20", null, null)).apply();
-
-            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
-
-        } else if (id == R.id.nav_search_station) {
-            fragment = new SearchFragment();
-            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
-
-
-        } else if (id == R.id.nav_home) {
-
-            fragment = new Home();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.container_fragment, fragment, Home.TITLE).commit();
-
-
-        } else if (id == R.id.nav_about) {
-            fragment = new AboutUs();
-            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
-        }
+//        if (id == R.id.nav_top_music) {
+//            // Handle the top music action
+//            fragment = new ListFragment();
+//
+//            prefrences.edit().putString(Flags.JSON_URL, url_format.getTopStationsXML(Flags.DEV_ID,
+//                    "20", null, null)).apply();
+//
+//            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
+//
+//        } else if (id == R.id.nav_search_station) {
+//            fragment = new SearchFragment();
+//            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
+//
+//
+//        } else if (id == R.id.nav_home) {
+//
+//            fragment = new Home();
+//            FragmentTransaction transaction = fragmentManager.beginTransaction();
+//            transaction.replace(R.id.container_fragment, fragment, Home.TITLE).commit();
+//
+//
+//        } else if (id == R.id.nav_about) {
+//            fragment = new AboutUs();
+//            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+
+        if (viewPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+        }
     }
 
 
@@ -275,23 +295,10 @@ public class MainActivity extends AppCompatActivity
         final FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = new ListFragment();
 
-        fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
+//        fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
 
     }
 
-
-//    @Override
-//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-//        if (key.equals("state")) {
-//            if (sharedPreferences.getString(key, "value").equals("play")) {
-//                ImageButton button = (ImageButton) findViewById(R.id.but_media_play);
-//                button.setImageResource(android.R.drawable.ic_media_pause);
-//            } else {
-//                ImageButton button = (ImageButton) findViewById(R.id.but_media_play);
-//                button.setImageResource(android.R.drawable.ic_media_play);
-//            }
-//        }
-//    }
 
     public void searchstation(View view) {
         EditText editText = (EditText) findViewById(R.id.search_text_station);
@@ -301,11 +308,12 @@ public class MainActivity extends AppCompatActivity
                 getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow((null == getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
-        fragment = new ListFragment();
-        prefrences.edit().putString(Flags.JSON_URL, new Url_format().getStationByKeywords(Flags.DEV_ID,
-                editText.getText().toString(), "30", null, null)).apply();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container_fragment, fragment).commit();
+        String urlToSearch = new Url_format().getStationByKeywords(Flags.DEV_ID,
+                editText.getText().toString(), "30", null, null);
+
+        viewPager.setCurrentItem(2);
+        
 
     }
 
@@ -346,7 +354,7 @@ public class MainActivity extends AppCompatActivity
 
                 fragment = new Home();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.container_fragment, fragment, Home.TITLE).commit();
+//                transaction.replace(R.id.container_fragment, fragment, Home.TITLE).commit();
 
 
                 Home home = (Home) this.getSupportFragmentManager().findFragmentByTag(Home.TITLE);
@@ -396,5 +404,71 @@ public class MainActivity extends AppCompatActivity
 
     public void changeVisualization(View view) {
         ((VisualizerView) view).changeTypeEqualizer();
+    }
+
+    private class ScreenSliderPagerFragment extends FragmentStatePagerAdapter {
+
+        private int NUMBER_PAGES = 5;
+
+        public ScreenSliderPagerFragment(FragmentManager fm) {
+            super(fm);
+
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = null;
+            switch (position) {
+                case 0:
+                    fragment = new SearchFragment();
+                    break;
+                case 1:
+                    fragment = new Home();
+                    break;
+//                case 2:
+//                    fragment = new ListFragment();
+//                    break;
+                case 3:
+                    fragment = new Favourite();
+                    break;
+                case 4:
+                    fragment = new TopListFragment();
+                    break;
+                case 5:
+                    fragment = new AboutUs();
+                    break;
+                default:
+                    fragment = new Home();
+            }
+            return fragment;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+
+            switch (position) {
+                case 0:
+                    return "SEARCH";
+                case 1:
+                    return "HOME";
+//                case 2:
+//                    return "CURRENT LIST";
+                case 3:
+                    return "FAVOURITE";
+                case 4:
+                    return "TOP CHANNELS";
+                case 5:
+                    return "ABOUT US";
+                default:
+                    return "HOME";
+
+            }
+
+        }
+
+        @Override
+        public int getCount() {
+            return NUMBER_PAGES;
+        }
     }
 }

@@ -78,8 +78,8 @@
             android:id="@+id/favourite"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_below="@+id/text_list_bt"
             android:src="@drawable/favourite_grey" />
     </RelativeLayout>
 

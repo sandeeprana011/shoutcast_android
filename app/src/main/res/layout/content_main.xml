@@ -8,13 +8,34 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <fragment
-        android:id="@+id/container_fragment"
-        android:name="com.zilideus.jukebox.fragment.ListFragment"
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/play_layout"
-        tools:layout="@layout/itemlistrow" />
+        android:layout_above="@+id/include_playerstrip">
 
-    <include layout="@layout/play_util" />
+
+        <android.support.v4.view.PagerTitleStrip
+            android:id="@+id/pager_title_strip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/colorPrimary"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:textColor="#fff" />
+
+    </android.support.v4.view.ViewPager>
+
+    <!--<fragment-->
+    <!--android:id="@+id/container_fragment"-->
+    <!--android:name="com.zilideus.jukebox.fragment.ListFragment"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_above="@+id/play_layout"-->
+    <!--tools:layout="@layout/itemlistrow" />-->
+
+    <include
+        android:id="@+id/include_playerstrip"
+        layout="@layout/play_util" />
 </RelativeLayout>

@@ -34,7 +34,7 @@ import java.util.Collections;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListFragment extends Fragment {
+public class TopListFragment extends Fragment {
 
 
     private String url;
@@ -66,14 +66,9 @@ public class ListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (preferences != null) {
-            url = preferences.getString(Flags.JSON_URL, new Url_format().getTopStationsXML(Flags.DEV_ID, "50",
-                    null, null));
-        } else {
-            preferences = getActivity().getSharedPreferences(Flags.SETTINGS, Context.MODE_PRIVATE);
-            url = preferences.getString(Flags.JSON_URL, new Url_format().getTopStationsXML(Flags.DEV_ID, "50",
-                    null, null));
-        }
+
+        url = new Url_format().getTopStationsXML(Flags.DEV_ID, "50",
+                null, null);
 
         if (DownloadContent.isAvailable(getActivity())) {
 

@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_top_music"
-            android:icon="@mipmap/ic_top_music"
-            android:title="Top Music"/>
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@android:drawable/ic_media_play"
-            android:title="Home"/>
-        <item
-            android:id="@+id/nav_search_station"
-            android:icon="@android:drawable/ic_menu_search"
-            android:title="Search Station"/>
+        <!--<item-->
+        <!--android:id="@+id/nav_top_music"-->
+        <!--android:icon="@mipmap/ic_top_music"-->
+        <!--android:title="Top Music"/>-->
+        <!--<item-->
+        <!--android:id="@+id/nav_home"-->
+        <!--android:icon="@android:drawable/ic_media_play"-->
+        <!--android:title="Home"/>-->
+        <!--<item-->
+        <!--android:id="@+id/nav_search_station"-->
+        <!--android:icon="@android:drawable/ic_menu_search"-->
+        <!--android:title="Search Station"/>-->
         <item
             android:id="@+id/nav_about"
             android:icon="@android:drawable/ic_menu_info_details"

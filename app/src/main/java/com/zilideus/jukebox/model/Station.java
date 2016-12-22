@@ -3,6 +3,7 @@ package com.zilideus.jukebox.model;
 import android.net.Uri;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 import com.orm.dsl.Unique;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class Station extends SugarRecord {
     private String genre3;
     private String cst;
 
+    @Ignore
     private ArrayList<Uri> uriArrayList;
 
     public Station() {
