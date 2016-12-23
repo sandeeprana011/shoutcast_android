@@ -199,13 +199,15 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction trasaction = fragmentManager.beginTransaction();
 
         if (id == R.id.action_search) {
-            fragment = new SearchFragment();
-            trasaction.addToBackStack(SearchFragment.TITLE);
+//            fragment = new SearchFragment();
+//            trasaction.addToBackStack(SearchFragment.TITLE);
+            viewPager.setCurrentItem(0);
 //            trasaction.replace(R.id.container_fragment, fragment).commit();
             return true;
         } else if (id == R.id.action_favourite) {
-            fragment = new Favourite();
-            trasaction.addToBackStack(Favourite.TITLE);
+//            fragment = new Favourite();
+//            trasaction.addToBackStack(Favourite.TITLE);
+            viewPager.setCurrentItem(2);
 //            trasaction.replace(R.id.container_fragment, fragment).commit();
         }
 
@@ -313,7 +315,7 @@ public class MainActivity extends AppCompatActivity
                 editText.getText().toString(), "30", null, null);
 
         viewPager.setCurrentItem(2);
-        
+
 
     }
 
@@ -428,13 +430,13 @@ public class MainActivity extends AppCompatActivity
 //                case 2:
 //                    fragment = new ListFragment();
 //                    break;
-                case 3:
+                case 2:
                     fragment = new Favourite();
                     break;
-                case 4:
+                case 3:
                     fragment = new TopListFragment();
                     break;
-                case 5:
+                case 4:
                     fragment = new AboutUs();
                     break;
                 default:
@@ -453,11 +455,11 @@ public class MainActivity extends AppCompatActivity
                     return "HOME";
 //                case 2:
 //                    return "CURRENT LIST";
-                case 3:
+                case 2:
                     return "FAVOURITE";
-                case 4:
+                case 3:
                     return "TOP CHANNELS";
-                case 5:
+                case 4:
                     return "ABOUT US";
                 default:
                     return "HOME";

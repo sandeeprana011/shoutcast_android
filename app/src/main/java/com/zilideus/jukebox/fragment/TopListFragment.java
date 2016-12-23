@@ -122,7 +122,7 @@ public class TopListFragment extends Fragment {
                 stationList = parser.getTopStationswithLIMIT(data);
                 tuneIn = stationList.getTuneIn();
                 if (stationList != null && stationList.getArrayListStations() != null) {
-                    Collections.reverse(stationList.getArrayListStations());
+//                    Collections.reverse(stationList.getArrayListStations());
                     return stationList.getArrayListStations();
                 } else return null;
 

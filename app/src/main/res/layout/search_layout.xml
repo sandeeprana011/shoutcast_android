@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center">
@@ -7,12 +7,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="40dp"
         android:clickable="true"
         android:gravity="center"
         android:orientation="vertical">
-
 
 
         <android.support.design.widget.TextInputLayout
@@ -32,6 +29,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
+            android:id="@+id/search_buttom"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,5 +42,19 @@
             android:paddingRight="15dp"
             android:text="Search Station"
             android:textColor="@color/white" />
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@id/progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_buttom" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_search_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/progressbar"
+            android:overScrollMode="never" />
     </RelativeLayout>
-</android.support.v7.widget.CardView>
+</ScrollView>

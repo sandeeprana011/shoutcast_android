@@ -18,6 +18,7 @@ import com.zilideus.jukebox.MainActivity;
 import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.model.Station;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,6 +47,18 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
 
         this.context = context;
         this.stationList = stationList;
+    }
+
+    AdapterStationsList(Context context) {
+
+        builder = TextDrawable.builder()
+                .beginConfig()
+                .withBorder(0)
+                .endConfig()
+                .round();
+
+        this.context = context;
+        this.stationList = new ArrayList<>();
     }
 
 
@@ -96,6 +109,16 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
     @Override
     public int getItemCount() {
         return this.stationList.size();
+    }
+
+    public void appendAndNotifyDataSetChanged(List<Station> stationList) {
+        this.stationList.addAll(stationList);
+        this.notifyDataSetChanged();
+    }
+
+    public void addNewListAndNotifyDataSetChanged(List<Station> stationList) {
+        this.stationList.clear();
+        this.stationList.addAll(stationList);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

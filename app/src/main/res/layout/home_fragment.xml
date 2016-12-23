@@ -51,7 +51,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="25dp"
             android:padding="10dp"
-            android:text="Haye mera dil"
+            android:text="---------------"
             android:textSize="30sp" />
 
         <TextView
@@ -62,16 +62,16 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:padding="10dp"
-            android:text="Haye mera dil"
+            android:text="-------------------------------------------"
             android:textSize="20sp" />
 
         <TextView
-            android:text="11500 peoples are listening to this channel."
             android:id="@+id/text_home_listeners_listening"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:text="----- : --------" />
     </RelativeLayout>
 
 
