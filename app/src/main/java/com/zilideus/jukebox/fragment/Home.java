@@ -16,8 +16,9 @@ import com.zilideus.jukebox.Exo;
 import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.VisualizerView;
 import com.zilideus.jukebox.flags.Flags;
+import com.zilideus.jukebox.model.Station;
 
-public class Home extends Fragment {
+public class Home extends Fragment implements View.OnClickListener {
     public static final String TITLE = "home_fragment";
     Context context;
     private Visualizer visualizer;
@@ -25,6 +26,7 @@ public class Home extends Fragment {
     private TextView textDesc, textTitle;
     private ImageView imageLogoBack;
     private TextView textListenersOnline;
+    private ImageView imageViewIsFavourite;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +44,12 @@ public class Home extends Fragment {
         textTitle = (TextView) view.findViewById(R.id.text_title);
         textDesc = (TextView) view.findViewById(R.id.text_description);
         textListenersOnline = (TextView) view.findViewById(R.id.text_home_listeners_listening);
+
+        imageViewIsFavourite = (ImageView) view.findViewById(R.id.imageview_is_favourite);
+        imageViewIsFavourite.setOnClickListener(this);
+
+//        Station.isFavourite()
+
         imageLogoBack = (ImageView) view.findViewById(R.id.imageLogoBack);
         if (visualizerView != null) {
             new Exo();
@@ -62,6 +70,14 @@ public class Home extends Fragment {
             textTitle.setText(Flags.SONG_TITLE);
             textDesc.setText(Flags.SONG_DESCRIPTION);
             textListenersOnline.setText(Flags.SONG_LISTENERS + " peoples are listening to this channel.");
+        }
+        if (Flags.SONG_ID != null) {
+            imageViewIsFavourite.setVisibility(View.VISIBLE);
+            if (Station.isFavourite(Flags.SONG_ID)) {
+                imageViewIsFavourite.setImageResource(R.drawable.favourite);
+            } else {
+                imageViewIsFavourite.setImageResource(R.drawable.favourite_grey);
+            }
         }
 
     }
@@ -125,6 +141,28 @@ public class Home extends Fragment {
         super.onDetach();
         if (visualizer != null) {
             visualizer.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.imageview_is_favourite:
+                if (Station.isFavourite(Flags.SONG_ID)) {
+                    Station station = Station.getStation(Flags.SONG_ID);
+                    station.delete();
+                    imageViewIsFavourite.setImageResource(R.drawable.favourite_grey);
+                } else {
+                    Station station = new Station();
+
+                    station.setStationId(Flags.SONG_ID);
+                    station.setName(Flags.SONG_TITLE);
+                    station.setCtqueryString(Flags.SONG_DESCRIPTION);
+                    station.setLogo(Flags.SONG_IMAGE_URL);
+
+                    station.save();
+                    imageViewIsFavourite.setImageResource(R.drawable.favourite);
+                }
         }
     }
 }

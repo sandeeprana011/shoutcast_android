@@ -45,6 +45,7 @@ public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Station, Void, A
 
         Flags.SONG_IMAGE_URL = station.getLogo();
         Flags.SONG_LISTENERS = station.getLc();
+        Flags.SONG_ID = station.getStationId();
 
         if (textDesc != null && textTitle != null) {
             textDesc.setText(station.getCtqueryString());

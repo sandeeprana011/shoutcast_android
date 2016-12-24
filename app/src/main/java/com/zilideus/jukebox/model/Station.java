@@ -31,8 +31,34 @@ public class Station extends SugarRecord {
     @Ignore
     private ArrayList<Uri> uriArrayList;
 
+
     public Station() {
 
+    }
+
+    public static boolean isFavourite(String stationid) {
+        if (stationid != null && !stationid.equals("")) {
+            List<Station> stationList = Station.find(Station.class, " stationid=?", stationid);
+            if (stationList != null && stationList.size() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else
+            return false;
+    }
+
+    public static Station getStation(String stationid) {
+        if (stationid != null && !stationid.equals("")) {
+            List<Station> stationList = Station.find(Station.class, " stationid=?", stationid);
+            if (stationList != null && stationList.size() > 0) {
+                return stationList.get(0);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
     public String getName() {
@@ -150,6 +176,13 @@ public class Station extends SugarRecord {
             }
         } else
             return false;
+    }
+
+    @Override
+    public long save() {
+        if (this.getStationId() != null && !this.getStationId().equals("")) {
+            return super.save();
+        } else return -1;
 
     }
 }

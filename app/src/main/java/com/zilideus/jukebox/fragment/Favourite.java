@@ -23,6 +23,7 @@ public class Favourite extends Fragment {
 
     public static final String TITLE = "title";
     RecyclerView recyclerViewFavouriteList;
+    private AdapterStationsList adapterStationsList;
 
     public Favourite() {
         // Required empty public constructor
@@ -41,10 +42,17 @@ public class Favourite extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerViewFavouriteList = (RecyclerView) view.findViewById(R.id.list_stations);
         List<Station> stationsList = Station.listAll(Station.class);
-        AdapterStationsList adapterStationsList = new AdapterStationsList(getContext(), stationsList);
+        adapterStationsList = new AdapterStationsList(getContext(), stationsList);
         recyclerViewFavouriteList.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewFavouriteList.setAdapter(adapterStationsList);
         adapterStationsList.notifyDataSetChanged();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapterStationsList != null) {
+            adapterStationsList.addNewListAndNotifyDataSetChanged(Station.listAll(Station.class));
+        }
     }
 }

@@ -65,6 +65,18 @@
             android:text="-------------------------------------------"
             android:textSize="20sp" />
 
+        <ImageView
+            android:id="@+id/imageview_is_favourite"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_above="@+id/text_home_listeners_listening"
+            android:layout_alignParentRight="true"
+            android:layout_margin="18dp"
+            android:gravity="center"
+            android:src="@drawable/favourite_grey"
+            android:text="Add to Favourite"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
         <TextView
             android:id="@+id/text_home_listeners_listening"
             android:layout_width="match_parent"

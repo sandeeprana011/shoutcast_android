@@ -86,15 +86,17 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
 
             ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
 
-            int color = generator.getColor(station.getGenre());
-            TextDrawable drawable = null;
-            if (station.getName() != null && station.getName().length() > 0) {
-                drawable = builder.build(String.valueOf(station.getName().charAt(0)).toUpperCase(), color);
-            } else {
-                drawable = builder.build("#", color);
-            }
+            if (generator != null && station != null&&builder!=null&&station.getGenre()!=null) {
+                int color = generator.getColor(station.getGenre());
+                TextDrawable drawable = null;
+                if (station.getName() != null && station.getName().length() > 0) {
+                    drawable = builder.build(String.valueOf(station.getName().charAt(0)).toUpperCase(), color);
+                } else {
+                    drawable = builder.build("#", color);
+                }
 
-            holder.imageLogo.setImageDrawable(drawable);
+                holder.imageLogo.setImageDrawable(drawable);
+            }
         }
 
         if (station.isFavourite()) {
@@ -120,6 +122,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
         this.stationList.clear();
         this.stationList.addAll(stationList);
     }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView imageLogo, imageFavourite;
@@ -172,6 +175,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
 
 
         }
+
 
     }
 }
