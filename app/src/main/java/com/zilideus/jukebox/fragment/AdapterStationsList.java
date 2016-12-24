@@ -188,7 +188,8 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
                     } else {
                         Station.save(station);
                         ((ImageView) view).setImageResource(R.drawable.favourite);
-                        listenerFavouriteCallbacks.favouriteAdded(station, getAdapterPosition());
+                        if (listenerFavouriteCallbacks != null)
+                            listenerFavouriteCallbacks.favouriteAdded(station, getAdapterPosition());
                     }
 
                 }
