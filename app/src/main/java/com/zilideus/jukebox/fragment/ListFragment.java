@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -89,7 +88,7 @@ public class ListFragment extends Fragment {
      * Class downloads the list and shows on the ListView
      */
     private class DownloadAndShowList extends AsyncTask<String, Void, ArrayList<Station>> {
-        ImageButton listButton;
+        //        ImageButton listButton;
         StationList stationList;
         RecyclerView listView;
         ProgressBar progressBar;
@@ -112,10 +111,10 @@ public class ListFragment extends Fragment {
             url_format = new Url_format();
             listView = (RecyclerView) view.findViewById(R.id.list_stations);
 
-            listButton = (ImageButton) view.getRootView().findViewById(R.id.but_media_list);
-            if (listButton != null) {
-                listButton.setEnabled(false);
-            }
+//            listButton = (ImageButton) view.getRootView().findViewById(R.id.but_media_list);
+//            if (listButton != null) {
+//                listButton.setEnabled(false);
+//            }
 
 
         }
@@ -148,9 +147,9 @@ public class ListFragment extends Fragment {
                 AdapterStationsList adapterStationsList = new AdapterStationsList(getActivity(), stations);
                 listView.setAdapter(adapterStationsList);
                 listView.setLayoutManager(new LinearLayoutManager(getContext()));
-                if (listButton != null) {
-                    listButton.setEnabled(true);
-                }
+//                if (listButton != null) {
+//                    listButton.setEnabled(true);
+//                }
                 progressBar.setVisibility(View.GONE);
             } else {
                 Toast.makeText(getContext(), "No station found", Toast.LENGTH_LONG).show();

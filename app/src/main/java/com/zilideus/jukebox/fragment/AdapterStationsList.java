@@ -76,7 +76,11 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
         Station station = this.stationList.get(position);
         holder.title.setText(station.getName());
         holder.text.setText(station.getCtqueryString());
-        holder.bt.setText(station.getBrbitrate() + " Hz");
+        if (station.getBrbitrate() != null) {
+            holder.bt.setText(station.getBrbitrate() + " Hz");
+        } else {
+            holder.bt.setVisibility(View.GONE);
+        }
         holder.genre.setText(station.getGenre());
         if (station.getLc() != null) {
             holder.peoplesListening.setText("Listeners : " + station.getLc());
@@ -139,6 +143,10 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
 
     public void clearList() {
         this.stationList.clear();
+    }
+
+    public boolean isEmpty() {
+        return this.stationList.isEmpty();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

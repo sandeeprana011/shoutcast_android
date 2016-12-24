@@ -16,7 +16,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -35,7 +35,10 @@ import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.exoplayer.ExoPlaybackException;
 import com.google.android.exoplayer.ExoPlayer;
 import com.zilideus.jukebox.flags.Flags;
@@ -43,13 +46,12 @@ import com.zilideus.jukebox.flags.Url_format;
 import com.zilideus.jukebox.fragment.AboutUs;
 import com.zilideus.jukebox.fragment.Favourite;
 import com.zilideus.jukebox.fragment.Home;
-import com.zilideus.jukebox.fragment.ListFragment;
 import com.zilideus.jukebox.fragment.SearchFragment;
 import com.zilideus.jukebox.fragment.TopListFragment;
 import com.zilideus.jukebox.model.Station;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnChangePlayerState {
+        implements NavigationView.OnNavigationItemSelectedListener, OnChangePlayerState, ViewPager.OnPageChangeListener {
     private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
     private static final int BUFFER_SEGMENT_COUNT = 256;
     private static final String TAG = "JUKEBOX";
@@ -62,6 +64,10 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences prefrences;
     private ServiceConnection connectionService;
     private ViewPager viewPager;
+    private ImageButton imageButtonPlayStop;
+    private TextView textViewTitle;
+    private TextView textViewText;
+    private ImageView imageViewLogo;
 
 
     @Override
@@ -76,6 +82,12 @@ public class MainActivity extends AppCompatActivity
         adapter = new ScreenSliderPagerFragment(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(1);
+        viewPager.addOnPageChangeListener(this);
+
+        imageButtonPlayStop = (ImageButton) findViewById(R.id.but_media_play);
+        textViewTitle = (TextView) findViewById(R.id.strip_title);
+        textViewText = (TextView) findViewById(R.id.strip_text);
+        imageViewLogo = (ImageView) findViewById(R.id.strip_logo);
 
 
         this.askForRuntimePermissions();
@@ -293,14 +305,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void listshow(View view) {
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new ListFragment();
-
-//        fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
-
-    }
-
 
     public void searchstation(View view) {
         EditText editText = (EditText) findViewById(R.id.search_text_station);
@@ -336,7 +340,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onStateChanged(boolean playWhenReady, int playbackState) {
-        ImageButton imageButtonPlayStop = (ImageButton) findViewById(R.id.but_media_play);
+
+
         RotateAnimation rotateAnimation;
 
         rotateAnimation = new RotateAnimation(0f, 360f,
@@ -388,6 +393,15 @@ public class MainActivity extends AppCompatActivity
                 Log.e(TAG, "State Idle");
                 break;
             case ExoPlayer.STATE_PREPARING:
+
+                textViewTitle.setText(Flags.SONG_TITLE);
+                textViewText.setText(Flags.SONG_DESCRIPTION);
+                if (Flags.SONG_IMAGE_URL != null) {
+                    Glide.with(this)
+                            .load(Flags.SONG_IMAGE_URL)
+                            .into(imageViewLogo);
+                }
+
                 Snackbar.make((View) imageButtonPlayStop.getParent(), "Preparing...", Snackbar.LENGTH_SHORT).show();
                 imageButtonPlayStop.setImageResource(R.drawable.ic_preparing);
                 Log.e(TAG, "State Preparing");
@@ -408,7 +422,32 @@ public class MainActivity extends AppCompatActivity
         ((VisualizerView) view).changeTypeEqualizer();
     }
 
-    private class ScreenSliderPagerFragment extends FragmentStatePagerAdapter {
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        Log.d("Page Scrolled", "position" + String.valueOf(position));
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Log.d("Page Selected", "position" + String.valueOf(position));
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        Log.d("Page State", "state " + String.valueOf(state) + String.valueOf(ViewPager.SCROLL_STATE_IDLE));
+        if (viewPager.getCurrentItem() == 2 && state == ViewPager.SCROLL_STATE_IDLE) {
+            Favourite page = (Favourite) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":" + viewPager.getCurrentItem());
+            page.onUpdateUI();
+        }
+    }
+
+    public void openHome(View view) {
+        if (viewPager != null) {
+            viewPager.setCurrentItem(1);
+        }
+    }
+
+    private class ScreenSliderPagerFragment extends FragmentPagerAdapter {
 
         private int NUMBER_PAGES = 5;
 
@@ -427,9 +466,6 @@ public class MainActivity extends AppCompatActivity
                 case 1:
                     fragment = new Home();
                     break;
-//                case 2:
-//                    fragment = new ListFragment();
-//                    break;
                 case 2:
                     fragment = new Favourite();
                     break;

@@ -27,14 +27,6 @@
 
     </android.support.v4.view.ViewPager>
 
-    <!--<fragment-->
-    <!--android:id="@+id/container_fragment"-->
-    <!--android:name="com.zilideus.jukebox.fragment.ListFragment"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_above="@+id/play_layout"-->
-    <!--tools:layout="@layout/itemlistrow" />-->
-
     <include
         android:id="@+id/include_playerstrip"
         layout="@layout/play_util" />

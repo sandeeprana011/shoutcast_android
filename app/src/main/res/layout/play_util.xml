@@ -1,28 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/play_layout"
-    android:layout_alignParentBottom="true"
-    android:background="@color/colorPrimaryDark"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@color/colorAccent"
+    android:onClick="openHome"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/strip_logo"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_margin="7dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/strip_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_toLeftOf="@+id/but_media_play"
+        android:layout_toRightOf="@+id/strip_logo"
+        android:singleLine="true"
+        android:text="Love You"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/strip_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/strip_title"
+        android:layout_marginTop="7dp"
+        android:layout_toRightOf="@+id/strip_logo"
+        android:singleLine="true"
+        android:text="Description"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
 
     <ImageButton
-        android:onClick="playpause"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/media_button"
         android:id="@+id/but_media_play"
-        android:src="@mipmap/ic_stop"
         android:layout_width="40dp"
-        android:layout_height="40dp"/>
-    <ImageButton
-        android:layout_marginLeft="30dp"
-        android:onClick="listshow"
-        android:src="@mipmap/ic_list"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:background="@drawable/media_button"
-        android:id="@+id/but_media_list"
-        android:layout_toRightOf="@+id/but_media_play"
-        android:layout_width="40dp"
-        android:layout_height="40dp"/>
+        android:onClick="playpause"
+        android:src="@mipmap/ic_stop" />
+
 </RelativeLayout>

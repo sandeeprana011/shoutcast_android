@@ -18,6 +18,7 @@
             android:background="@color/grey" />
 
         <LinearLayout
+            android:id="@+id/lin_onno_station"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

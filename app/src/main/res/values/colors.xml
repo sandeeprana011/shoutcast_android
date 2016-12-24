@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryDark">#d60659</color>
-    <color name="colorPrimary">#e62562</color>
-    <color name="colorAccent">#208ba9</color>
+    <color name="colorPrimaryDark">#299498</color>
+    <color name="colorPrimary">#299498</color>
+    <color name="colorAccent">#299498</color>
     <color name="colorMediaBackButton">#084d78</color>
     <color name="textColorDark">#818181</color>
     <color name="white">#ffffff</color>
