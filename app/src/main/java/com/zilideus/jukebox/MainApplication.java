@@ -6,6 +6,9 @@ import android.support.multidex.MultiDexApplication;
 
 import com.orm.SugarContext;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by sandeeprana on 14/12/16.
  * License is only applicable to individuals and non-profits
@@ -19,7 +22,7 @@ public class MainApplication extends MultiDexApplication {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(base));
         MultiDex.install(this);
     }
 
@@ -27,6 +30,11 @@ public class MainApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         SugarContext.init(this);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("file:///android_asset/fonts/futura_regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
     }
 
     @Override

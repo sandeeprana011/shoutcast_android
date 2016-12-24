@@ -78,7 +78,11 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
         holder.text.setText(station.getCtqueryString());
         holder.bt.setText(station.getBrbitrate() + " Hz");
         holder.genre.setText(station.getGenre());
-        holder.peoplesListening.setText("Listeners : " + station.getLc());
+        if (station.getLc() != null) {
+            holder.peoplesListening.setText("Listeners : " + station.getLc());
+        } else {
+            holder.peoplesListening.setVisibility(View.GONE);
+        }
 
 
         if (station.getLogo() != null) {
@@ -125,6 +129,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
     public void addNewListAndNotifyDataSetChanged(List<Station> stationList) {
         this.stationList.clear();
         this.stationList.addAll(stationList);
+        this.notifyDataSetChanged();
     }
 
     public void removeItemAndNotify(int adapterPosition) {
@@ -132,6 +137,9 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
         this.notifyDataSetChanged();
     }
 
+    public void clearList() {
+        this.stationList.clear();
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView imageLogo, imageFavourite;

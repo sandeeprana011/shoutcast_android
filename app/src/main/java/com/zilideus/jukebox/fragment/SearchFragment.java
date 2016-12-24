@@ -71,6 +71,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
 
     private void searchAndUpdateList(View view) {
 
+        adapterStationsList.clearList();
+
         if (recyclerViewSearch != null) {
 
             String urlToSearch = new Url_format().getStationByKeywords(Flags.DEV_ID,
