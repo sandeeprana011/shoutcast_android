@@ -20,13 +20,14 @@ import com.android.volley.toolbox.Volley;
 import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.flags.Url_format;
+import com.zilideus.jukebox.model.Station;
 import com.zilideus.jukebox.parser.ParserXMLtoJSON;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 
-public class SearchFragment extends Fragment implements View.OnClickListener {
+public class SearchFragment extends Fragment implements View.OnClickListener, FavouriteClickCallbacks {
     public static final String TITLE = "search_fragment";
     private EditText editTextSearchStrin;
     private Button buttonSearch;
@@ -48,6 +49,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
         recyclerViewSearch = (RecyclerView) view.findViewById(R.id.rv_search_fragment);
         adapterStationsList = new AdapterStationsList(getContext());
+        adapterStationsList.setListenerFavouriteCallbacks(this);
         recyclerViewSearch.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewSearch.setAdapter(adapterStationsList);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
@@ -100,5 +102,19 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                     });
             Volley.newRequestQueue(getContext()).add(request);
         }
+    }
+
+    @Override
+    public void favouriteAdded(Station station, int position) {
+//        if (station != null) {
+//            station.save();
+//        }
+    }
+
+    @Override
+    public void favouriteRemoved(Station station, int position) {
+//        if (station != null) {
+//            station.delete();
+//        }
     }
 }

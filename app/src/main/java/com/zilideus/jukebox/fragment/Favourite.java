@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Favourite extends Fragment {
+public class Favourite extends Fragment implements FavouriteClickCallbacks {
 
 
     public static final String TITLE = "title";
@@ -43,6 +44,7 @@ public class Favourite extends Fragment {
         recyclerViewFavouriteList = (RecyclerView) view.findViewById(R.id.list_stations);
         List<Station> stationsList = Station.listAll(Station.class);
         adapterStationsList = new AdapterStationsList(getContext(), stationsList);
+        adapterStationsList.setListenerFavouriteCallbacks(this);
         recyclerViewFavouriteList.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewFavouriteList.setAdapter(adapterStationsList);
         adapterStationsList.notifyDataSetChanged();
@@ -55,4 +57,15 @@ public class Favourite extends Fragment {
             adapterStationsList.addNewListAndNotifyDataSetChanged(Station.listAll(Station.class));
         }
     }
+
+    @Override
+    public void favouriteAdded(Station station, int position) {
+        Log.e("Added ", "To favourite");
+    }
+
+    @Override
+    public void favouriteRemoved(Station station, int position) {
+        adapterStationsList.removeItemAndNotify(position);
+    }
+
 }

@@ -73,7 +73,7 @@ public class Home extends Fragment implements View.OnClickListener {
         }
         if (Flags.SONG_ID != null) {
             imageViewIsFavourite.setVisibility(View.VISIBLE);
-            if (Station.isFavourite(Flags.SONG_ID)) {
+            if (Flags.SONG_ID != null && !Flags.SONG_ID.equals("") && Station.isFavourite(Flags.SONG_ID)) {
                 imageViewIsFavourite.setImageResource(R.drawable.favourite);
             } else {
                 imageViewIsFavourite.setImageResource(R.drawable.favourite_grey);
@@ -154,13 +154,14 @@ public class Home extends Fragment implements View.OnClickListener {
                     imageViewIsFavourite.setImageResource(R.drawable.favourite_grey);
                 } else {
                     Station station = new Station();
-
                     station.setStationId(Flags.SONG_ID);
                     station.setName(Flags.SONG_TITLE);
                     station.setCtqueryString(Flags.SONG_DESCRIPTION);
                     station.setLogo(Flags.SONG_IMAGE_URL);
 
-                    station.save();
+                    if (station.getStationId() != null && !station.getStationId().equals("")) {
+                        station.save();
+                    }
                     imageViewIsFavourite.setImageResource(R.drawable.favourite);
                 }
         }

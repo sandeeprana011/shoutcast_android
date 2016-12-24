@@ -36,6 +36,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
     private final List<Station> stationList;
     private final TextDrawable.IBuilder builder;
     private DownloadSongDetailAndPlayOnClick downloadSongDetailAndPlayOnclick;
+    private FavouriteClickCallbacks listenerFavouriteCallbacks;
 
     AdapterStationsList(Context context, List<Station> stationList) {
 
@@ -61,6 +62,9 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
         this.stationList = new ArrayList<>();
     }
 
+    public void setListenerFavouriteCallbacks(FavouriteClickCallbacks listenerFavouriteCallbacks) {
+        this.listenerFavouriteCallbacks = listenerFavouriteCallbacks;
+    }
 
     @Override
     public AdapterStationsList.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -86,7 +90,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
 
             ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
 
-            if (generator != null && station != null&&builder!=null&&station.getGenre()!=null) {
+            if (generator != null && station != null && builder != null && station.getGenre() != null) {
                 int color = generator.getColor(station.getGenre());
                 TextDrawable drawable = null;
                 if (station.getName() != null && station.getName().length() > 0) {
@@ -121,6 +125,11 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
     public void addNewListAndNotifyDataSetChanged(List<Station> stationList) {
         this.stationList.clear();
         this.stationList.addAll(stationList);
+    }
+
+    public void removeItemAndNotify(int adapterPosition) {
+        this.stationList.remove(adapterPosition);
+        this.notifyDataSetChanged();
     }
 
 
@@ -165,9 +174,13 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
                     if (station.isFavourite()) {
                         station.delete();
                         ((ImageView) view).setImageResource(R.drawable.favourite_grey);
+                        if (AdapterStationsList.this.listenerFavouriteCallbacks != null) {
+                            listenerFavouriteCallbacks.favouriteRemoved(station, getAdapterPosition());
+                        }
                     } else {
                         Station.save(station);
                         ((ImageView) view).setImageResource(R.drawable.favourite);
+                        listenerFavouriteCallbacks.favouriteAdded(station, getAdapterPosition());
                     }
 
                 }
