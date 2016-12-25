@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:background="@color/colorAccent"
-    android:onClick="openHome"
-    android:gravity="center">
+    android:background="@color/colorPrimary"
+    android:gravity="center"
+    android:onClick="openHome">
 
     <ImageView
         android:id="@+id/strip_logo"
@@ -23,7 +23,7 @@
         android:layout_toLeftOf="@+id/but_media_play"
         android:layout_toRightOf="@+id/strip_logo"
         android:singleLine="true"
-        android:text="Love You"
+        android:text="--/--"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white" />
 
@@ -32,11 +32,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/strip_title"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="3dp"
         android:layout_toRightOf="@+id/strip_logo"
         android:singleLine="true"
-        android:text="Description"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="--/--"
         android:textColor="@color/white" />
 
     <ImageButton

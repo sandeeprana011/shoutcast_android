@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -26,6 +25,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,7 +52,7 @@ import com.zilideus.jukebox.fragment.TopListFragment;
 import com.zilideus.jukebox.model.Station;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnChangePlayerState, ViewPager.OnPageChangeListener {
+        implements OnChangePlayerState, ViewPager.OnPageChangeListener {
     private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
     private static final int BUFFER_SEGMENT_COUNT = 256;
     private static final String TAG = "JUKEBOX";
@@ -131,14 +132,14 @@ public class MainActivity extends AppCompatActivity
         bindService(intent, connectionService, BIND_AUTO_CREATE);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, null, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.setDrawerListener(toggle);
+//        toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void askForRuntimePermissions() {
@@ -226,48 +227,48 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-//	  final ParserXMLtoJSON parser = new ParserXMLtoJSON();
-
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-//	  ArrayList<Station> stations = null;
-//	  final StationList allStationsListWithTuneIn = null;
-        Url_format url_format = new Url_format();
-
-//        if (id == R.id.nav_top_music) {
-//            // Handle the top music action
-//            fragment = new ListFragment();
+//    @SuppressWarnings("StatementWithEmptyBody")
+//    @Override
+//    public boolean onNavigationItemSelected(MenuItem item) {
+//        // Handle navigation view item clicks here.
+//        int id = item.getItemId();
+////	  final ParserXMLtoJSON parser = new ParserXMLtoJSON();
 //
-//            prefrences.edit().putString(Flags.JSON_URL, url_format.getTopStationsXML(Flags.DEV_ID,
-//                    "20", null, null)).apply();
+//        final FragmentManager fragmentManager = getSupportFragmentManager();
+////	  ArrayList<Station> stations = null;
+////	  final StationList allStationsListWithTuneIn = null;
+//        Url_format url_format = new Url_format();
 //
-//            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
+////        if (id == R.id.nav_top_music) {
+////            // Handle the top music action
+////            fragment = new ListFragment();
+////
+////            prefrences.edit().putString(Flags.JSON_URL, url_format.getTopStationsXML(Flags.DEV_ID,
+////                    "20", null, null)).apply();
+////
+////            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
+////
+////        } else if (id == R.id.nav_search_station) {
+////            fragment = new SearchFragment();
+////            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
+////
+////
+////        } else if (id == R.id.nav_home) {
+////
+////            fragment = new Home();
+////            FragmentTransaction transaction = fragmentManager.beginTransaction();
+////            transaction.replace(R.id.container_fragment, fragment, Home.TITLE).commit();
+////
+////
+////        } else if (id == R.id.nav_about) {
+////            fragment = new AboutUs();
+////            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
+////        }
 //
-//        } else if (id == R.id.nav_search_station) {
-//            fragment = new SearchFragment();
-//            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
-//
-//
-//        } else if (id == R.id.nav_home) {
-//
-//            fragment = new Home();
-//            FragmentTransaction transaction = fragmentManager.beginTransaction();
-//            transaction.replace(R.id.container_fragment, fragment, Home.TITLE).commit();
-//
-//
-//        } else if (id == R.id.nav_about) {
-//            fragment = new AboutUs();
-//            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
-//        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        drawer.closeDrawer(GravityCompat.START);
+//        return true;
+//    }
 
     @Override
     public void onBackPressed() {
@@ -286,11 +287,6 @@ public class MainActivity extends AppCompatActivity
             // Otherwise, select the previous step.
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         }
-    }
-
-
-    public void timer(View view) {
-
     }
 
     public void playpause(View view) {
@@ -438,12 +434,38 @@ public class MainActivity extends AppCompatActivity
         if (viewPager.getCurrentItem() == 2 && state == ViewPager.SCROLL_STATE_IDLE) {
             Favourite page = (Favourite) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":" + viewPager.getCurrentItem());
             page.onUpdateUI();
+        } else if (viewPager.getCurrentItem() == 1 && state == ViewPager.SCROLL_STATE_IDLE) {
+            Home page = (Home) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":" + viewPager.getCurrentItem());
+            page.onUpdateUI();
         }
     }
 
     public void openHome(View view) {
         if (viewPager != null) {
             viewPager.setCurrentItem(1);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PhoneStateListener phoneStateListener = new PhoneStateListener() {
+            @Override
+            public void onCallStateChanged(int state, String incomingNumber) {
+                if (state == TelephonyManager.CALL_STATE_RINGING) {
+                    //Incoming call: Pause music
+                    Exo.getPlayer().stop();
+                } else if (state == TelephonyManager.CALL_STATE_IDLE) {
+                    //Not in call: Play music
+                } else if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
+                    //A call is dialing, active or on hold
+                }
+                super.onCallStateChanged(state, incomingNumber);
+            }
+        };
+        TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if (mgr != null) {
+            mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
         }
     }
 

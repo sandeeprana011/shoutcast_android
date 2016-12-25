@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimaryDark">#299498</color>
     <color name="colorPrimary">#299498</color>
-    <color name="colorAccent">#299498</color>
+    <color name="colorAccent">#ff6127</color>
     <color name="colorMediaBackButton">#084d78</color>
     <color name="textColorDark">#818181</color>
     <color name="white">#ffffff</color>

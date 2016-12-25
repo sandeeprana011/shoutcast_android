@@ -11,50 +11,63 @@
         android:gravity="center"
         android:orientation="vertical">
 
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/text_search_label"
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp">
 
-            <EditText
-                android:id="@+id/search_text_station"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginBottom="40dp"
-                android:hint="Search Station/Genre"
-                android:padding="10dp"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
+                android:padding="7dp">
 
-        <Button
-            android:id="@+id/search_buttom"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text_search_label"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:drawableLeft="@android:drawable/ic_menu_search"
-            android:onClick="searchstation"
-            android:paddingLeft="5dp"
-            android:paddingRight="15dp"
-            android:text="Search Station"
-            android:textColor="@color/white" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text_search_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp">
+
+                    <EditText
+                        android:id="@+id/search_text_station"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_marginBottom="40dp"
+                        android:hint="Search Station/Genre"
+                        android:padding="10dp"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/search_buttom"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_search_label"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:drawableLeft="@android:drawable/ic_menu_search"
+                    android:onClick="searchstation"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="15dp"
+                    android:text="Search Station"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
 
         <ProgressBar
-            android:visibility="gone"
             android:id="@id/progressbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/search_buttom" />
+            android:layout_below="@id/card_search"
+            android:visibility="gone" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_search_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/progressbar"
-            />
+            android:layout_below="@+id/progressbar" />
     </RelativeLayout>
 </ScrollView>

@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -29,7 +28,8 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +56,7 @@ public class TopListFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        OverScrollDecoratorHelper.setUpStaticOverScroll(view, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         refreshThisList(view);
     }
 
@@ -84,7 +85,7 @@ public class TopListFragment extends Fragment {
      * Class downloads the list and shows on the ListView
      */
     private class DownloadAndShowList extends AsyncTask<String, Void, ArrayList<Station>> {
-//        ImageButton listButton;
+        //        ImageButton listButton;
         StationList stationList;
         RecyclerView listView;
         ProgressBar progressBar;
@@ -106,6 +107,8 @@ public class TopListFragment extends Fragment {
             parser = new ParserXMLtoJSON();
             url_format = new Url_format();
             listView = (RecyclerView) view.findViewById(R.id.list_stations);
+
+
 
 //            listButton = (ImageButton) view.getRootView().findViewById(R.id.but_media_list);
 //            if (listButton != null) {

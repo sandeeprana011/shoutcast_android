@@ -1,5 +1,6 @@
 package com.zilideus.jukebox.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,9 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -26,6 +29,8 @@ import com.zilideus.jukebox.parser.ParserXMLtoJSON;
 import org.json.JSONException;
 
 import java.io.IOException;
+
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class SearchFragment extends Fragment implements View.OnClickListener, FavouriteClickCallbacks {
     public static final String TITLE = "search_fragment";
@@ -46,12 +51,14 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         editTextSearchStrin = (EditText) view.findViewById(R.id.search_text_station);
-
         recyclerViewSearch = (RecyclerView) view.findViewById(R.id.rv_search_fragment);
         adapterStationsList = new AdapterStationsList(getContext());
         adapterStationsList.setListenerFavouriteCallbacks(this);
         recyclerViewSearch.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewSearch.setAdapter(adapterStationsList);
+
+        OverScrollDecoratorHelper.setUpOverScroll((ScrollView) view);
+
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
 
         buttonSearch = (Button) view.findViewById(R.id.search_buttom);
@@ -72,6 +79,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
     private void searchAndUpdateList(View view) {
 
         adapterStationsList.clearList();
+
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
         if (recyclerViewSearch != null) {
 

@@ -8,8 +8,8 @@ android {
         applicationId "com.zilideus.jukebox"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 8
-        versionName "2016 Dec 18 | 8"
+        versionCode 10
+        versionName "Christmas 2016 | 10"
         multiDexEnabled true
     }
     buildTypes {
@@ -36,5 +36,6 @@ dependencies {
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.android.volley:volley:1.0.0'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    compile 'me.everything:overscroll-decor-android:1.0.4'
 }
 apply plugin: 'com.google.gms.google-services'

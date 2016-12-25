@@ -54,6 +54,8 @@ public class Favourite extends Fragment implements FavouriteClickCallbacks {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerViewFavouriteList = (RecyclerView) view.findViewById(R.id.list_stations);
+
+
         linearLayoutOnNoItem = (LinearLayout) view.findViewById(R.id.lin_onno_station);
         List<Station> stationsList = Station.listAll(Station.class);
         adapterStationsList = new AdapterStationsList(getContext(), stationsList);
