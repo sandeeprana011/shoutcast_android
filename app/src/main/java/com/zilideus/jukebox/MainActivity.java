@@ -451,6 +451,7 @@ public class MainActivity extends AppCompatActivity
                 } else if (state == TelephonyManager.CALL_STATE_IDLE) {
                     //Not in call: Play music
                 } else if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
+                    Exo.getPlayer().stop();
                     //A call is dialing, active or on hold
                 }
                 super.onCallStateChanged(state, incomingNumber);
