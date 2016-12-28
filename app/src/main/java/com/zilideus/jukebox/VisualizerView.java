@@ -70,8 +70,8 @@ public class VisualizerView extends View {
         if (typeVisualizer == VisualizerView.TYPE_BAR) {
 
             mRect.set(0, 0, getWidth(), getHeight());
-            int widthBetweenBuildings = 1;
-            int noOfBuildings = 20;
+            int widthBetweenBuildings = 2;
+            int noOfBuildings = 25;
 
             int widthRects = ((getWidth() - widthBetweenBuildings + 1) / noOfBuildings);
 

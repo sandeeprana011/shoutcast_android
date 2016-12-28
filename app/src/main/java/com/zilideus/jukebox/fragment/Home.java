@@ -16,7 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.zilideus.jukebox.Exo;
 import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.VisualizerView;
-import com.zilideus.jukebox.flags.Flags;
+import com.zilideus.jukebox.model.CurrentStation;
 import com.zilideus.jukebox.model.Station;
 
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
@@ -63,6 +63,8 @@ public class Home extends Fragment implements View.OnClickListener {
                 initAudio();
             }
         }
+
+        onUpdateUI();
 
 
     }
@@ -131,51 +133,60 @@ public class Home extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.imageview_is_favourite:
-                if (Station.isFavourite(Flags.SONG_ID)) {
-                    Station station = Station.getStation(Flags.SONG_ID);
-                    station.delete();
-                    imageViewIsFavourite.setImageResource(R.drawable.favourite_grey);
-                } else {
-                    Station station = new Station();
-                    station.setStationId(Flags.SONG_ID);
-                    station.setName(Flags.SONG_TITLE);
-                    station.setCtqueryString(Flags.SONG_DESCRIPTION);
-                    station.setLogo(Flags.SONG_IMAGE_URL);
-                    if (station.getStationId() != null && !station.getStationId().equals("")) {
-                        station.save();
+        CurrentStation cs = CurrentStation.build();
+        if (cs != null) {
+            Station station = cs.getStation();
+            switch (v.getId()) {
+                case R.id.imageview_is_favourite:
+                    if (station.isFavourite()) {
+                        station.delete();
+                        imageViewIsFavourite.setImageResource(R.drawable.favourite_grey);
+                    } else {
+                        if (station.getStationId() != null && !station.getStationId().equals("")) {
+                            station.save();
+                        }
+                        imageViewIsFavourite.setImageResource(R.drawable.favourite);
                     }
-                    imageViewIsFavourite.setImageResource(R.drawable.favourite);
-                }
+            }
         }
+
     }
 
     public void onUpdateUI() {
-        if (Flags.SONG_IMAGE_URL != null && imageLogoBack != null) {
-            Glide.with(this)
-                    .load(Flags.SONG_IMAGE_URL)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.music)
-                    .into(imageLogoBack);
+        CurrentStation currentStation = CurrentStation.build();
+        if (currentStation != null) {
+            Station cs = currentStation.getStation();
+            if (cs.getLogo() != null && imageLogoBack != null) {
+                Glide.with(this)
+                        .load(cs.getLogo())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.music)
+                        .into(imageLogoBack);
 
-        }
-        if (Flags.SONG_TITLE != null) {
-            textTitle.setText(Flags.SONG_TITLE);
-            textDesc.setText(Flags.SONG_DESCRIPTION);
-            textListenersOnline.setText(Flags.SONG_LISTENERS + " peoples are listening to this channel.");
-        }
-        if (Flags.SONG_ID != null) {
-            imageViewIsFavourite.setVisibility(View.VISIBLE);
-            if (Flags.SONG_ID != null && !Flags.SONG_ID.equals("")) {
-                if (Station.isFavourite(Flags.SONG_ID)) {
-                    imageViewIsFavourite.setImageResource(R.drawable.favourite);
+            }
+            if (cs.getName() != null) {
+                textTitle.setText(cs.getName());
+                textDesc.setText(cs.getCtqueryString());
+                textListenersOnline.setText(cs.getLc() + " peoples are listening to this channel.");
+            }
+            if (cs.getStationId() != null) {
+                imageViewIsFavourite.setVisibility(View.VISIBLE);
+                if (cs.getStationId() != null && !cs.getStationId().equals("")) {
+                    if (cs.isFavourite()) {
+                        imageViewIsFavourite.setImageResource(R.drawable.favourite);
+                    } else {
+                        imageViewIsFavourite.setImageResource(R.drawable.favourite_grey);
+                    }
                 } else {
                     imageViewIsFavourite.setImageResource(R.drawable.favourite_grey);
                 }
-            } else {
-                imageViewIsFavourite.setImageResource(R.drawable.favourite_grey);
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.onUpdateUI();
     }
 }

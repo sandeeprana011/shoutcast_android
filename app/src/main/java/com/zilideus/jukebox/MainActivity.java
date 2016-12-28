@@ -22,7 +22,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneStateListener;
@@ -49,6 +48,7 @@ import com.zilideus.jukebox.fragment.Favourite;
 import com.zilideus.jukebox.fragment.Home;
 import com.zilideus.jukebox.fragment.SearchFragment;
 import com.zilideus.jukebox.fragment.TopListFragment;
+import com.zilideus.jukebox.model.CurrentStation;
 import com.zilideus.jukebox.model.Station;
 
 public class MainActivity extends AppCompatActivity
@@ -181,14 +181,19 @@ public class MainActivity extends AppCompatActivity
              * tables not found
              */
             long station_id = Station.save(new Station());
+            long current_station = CurrentStation.save(new CurrentStation());
+
             try {
                 Station station = Station.findById(Station.class, station_id);
                 Station.delete(station);
+                CurrentStation currentStation = CurrentStation.findById(CurrentStation.class, current_station);
+                CurrentStation.delete(currentStation);
             } catch (Exception ignored) {
                 Log.e("Exception Raisd", "EX : " + ignored.getMessage());
             }
         } else {
             Station.findById(Station.class, (long) 1);
+            CurrentStation.findById(CurrentStation.class, (long) 1);
         }
     }
 
@@ -212,63 +217,18 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction trasaction = fragmentManager.beginTransaction();
 
         if (id == R.id.action_search) {
-//            fragment = new SearchFragment();
-//            trasaction.addToBackStack(SearchFragment.TITLE);
+
             viewPager.setCurrentItem(0);
-//            trasaction.replace(R.id.container_fragment, fragment).commit();
+
             return true;
         } else if (id == R.id.action_favourite) {
-//            fragment = new Favourite();
-//            trasaction.addToBackStack(Favourite.TITLE);
+
             viewPager.setCurrentItem(2);
-//            trasaction.replace(R.id.container_fragment, fragment).commit();
+
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-//    @SuppressWarnings("StatementWithEmptyBody")
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-////	  final ParserXMLtoJSON parser = new ParserXMLtoJSON();
-//
-//        final FragmentManager fragmentManager = getSupportFragmentManager();
-////	  ArrayList<Station> stations = null;
-////	  final StationList allStationsListWithTuneIn = null;
-//        Url_format url_format = new Url_format();
-//
-////        if (id == R.id.nav_top_music) {
-////            // Handle the top music action
-////            fragment = new ListFragment();
-////
-////            prefrences.edit().putString(Flags.JSON_URL, url_format.getTopStationsXML(Flags.DEV_ID,
-////                    "20", null, null)).apply();
-////
-////            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
-////
-////        } else if (id == R.id.nav_search_station) {
-////            fragment = new SearchFragment();
-////            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
-////
-////
-////        } else if (id == R.id.nav_home) {
-////
-////            fragment = new Home();
-////            FragmentTransaction transaction = fragmentManager.beginTransaction();
-////            transaction.replace(R.id.container_fragment, fragment, Home.TITLE).commit();
-////
-////
-////        } else if (id == R.id.nav_about) {
-////            fragment = new AboutUs();
-////            fragmentManager.beginTransaction().replace(R.id.container_fragment, fragment).commit();
-////        }
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
 
     @Override
     public void onBackPressed() {
@@ -337,7 +297,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onStateChanged(boolean playWhenReady, int playbackState) {
 
-
         RotateAnimation rotateAnimation;
 
         rotateAnimation = new RotateAnimation(0f, 360f,
@@ -389,24 +348,38 @@ public class MainActivity extends AppCompatActivity
                 Log.e(TAG, "State Idle");
                 break;
             case ExoPlayer.STATE_PREPARING:
-
-                textViewTitle.setText(Flags.SONG_TITLE);
-                textViewText.setText(Flags.SONG_DESCRIPTION);
-                if (Flags.SONG_IMAGE_URL != null) {
-                    Glide.with(this)
-                            .load(Flags.SONG_IMAGE_URL)
-                            .into(imageViewLogo);
-                }
-
+                refreshCurrentSong();
                 Snackbar.make((View) imageButtonPlayStop.getParent(), "Preparing...", Snackbar.LENGTH_SHORT).show();
-                imageButtonPlayStop.setImageResource(R.drawable.ic_preparing);
-                Log.e(TAG, "State Preparing");
                 break;
             default:
                 Log.e(TAG, "Default Unknown state");
                 break;
         }
 //        Log.e(TAG, "PLayer state changed");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.refreshCurrentSong();
+    }
+
+    private void refreshCurrentSong() {
+
+        CurrentStation currentStation = CurrentStation.build();
+
+        if (currentStation != null) {
+            textViewTitle.setText(currentStation.getName());
+            textViewText.setText(currentStation.getCtqueryString());
+            if (currentStation.getLogo() != null) {
+                Glide.with(this)
+                        .load(currentStation.getLogo())
+                        .into(imageViewLogo);
+            }
+
+            imageButtonPlayStop.setImageResource(R.drawable.ic_preparing);
+            Log.e(TAG, "State Preparing");
+        }
     }
 
     @Override

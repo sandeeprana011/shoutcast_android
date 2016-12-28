@@ -11,7 +11,7 @@ import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.zilideus.jukebox.flags.Flags;
+import com.zilideus.jukebox.model.CurrentStation;
 import com.zilideus.jukebox.model.Station;
 import com.zilideus.jukebox.network.DownloadContent;
 
@@ -40,16 +40,20 @@ public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Station, Void, A
         imageButtonPlay = (ImageButton) activity.findViewById(R.id
                 .but_media_play);
 
-        Flags.SONG_TITLE = station.getName();
-        Flags.SONG_DESCRIPTION = station.getCtqueryString();
+        CurrentStation currentStation = new CurrentStation(station);
+        currentStation.save();
 
-        Flags.SONG_IMAGE_URL = station.getLogo();
-        Flags.SONG_LISTENERS = station.getLc();
-        Flags.SONG_ID = station.getStationId();
+
+//        Flags.SONG_TITLE = station.getName();
+//        Flags.SONG_DESCRIPTION = station.getCtqueryString();
+//
+//        Flags.SONG_IMAGE_URL = station.getLogo();
+//        Flags.SONG_LISTENERS = station.getLc();
+//        Flags.SONG_ID = station.getStationId();
 
         if (textDesc != null && textTitle != null) {
-            textDesc.setText(station.getCtqueryString());
-            textTitle.setText(station.getName());
+            textDesc.setText(currentStation.getCtqueryString());
+            textTitle.setText(currentStation.getName());
         }
     }
 

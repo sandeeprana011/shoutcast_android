@@ -10,15 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sandeeprana on 20/10/15.
+ * Created by sandeeprana on 27/12/16.
+ * License is only applicable to individuals and non-profits
+ * and that any for-profit company must
+ * purchase a different license, and create
+ * a second commercial license of your
+ * choosing for companies
  */
-public class Station extends SugarRecord {
+
+public class CurrentStation extends SugarRecord {
+
+    @Unique
+    private String key;
     private String name;
     private String brbitrate;
     private String ctquerystring;
     private String genre;
-
-    @Unique
     private String stationid;
     private String lc;
     private String mt;
@@ -32,14 +39,34 @@ public class Station extends SugarRecord {
     private ArrayList<Uri> uriArrayList;
 
 
-    public Station() {
+    public CurrentStation() {
+        this.key = "121";
+    }
 
+    public CurrentStation(Station station) {
+        this.key = "121";
+        this.name = station.getName();
+        this.brbitrate = station.getBrbitrate();
+        this.ctquerystring = station.getCtqueryString();
+        this.genre = station.getGenre();
+        this.stationid = station.getStationId();
+        this.lc = station.getLc();
+        this.mt = station.getMt();
+        this.logo = station.getLogo();
+        this.ml = station.getMl();
+        this.genre2 = station.getGenre2();
+        this.genre3 = station.getGenre3();
+        this.cst = station.getCst();
     }
 
     public static boolean isFavourite(String stationid) {
         if (stationid != null && !stationid.equals("")) {
             List<Station> stationList = Station.find(Station.class, " stationid=?", stationid);
-            return stationList != null && stationList.size() > 0;
+            if (stationList != null && stationList.size() > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } else
             return false;
     }
@@ -55,6 +82,38 @@ public class Station extends SugarRecord {
         } else {
             return null;
         }
+    }
+
+    public static CurrentStation build() {
+        List<CurrentStation> listStations = CurrentStation.find(CurrentStation.class, " KEY=121", null);
+        if (listStations != null && listStations.size() > 0) {
+            return listStations.get(0);
+        } else {
+            return null;
+        }
+    }
+
+//    @Override
+//    public static long save(CurrentStation station) {
+//        station.setId(121L);
+//        return save(station);
+//    }
+
+    public Station getStation() {
+        Station station = new Station();
+        station.setName(this.name);
+        station.setBrbitrate(this.brbitrate);
+        station.setCtqueryString(this.ctquerystring);
+        station.setGenre(this.genre);
+        station.setStationId(this.stationid);
+        station.setLc(this.lc);
+        station.setMt(this.mt);
+        station.setLogo(this.logo);
+        station.setMl(this.ml);
+        station.setGenre2(this.genre2);
+        station.setGenre3(this.genre3);
+        station.setCst(this.cst);
+        return station;
     }
 
     public String getName() {
@@ -163,7 +222,7 @@ public class Station extends SugarRecord {
 
     public boolean isFavourite() {
         if (this.getStationId() != null && !this.getStationId().equals("")) {
-            List<Station> stationList = Station.find(Station.class, " STATIONID=?", this.getStationId());
+            List<Station> stationList = Station.find(Station.class, " stationid=?", this.getStationId());
             if (stationList != null && stationList.size() > 0) {
                 this.setId(stationList.get(0).getId());
                 return true;
@@ -176,9 +235,8 @@ public class Station extends SugarRecord {
 
     @Override
     public long save() {
-        if (this.getStationId() != null && !this.getStationId().equals("")) {
-            return super.save();
-        } else return -1;
-
+        this.setId(121L);
+        this.key = "121";
+        return super.save();
     }
 }

@@ -3,6 +3,7 @@ package com.zilideus.jukebox;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import com.orm.SugarContext;
 
@@ -22,7 +23,8 @@ public class MainApplication extends MultiDexApplication {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(base));
+            super.attachBaseContext(base);
+
         MultiDex.install(this);
     }
 
@@ -30,11 +32,12 @@ public class MainApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         SugarContext.init(this);
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("file:///android_asset/fonts/futura_regular.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        );
+//        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/futura_regular.ttf");
+//        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/futura_thin.ttf");
+//        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/futura_bold.ttf");
+        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/Quicksand-Bold.ttf");
+//        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/FuturaMedium.ttf");
+
     }
 
     @Override

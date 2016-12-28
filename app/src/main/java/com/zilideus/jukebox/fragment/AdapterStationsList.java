@@ -1,7 +1,6 @@
 package com.zilideus.jukebox.fragment;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -136,8 +135,8 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
             this.stationList.clear();
             this.stationList.addAll(stationList);
             this.notifyDataSetChanged();
-        }else {
-            Log.e("Null","Stations List");
+        } else {
+            Log.e("Null", "Stations List");
         }
     }
 

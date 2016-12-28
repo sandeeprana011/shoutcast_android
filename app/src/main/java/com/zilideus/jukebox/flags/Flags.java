@@ -13,9 +13,11 @@ public class Flags {
     public static int AUDIO_SESSION_ID;
     public static int STATE;
 
-    public static String SONG_DESCRIPTION;
-    public static String SONG_TITLE;
-    public static String SONG_ID = null;
-    public static String SONG_IMAGE_URL = null;
-    public static String SONG_LISTENERS = null;
+//    public static String SONG_DESCRIPTION;
+//    public static String SONG_TITLE;
+//    public static String SONG_ID = null;
+//    public static String SONG_IMAGE_URL = null;
+//    public static String SONG_LISTENERS = null;
+
+
 }
