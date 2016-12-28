@@ -64,8 +64,8 @@ public class Home extends Fragment implements View.OnClickListener {
             }
         }
 
-        onUpdateUI();
-
+//        onUpdateUI();
+        this.onViewCreated();
 
     }
 
@@ -156,6 +156,38 @@ public class Home extends Fragment implements View.OnClickListener {
         CurrentStation currentStation = CurrentStation.build();
         if (currentStation != null) {
             Station cs = currentStation.getStation();
+            if (cs.getLogo() != null && imageLogoBack != null) {
+                Glide.with(this)
+                        .load(cs.getLogo())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.music)
+                        .into(imageLogoBack);
+
+            }
+            if (cs.getName() != null) {
+                textTitle.setText(cs.getName());
+                textDesc.setText(cs.getCtqueryString());
+                textListenersOnline.setText(cs.getLc() + " peoples are listening to this channel.");
+            }
+            if (cs.getStationId() != null) {
+                imageViewIsFavourite.setVisibility(View.VISIBLE);
+                if (cs.getStationId() != null && !cs.getStationId().equals("")) {
+                    if (cs.isFavourite()) {
+                        imageViewIsFavourite.setImageResource(R.drawable.favourite);
+                    } else {
+                        imageViewIsFavourite.setImageResource(R.drawable.favourite_grey);
+                    }
+                } else {
+                    imageViewIsFavourite.setImageResource(R.drawable.favourite_grey);
+                }
+            }
+        }
+    }
+
+    public void onViewCreated() {
+        Station cs = Station.getStationRandom();
+        if (cs != null) {
+//            Station cs = currentStation.getStation();
             if (cs.getLogo() != null && imageLogoBack != null) {
                 Glide.with(this)
                         .load(cs.getLogo())

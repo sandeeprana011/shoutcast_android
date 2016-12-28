@@ -3,12 +3,8 @@ package com.zilideus.jukebox;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
-import android.util.Log;
 
 import com.orm.SugarContext;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by sandeeprana on 14/12/16.
@@ -23,7 +19,7 @@ public class MainApplication extends MultiDexApplication {
 
     @Override
     protected void attachBaseContext(Context base) {
-            super.attachBaseContext(base);
+        super.attachBaseContext(base);
 
         MultiDex.install(this);
     }
@@ -31,7 +27,7 @@ public class MainApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        SugarContext.init(this);
+        SugarContext.init(getApplicationContext());
 //        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/futura_regular.ttf");
 //        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/futura_thin.ttf");
 //        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/futura_bold.ttf");

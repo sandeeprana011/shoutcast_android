@@ -57,6 +57,14 @@ public class Station extends SugarRecord {
         }
     }
 
+    public static Station getStationRandom() {
+        List<Station> list = Station.listAll(Station.class);
+        if (list != null && list.size() > 0) {
+            return list.get(0);
+        } else
+            return null;
+    }
+
     public String getName() {
         return name;
     }

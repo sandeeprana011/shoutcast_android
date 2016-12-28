@@ -22,6 +22,7 @@ public class CurrentStation extends SugarRecord {
 
     @Unique
     private String key;
+
     private String name;
     private String brbitrate;
     private String ctquerystring;
@@ -44,6 +45,7 @@ public class CurrentStation extends SugarRecord {
     }
 
     public CurrentStation(Station station) {
+//        this.setId(121L);
         this.key = "121";
         this.name = station.getName();
         this.brbitrate = station.getBrbitrate();
@@ -71,21 +73,16 @@ public class CurrentStation extends SugarRecord {
             return false;
     }
 
-    public static Station getStation(String stationid) {
-        if (stationid != null && !stationid.equals("")) {
-            List<Station> stationList = Station.find(Station.class, " stationid=?", stationid);
-            if (stationList != null && stationList.size() > 0) {
-                return stationList.get(0);
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+    public static CurrentStation getCurrentStation() {
+//        List<Station> listStations = Station.listAll(Station.class);
+        List<CurrentStation> list = CurrentStation.listAll(CurrentStation.class);
+        if (list != null && list.size() > 0) {
+            return list.get(0);
+        } else return null;
     }
 
     public static CurrentStation build() {
-        List<CurrentStation> listStations = CurrentStation.find(CurrentStation.class, " KEY=121", null);
+        List<CurrentStation> listStations = CurrentStation.find(CurrentStation.class, " KEY=?", "121");
         if (listStations != null && listStations.size() > 0) {
             return listStations.get(0);
         } else {

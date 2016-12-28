@@ -8,8 +8,8 @@ android {
         applicationId "com.zilideus.jukebox"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 11
-        versionName "Christmas 2016 | 11"
+        versionCode 12
+        versionName "Developer Birthday 29th Dec 2016 | 12"
         multiDexEnabled true
     }
     buildTypes {

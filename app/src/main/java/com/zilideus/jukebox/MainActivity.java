@@ -132,6 +132,8 @@ public class MainActivity extends AppCompatActivity
         bindService(intent, connectionService, BIND_AUTO_CREATE);
 
 
+        this.onCreatePlayer();
+
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, null, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -378,6 +380,24 @@ public class MainActivity extends AppCompatActivity
             }
 
             imageButtonPlayStop.setImageResource(R.drawable.ic_preparing);
+            Log.e(TAG, "State Preparing");
+        }
+    }
+
+    private void onCreatePlayer() {
+
+        Station currentStation = Station.getStationRandom();
+
+        if (currentStation != null) {
+            textViewTitle.setText(currentStation.getName());
+            textViewText.setText(currentStation.getCtqueryString());
+            if (currentStation.getLogo() != null) {
+                Glide.with(this)
+                        .load(currentStation.getLogo())
+                        .into(imageViewLogo);
+            }
+
+            imageButtonPlayStop.setImageResource(R.drawable.ic_idle);
             Log.e(TAG, "State Preparing");
         }
     }

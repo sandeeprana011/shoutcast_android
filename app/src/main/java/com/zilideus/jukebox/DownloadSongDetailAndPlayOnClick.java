@@ -18,6 +18,7 @@ import com.zilideus.jukebox.network.DownloadContent;
 import java.util.ArrayList;
 
 public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Station, Void, ArrayList<Uri>> {
+    private static final String TAG = "DOWNLAODSONGDETAIL";
     ImageButton imageButtonPlay;
     String file;
     private Station station;
@@ -41,15 +42,9 @@ public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Station, Void, A
                 .but_media_play);
 
         CurrentStation currentStation = new CurrentStation(station);
-        currentStation.save();
+//        currentStation.save();
+        CurrentStation.save(currentStation);
 
-
-//        Flags.SONG_TITLE = station.getName();
-//        Flags.SONG_DESCRIPTION = station.getCtqueryString();
-//
-//        Flags.SONG_IMAGE_URL = station.getLogo();
-//        Flags.SONG_LISTENERS = station.getLc();
-//        Flags.SONG_ID = station.getStationId();
 
         if (textDesc != null && textTitle != null) {
             textDesc.setText(currentStation.getCtqueryString());
