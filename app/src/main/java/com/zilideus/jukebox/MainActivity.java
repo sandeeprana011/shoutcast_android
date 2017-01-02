@@ -259,6 +259,15 @@ public class MainActivity extends AppCompatActivity
                 myServiceEngine.stop();
                 imageView.setEnabled(false);
                 imageView.setImageResource(android.R.drawable.ic_media_play);
+            } else {
+                /**
+                 * If there is no song playing
+                 */
+                CurrentStation currentStation = CurrentStation.getCurrentStation();
+                if (currentStation != null) {
+                    DownloadSongDetailAndPlayOnClick downloadSongDetailAndPlayOnClick = new DownloadSongDetailAndPlayOnClick(currentStation.getStation(), this);
+                    downloadSongDetailAndPlayOnClick.execute();
+                }
             }
         }
     }
@@ -284,16 +293,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        try {
-            unbindService(connectionService);
-        } catch (Exception ex) {
-            Log.e("error", "connection error");
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        try {
+            unbindService(connectionService);
+        } catch (Exception ex) {
+            Log.e("error", "connection error");
+        }
     }
 
     @Override
@@ -373,11 +382,16 @@ public class MainActivity extends AppCompatActivity
         if (currentStation != null) {
             textViewTitle.setText(currentStation.getName());
             textViewText.setText(currentStation.getCtqueryString());
-            if (currentStation.getLogo() != null) {
+//            if (currentStation.getLogo() != null) {
+            try {
                 Glide.with(this)
                         .load(currentStation.getLogo())
+                        .error(R.drawable.music)
                         .into(imageViewLogo);
+            } catch (IllegalArgumentException ex) {
+                Log.e(TAG, ex.getMessage() + "");
             }
+//            }
 
             imageButtonPlayStop.setImageResource(R.drawable.ic_preparing);
             Log.e(TAG, "State Preparing");
@@ -391,11 +405,12 @@ public class MainActivity extends AppCompatActivity
         if (currentStation != null) {
             textViewTitle.setText(currentStation.getName());
             textViewText.setText(currentStation.getCtqueryString());
-            if (currentStation.getLogo() != null) {
-                Glide.with(this)
-                        .load(currentStation.getLogo())
-                        .into(imageViewLogo);
-            }
+//            if (currentStation.getLogo() != null) {
+            Glide.with(this)
+                    .load(currentStation.getLogo())
+                    .error(R.drawable.music)
+                    .into(imageViewLogo);
+//            }
 
             imageButtonPlayStop.setImageResource(R.drawable.ic_idle);
             Log.e(TAG, "State Preparing");

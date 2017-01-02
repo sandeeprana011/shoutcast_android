@@ -181,7 +181,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
                             downloadSongDetailAndPlayOnclick.cancel(true);
                         }
                         downloadSongDetailAndPlayOnclick = new DownloadSongDetailAndPlayOnClick(station, (MainActivity) context);
-                        downloadSongDetailAndPlayOnclick.execute(station);
+                        downloadSongDetailAndPlayOnclick.execute();
                     }
                 }
             });

@@ -163,6 +163,10 @@ public class Home extends Fragment implements View.OnClickListener {
                         .placeholder(R.drawable.music)
                         .into(imageLogoBack);
 
+            } else {
+                Glide.with(this)
+                        .load(R.drawable.music)
+                        .into(imageLogoBack);
             }
             if (cs.getName() != null) {
                 textTitle.setText(cs.getName());

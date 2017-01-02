@@ -17,7 +17,7 @@ import com.zilideus.jukebox.network.DownloadContent;
 
 import java.util.ArrayList;
 
-public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Station, Void, ArrayList<Uri>> {
+public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Void, Void, ArrayList<Uri>> {
     private static final String TAG = "DOWNLAODSONGDETAIL";
     ImageButton imageButtonPlay;
     String file;
@@ -53,9 +53,9 @@ public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Station, Void, A
     }
 
     @Override
-    protected ArrayList<Uri> doInBackground(Station... params) {
+    protected ArrayList<Uri> doInBackground(Void... params) {
         ArrayList<String> m3u = DownloadContent.lineArray("http://yp.shoutcast" +
-                ".com/" + "/sbin/tunein-station.m3u" + "?id=" + params[0].getStationId());
+                ".com/" + "/sbin/tunein-station.m3u" + "?id=" + this.station.getStationId());
         ArrayList<Uri> uriArrayList = new ArrayList<Uri>();
 
         for (int i = 0; i < m3u.size(); i++) {
@@ -89,7 +89,6 @@ public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Station, Void, A
                 } catch (Exception ex) {
                     Log.e("Exception service", "while preparing for" + getClass().getName());
                 }
-
             }
 
             @Override

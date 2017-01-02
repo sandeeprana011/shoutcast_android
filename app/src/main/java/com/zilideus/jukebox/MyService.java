@@ -33,6 +33,7 @@ public class MyService extends Service {
     private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
     private static final int BUFFER_SEGMENT_COUNT = 256;
     private static final int BROADCAST_INT = 589;
+    private static final String TAG = "MyService";
     private static int NOTIFICATION_ID = 48;
     private String stationTitle, urlStation, urlStationImage, bitrate, genre;
     private IBinder binder = new ServiceBinder();
@@ -59,11 +60,8 @@ public class MyService extends Service {
             public void onReceive(Context context, Intent intent) {
                 Exo.getPlayer().stop();
                 Exo.getPlayer().release();
-//			mNotificationManager.cancel(NOTIFICATION_ID);
                 mNotificationManager.cancelAll();
-//			System.exit(0);
                 exit();
-
             }
         };
 //
@@ -90,7 +88,7 @@ public class MyService extends Service {
 
             @Override
             public void onPlayWhenReadyCommitted() {
-
+                Log.e(TAG, "ONPlay Ready Commited");
             }
 
             @Override
@@ -181,15 +179,14 @@ public class MyService extends Service {
     public void onDestroy() {
         super.onDestroy();
         stop();
-        if (mNotificationManager != null) {
-            mNotificationManager.cancelAll();
-        }
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception ex) {
             Log.e("Exception", " broadcast receiver " + ex.getMessage());
         }
-
+        if (mNotificationManager != null) {
+            mNotificationManager.cancelAll();
+        }
 //	  mNotificationManager.cancelAll();
     }
 
