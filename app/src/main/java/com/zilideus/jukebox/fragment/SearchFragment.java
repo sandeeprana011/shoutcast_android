@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,11 +25,12 @@ import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.flags.Url_format;
 import com.zilideus.jukebox.model.Station;
 import com.zilideus.jukebox.parser.ParserXMLtoJSON;
-import com.zilideus.jukebox.utilities.FlingBehavior;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class SearchFragment extends Fragment implements View.OnClickListener, FavouriteClickCallbacks {
     public static final String TITLE = "search_fragment";
@@ -54,10 +56,12 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
         adapterStationsList.setListenerFavouriteCallbacks(this);
         recyclerViewSearch.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewSearch.setAdapter(adapterStationsList);
+        recyclerViewSearch.setNestedScrollingEnabled(false);
 
-//        OverScrollDecoratorHelper.setUpOverScroll((ScrollView) view);
-        FlingBehavior behavior = new FlingBehavior();
-//        ((ScrollView) view).setScroll
+        OverScrollDecoratorHelper.setUpOverScroll((ScrollView) view);
+//        FlingBehavior behavior = new FlingBehavior();
+//        recyclerViewSearch.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+//        ((ScrollView) view).setOverScrollMode(View.OVER_SCROLL_ALWAYS);
 
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
