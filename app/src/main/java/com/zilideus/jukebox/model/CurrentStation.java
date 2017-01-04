@@ -75,7 +75,7 @@ public class CurrentStation extends SugarRecord {
 
     public static CurrentStation getCurrentStation() {
 //        List<Station> listStations = Station.listAll(Station.class);
-        List<CurrentStation> list = CurrentStation.listAll(CurrentStation.class);
+        List<CurrentStation> list = CurrentStation.find(CurrentStation.class, " key=121", null);
         if (list != null && list.size() > 0) {
             return list.get(0);
         } else return null;
@@ -232,8 +232,16 @@ public class CurrentStation extends SugarRecord {
 
     @Override
     public long save() {
-        this.setId(121L);
+//        this.setId(121L);
         this.key = "121";
         return super.save();
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

@@ -95,6 +95,30 @@ public class MainActivity extends AppCompatActivity
         prepareDatabase();
 
 
+        prepareServiceAndPlayer();
+//	  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//	  fab.setOnClickListener(new View.OnClickListener() {
+//		 @Override
+//		 public void onClick(View view) {
+////			prepare();
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        Intent intent = new Intent(context, MyService.class);
+        bindService(intent, connectionService, BIND_AUTO_CREATE);
+
+
+        this.onCreatePlayer();
+
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, null, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.setDrawerListener(toggle);
+//        toggle.syncState();
+
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void prepareServiceAndPlayer() {
         connectionService = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -122,26 +146,6 @@ public class MainActivity extends AppCompatActivity
         } catch (Throwable t) {
             Log.w("LOG", "Cannot set the ICY URLStreamHandler - maybe already set ? - " + t);
         }
-//	  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//	  fab.setOnClickListener(new View.OnClickListener() {
-//		 @Override
-//		 public void onClick(View view) {
-////			prepare();
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        Intent intent = new Intent(context, MyService.class);
-        bindService(intent, connectionService, BIND_AUTO_CREATE);
-
-
-        this.onCreatePlayer();
-
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, null, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void askForRuntimePermissions() {
@@ -269,6 +273,9 @@ public class MainActivity extends AppCompatActivity
                     downloadSongDetailAndPlayOnClick.execute();
                 }
             }
+        } else {
+            Log.e(TAG, "my serviceEngine is null on playpause.");
+            prepareServiceAndPlayer();
         }
     }
 
@@ -355,7 +362,8 @@ public class MainActivity extends AppCompatActivity
                 break;
             case ExoPlayer.STATE_IDLE:
                 rotateAnimation.cancel();
-                imageButtonPlayStop.setImageResource(R.drawable.ic_idle);
+                imageButtonPlayStop.setEnabled(true);
+                imageButtonPlayStop.setImageResource(R.drawable.ic_play);
                 Log.e(TAG, "State Idle");
                 break;
             case ExoPlayer.STATE_PREPARING:

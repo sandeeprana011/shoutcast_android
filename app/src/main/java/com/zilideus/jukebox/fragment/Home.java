@@ -3,16 +3,20 @@ package com.zilideus.jukebox.fragment;
 import android.content.Context;
 import android.media.audiofx.Visualizer;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.exoplayer.ExoPlayer;
 import com.zilideus.jukebox.Exo;
 import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.VisualizerView;
@@ -23,6 +27,7 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class Home extends Fragment implements View.OnClickListener {
     public static final String TITLE = "home_fragment";
+    private static final String TAG = "HomeFragment";
     Context context;
     private Visualizer visualizer;
     private VisualizerView visualizerView;
@@ -186,6 +191,7 @@ public class Home extends Fragment implements View.OnClickListener {
                 }
             }
         }
+
     }
 
     public void onViewCreated() {
@@ -224,5 +230,62 @@ public class Home extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         this.onUpdateUI();
+        this.onStateChanged();
     }
+
+
+    public void onStateChanged() {
+
+        RotateAnimation rotateAnimation;
+
+        rotateAnimation = new RotateAnimation(0f, 360f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnimation.setDuration(10000);
+        rotateAnimation.setRepeatCount(Animation.INFINITE);
+
+
+        ImageView imageButtonPlayStop = (ImageView) getActivity().findViewById(R.id.but_media_play);
+
+        if (imageButtonPlayStop == null) return;
+        switch (Exo.getPlayer().getPlaybackState()) {
+            case ExoPlayer.STATE_READY:
+                Log.e(TAG, "State Ready");
+                imageButtonPlayStop.startAnimation(rotateAnimation);
+                rotateAnimation.cancel();
+                rotateAnimation.reset();
+                imageButtonPlayStop.setEnabled(true);
+                imageButtonPlayStop.setImageResource(R.drawable.ic_stop);
+                break;
+            case ExoPlayer.STATE_BUFFERING:
+                imageButtonPlayStop.setEnabled(false);
+                imageButtonPlayStop.setImageResource(R.drawable.ic_buffering);
+                imageButtonPlayStop.setAnimation(rotateAnimation);
+                Snackbar.make((View) imageButtonPlayStop.getParent(), "Buffering...", Snackbar.LENGTH_SHORT).show();
+//                rotateAnimation.start();
+                imageButtonPlayStop.startAnimation(rotateAnimation);
+
+                Log.e(TAG, "State Buffering");
+                break;
+            case ExoPlayer.STATE_ENDED:
+                rotateAnimation.cancel();
+                imageButtonPlayStop.setEnabled(true);
+                imageButtonPlayStop.setImageResource(R.drawable.ic_play);
+                Log.e(TAG, "State Ended");
+                break;
+            case ExoPlayer.STATE_IDLE:
+                rotateAnimation.cancel();
+                imageButtonPlayStop.setEnabled(true);
+                imageButtonPlayStop.setImageResource(R.drawable.ic_play);
+                Log.e(TAG, "State Idle");
+                break;
+            case ExoPlayer.STATE_PREPARING:
+                Snackbar.make((View) imageButtonPlayStop.getParent(), "Preparing...", Snackbar.LENGTH_SHORT).show();
+                break;
+            default:
+                Log.e(TAG, "Default Unknown state");
+                break;
+        }
+//        Log.e(TAG, "PLayer state changed");
+    }
+
 }

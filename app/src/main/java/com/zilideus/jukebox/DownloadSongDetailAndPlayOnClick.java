@@ -41,9 +41,30 @@ public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Void, Void, Arra
         imageButtonPlay = (ImageButton) activity.findViewById(R.id
                 .but_media_play);
 
-        CurrentStation currentStation = new CurrentStation(station);
+        CurrentStation currentStation = CurrentStation.getCurrentStation();
+        if (currentStation == null) {
+            currentStation = new CurrentStation(station);
+            CurrentStation.save(currentStation);
+        } else {
+            currentStation.setKey("121");
+            currentStation.setName(station.getName());
+            currentStation.setCst(station.getCst());
+            currentStation.setBrbitrate(station.getBrbitrate());
+            currentStation.setCtqueryString(station.getCtqueryString());
+            currentStation.setGenre(station.getGenre());
+            currentStation.setGenre3(station.getGenre3());
+            currentStation.setGenre2(station.getGenre2());
+            currentStation.setLc(station.getLc());
+            currentStation.setLogo(station.getLogo());
+            currentStation.setMl(station.getMl());
+            currentStation.setUriArrayList(station.getUriArrayList());
+            currentStation.setMt(station.getMt());
+            currentStation.setStationId(station.getStationId());
+
+            currentStation.save();
+        }
+
 //        currentStation.save();
-        CurrentStation.save(currentStation);
 
 
         if (textDesc != null && textTitle != null) {
