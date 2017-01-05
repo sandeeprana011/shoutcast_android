@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity
 
 
         String urlToSearch = new Url_format().getStationByKeywords(Flags.DEV_ID,
-                editText.getText().toString(), "30", null, null);
+                editText.getText().toString(), "0", "50", null, null);
 
         viewPager.setCurrentItem(2);
 

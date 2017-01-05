@@ -30,10 +30,13 @@ import org.json.JSONException;
 
 import java.io.IOException;
 
+import me.everything.android.ui.overscroll.IOverScrollDecor;
+import me.everything.android.ui.overscroll.IOverScrollStateListener;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class SearchFragment extends Fragment implements View.OnClickListener, FavouriteClickCallbacks {
     public static final String TITLE = "search_fragment";
+    private static final String TAG = "SearchFragment";
     private EditText editTextSearchStrin;
     private Button buttonSearch;
     private RecyclerView recyclerViewSearch;
@@ -58,7 +61,13 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
         recyclerViewSearch.setAdapter(adapterStationsList);
         recyclerViewSearch.setNestedScrollingEnabled(false);
 
-        OverScrollDecoratorHelper.setUpOverScroll((ScrollView) view);
+        IOverScrollDecor decor = OverScrollDecoratorHelper.setUpOverScroll((ScrollView) view);
+        decor.setOverScrollStateListener(new IOverScrollStateListener() {
+            @Override
+            public void onOverScrollStateChange(IOverScrollDecor decor, int oldState, int newState) {
+                Log.e(TAG, String.format("%d,%d", oldState, newState));
+            }
+        });
 //        FlingBehavior behavior = new FlingBehavior();
 //        recyclerViewSearch.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
 //        ((ScrollView) view).setOverScrollMode(View.OVER_SCROLL_ALWAYS);
@@ -91,7 +100,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
         if (recyclerViewSearch != null) {
 
             String urlToSearch = new Url_format().getStationByKeywords(Flags.DEV_ID,
-                    editTextSearchStrin.getText().toString(), "30", null, null);
+                    editTextSearchStrin.getText().toString(), "0", "50", null, null);
             progressBar.setVisibility(View.VISIBLE);
 
             StringRequest request = new StringRequest(Request.Method.GET,

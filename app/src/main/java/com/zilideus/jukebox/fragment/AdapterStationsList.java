@@ -140,6 +140,12 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
         }
     }
 
+    public void addMoreStations(List<Station> stationList) {
+        if (stationList != null) {
+            this.stationList.addAll(stationList);
+        }
+    }
+
     public void removeItemAndNotify(int adapterPosition) {
         this.stationList.remove(adapterPosition);
         this.notifyDataSetChanged();
@@ -212,4 +218,5 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
 
 
     }
+
 }

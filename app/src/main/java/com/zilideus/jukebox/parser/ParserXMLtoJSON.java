@@ -142,9 +142,9 @@ public class ParserXMLtoJSON {
     }
 
 
-    public StationList getStationByKeySearch(String devID, String search, String limit, String bitrate, String mediaType) throws IOException, JSONException {
+    public StationList getStationByKeySearch(String devID, String search, String offset, String limit, String bitrate, String mediaType) throws IOException, JSONException {
         Url_format uri_format = new Url_format();
-        String data = DownloadContent.downloadContent(uri_format.getStationByKeywords(devID, search, limit,
+        String data = DownloadContent.downloadContent(uri_format.getStationByKeywords(devID, search, offset, limit,
                 bitrate,
                 mediaType));
 
