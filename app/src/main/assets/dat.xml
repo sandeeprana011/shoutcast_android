@@ -1,110 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <stationlist>
     <tunein base="/sbin/tunein-station.pls" base-m3u="/sbin/tunein-station.m3u"
-            base-xspf="/sbin/tunein-station.xspf"/>
-    <station name="COOLfahrenheit 93" br="48" ct="-" genre="Easy Listening" id="175821"
-             lc="21564" mt="audio/mpeg"/>
+        base-xspf="/sbin/tunein-station.xspf" />
+    <station name="COOLfahrenheit 93" br="48" ct="-" genre="Easy Listening" id="175821" lc="21564"
+        mt="audio/mpeg" />
     <station name="..:: RUSSIAN HIT - PYCCKUU XUT ::.." br="48" ct="- // : 26336" genre="Pop"
-             id="160882" lc="15459" mt="audio/aacp"/>
-    <station name="Hitradio OE3" br="128" ct="Ich &amp; Ich - So Soll Es Bleiben" genre="Pop" id="195363"
-             lc="9779" mt="audio/mpeg"/>
-    <station name="Dance Wave!" br="160" ct="All about Dance from 2000 till today!" genre="Dance" id="786481"
-             lc="8676" mt="audio/mpeg"/>
+        id="160882" lc="15459" mt="audio/aacp" />
+    <station name="Hitradio OE3" br="128" ct="Ich &amp; Ich - So Soll Es Bleiben" genre="Pop"
+        id="195363" lc="9779" mt="audio/mpeg" />
+    <station name="Dance Wave!" br="160" ct="All about Dance from 2000 till today!" genre="Dance"
+        id="786481" lc="8676" mt="audio/mpeg" />
     <station name="Magic FM Romania - www.magicfm.ro - Muzica Inimii Tale" br="32"
-             genre="Light Rock" id="1660760" lc="7923" mt="audio/aacp"/>
-    <station name="Adom 106.3FM Powered by Mediagh" br="40" ct="Adom 106.3FM Live" genre="Misc" id="156666"
-             lc="6854" mt="audio/mpeg"/>
-    <station name="idobi Radio" br="128" ct="Relient K - Who I Am Hates Who I`ve Been" genre="Alternative" id="914897"
-             lc="6706" mt="audio/mpeg"/>
-    <station name="COOLfahrenheit 93" br="64" ct="-" genre="Easy Listening" id="173239"
-             lc="6317" mt="audio/aacp"/>
+        genre="Light Rock" id="1660760" lc="7923" mt="audio/aacp" />
+    <station name="Adom 106.3FM Powered by Mediagh" br="40" ct="Adom 106.3FM Live" genre="Misc"
+        id="156666" lc="6854" mt="audio/mpeg" />
+    <station name="idobi Radio" br="128" ct="Relient K - Who I Am Hates Who I`ve Been"
+        genre="Alternative" id="914897" lc="6706" mt="audio/mpeg" />
+    <station name="COOLfahrenheit 93" br="64" ct="-" genre="Easy Listening" id="173239" lc="6317"
+        mt="audio/aacp" />
     <station name="RADIOSCOOP HUNGARY | www.radioscoop.hu" br="128" genre="Top 40" id="719284"
-             lc="6313" mt="audio/mpeg"/>
-    <station name="Radio ZU Live" br="48" ct="Let`s do the ZU" genre="Pop" id="496791"
-             lc="6223" mt="audio/aacp"/>
+        lc="6313" mt="audio/mpeg" />
+    <station name="Radio ZU Live" br="48" ct="Let`s do the ZU" genre="Pop" id="496791" lc="6223"
+        mt="audio/aacp" />
     <station name="..:: RUSSIAN HIT - PYCCKUU XUT ::.." br="48" ct="- // : 26336" genre="Pop"
-             id="488943" lc="5584" mt="audio/aacp"/>
-    <station name="KissFM Romania - www.kissfm.ro" br="32" ct="GORGON CITY - IMAGINATION" genre="Top 40"
-             id="528480" lc="5533" mt="audio/aacp"/>
-    <station name="..:: RUSSIAN HIT - PYCCKUU XUT ::.." br="128" ct="-" genre="Pop"
-             id="396932" lc="4967" mt="audio/mpeg"/>
+        id="488943" lc="5584" mt="audio/aacp" />
+    <station name="KissFM Romania - www.kissfm.ro" br="32" ct="GORGON CITY - IMAGINATION"
+        genre="Top 40" id="528480" lc="5533" mt="audio/aacp" />
+    <station name="..:: RUSSIAN HIT - PYCCKUU XUT ::.." br="128" ct="-" genre="Pop" id="396932"
+        lc="4967" mt="audio/mpeg" />
     <station name="ABC Lounge" br="128" ct="Papik - Somewhere" genre="Jazz" genre2="Easy Listening"
-             genre3="Lounge" id="709809"
-             lc="3716"
-             logo="http://i.radionomy.com/documents/radio/e4e1f43743504d5da0c2a93b4d23f3fd_635398241856110458.s125.jpeg" mt="audio/mpeg"/>
-    <station name="NAXI RADIO 96,9MHz - Beograd - www.naxi.rs" br="64" ct="Opusti se i Uzivaj" genre="Classic Rock"
-             id="160591" lc="3608" mt="audio/mpeg"/>
-    <station name="RAC1. Des de Catalunya per tot el mon" br="48" genre="News" id="235060"
-             lc="3352" mt="audio/mpeg"/>
-    <station name="RAC1. Des de Catalunya per tot el mon" br="48" genre="Pop" id="28853"
-             lc="3290" mt="audio/mpeg"/>
+        genre3="Lounge" id="709809" lc="3716"
+        logo="http://i.radionomy.com/documents/radio/e4e1f43743504d5da0c2a93b4d23f3fd_635398241856110458.s125.jpeg"
+        mt="audio/mpeg" />
+    <station name="NAXI RADIO 96,9MHz - Beograd - www.naxi.rs" br="64" ct="Opusti se i Uzivaj"
+        genre="Classic Rock" id="160591" lc="3608" mt="audio/mpeg" />
+    <station name="RAC1. Des de Catalunya per tot el mon" br="48" genre="News" id="235060" lc="3352"
+        mt="audio/mpeg" />
+    <station name="RAC1. Des de Catalunya per tot el mon" br="48" genre="Pop" id="28853" lc="3290"
+        mt="audio/mpeg" />
     <station name="FM4" br="160" ct="fm4.ORF.at | FM4 Morning Show" genre="Alternative" id="139479"
-             lc="3205" mt="audio/mpeg"/>
-    <station name="RAC1. Des de Catalunya per tot el mon" br="48" genre="News" id="298757"
-             lc="3164" mt="audio/mpeg"/>
+        lc="3205" mt="audio/mpeg" />
+    <station name="RAC1. Des de Catalunya per tot el mon" br="48" genre="News" id="298757" lc="3164"
+        mt="audio/mpeg" />
     <station name="Okay 101.7FM Powered by Mediagh" br="32" genre="Misc" id="188185" lc="2999"
-             mt="audio/mpeg"/>
+        mt="audio/mpeg" />
     <station
         name="[img src='http://user.inlive.co.kr/studio/board/D0483/241947/2012/09/06/346937_123345.09')"
-        br="128" ct="- 50" genre="Misc" id="857938" lc="2972" mt="audio/mpeg"/>
-    <station name="Alex Jones - Infowars.com" br="32" ct="Monday Show Replay - Hr 3" genre="Talk" id="166835"
-             lc="2905" mt="audio/mpeg"/>
-    <station name="KRAL FM" br="64" ct="HAKTAN - YASANMIYOR -" genre="Pop" id="201663"
-             lc="2811" mt="audio/aacp"/>
-    <station name="Enjoy Hits!" br="320" ct="Salico - I'm on Fire (Furnace Mix)" genre="Dance" id="767826"
-             lc="2564" mt="audio/mpeg"/>
+        br="128" ct="- 50" genre="Misc" id="857938" lc="2972" mt="audio/mpeg" />
+    <station name="Alex Jones - Infowars.com" br="32" ct="Monday Show Replay - Hr 3" genre="Talk"
+        id="166835" lc="2905" mt="audio/mpeg" />
+    <station name="KRAL FM" br="64" ct="HAKTAN - YASANMIYOR -" genre="Pop" id="201663" lc="2811"
+        mt="audio/aacp" />
+    <station name="Enjoy Hits!" br="320" ct="Salico - I'm on Fire (Furnace Mix)" genre="Dance"
+        id="767826" lc="2564" mt="audio/mpeg" />
     <station name="KRAL POP" br="64" ct="MURAT DALKILIC - IKI YOL -" genre="Pop" id="31023"
-             lc="2239" mt="audio/aacp"/>
+        lc="2239" mt="audio/aacp" />
     <station name="BlackBeats.FM - finest in blackbeats - powered by surfmusik.de" br="128"
-             genre="R&amp;B and Urban" id="302745" lc="2183" mt="audio/mpeg"/>
-    <station name="Shanson 101.9 Kiev - 128kbps" br="128" ct="VESENIN ANDREY - DAVAY PODNIMEM ZA NAS!" genre="Pop" id="53530"
-             lc="2071" mt="audio/mpeg"/>
+        genre="R&amp;B and Urban" id="302745" lc="2183" mt="audio/mpeg" />
+    <station name="Shanson 101.9 Kiev - 128kbps" br="128"
+        ct="VESENIN ANDREY - DAVAY PODNIMEM ZA NAS!" genre="Pop" id="53530" lc="2071"
+        mt="audio/mpeg" />
     <station name="Radio Romania Actualitati" br="128" genre="Pop" id="9488341" lc="2062"
-             mt="audio/mpeg"/>
-    <station name="Radyo 7" br="80" ct="ÖZCAN DENÝZ - Ýllallah" genre="Misc" id="492362"
-             lc="2051" mt="audio/mpeg"/>
+        mt="audio/mpeg" />
+    <station name="Radyo 7" br="80" ct="ÖZCAN DENÝZ - Ýllallah" genre="Misc" id="492362" lc="2051"
+        mt="audio/mpeg" />
     <station name="ANTENNE BAYERN" br="128" ct="ANTENNE BAYERN - Wetter" genre="Pop" id="403432"
-             lc="2005" mt="audio/mpeg"/>
-    <station name="Web Radio Rio do Oeste na Balada" br="64" ct="Vatra - Jantar" genre="Pop" id="94545"
-             lc="1984" mt="audio/aacp"/>
-    <station name="COOLfahrenheit 93" br="64" ct="- .. (P.S. I Miss You)" genre="Easy Listening" id="208370"
-             lc="1953" mt="audio/aacp"/>
+        lc="2005" mt="audio/mpeg" />
+    <station name="Web Radio Rio do Oeste na Balada" br="64" ct="Vatra - Jantar" genre="Pop"
+        id="94545" lc="1984" mt="audio/aacp" />
+    <station name="COOLfahrenheit 93" br="64" ct="- .. (P.S. I Miss You)" genre="Easy Listening"
+        id="208370" lc="1953" mt="audio/aacp" />
     <station name="SHOW RADYO" br="128" ct="KRIPTO ODASI DEVAM EDECEK -" genre="Pop" id="524473"
-             lc="1944" mt="audio/mpeg"/>
+        lc="1944" mt="audio/mpeg" />
     <station name="Radio Television Caraibes" br="56" genre="News" id="182443" lc="1846"
-             mt="audio/mpeg"/>
-    <station name="Venice Classic Radio Italia" br="128" ct="Antonio Vivaldi (1678-1741) - 'L'amoroso' per violino e orchestra in mi Maggiore RV271 (10:31) {+info: veniceclassicradio.eu}" genre="Classical"
-             id="22146"
-             lc="1762"
-             mt="audio/mpeg"/>
+        mt="audio/mpeg" />
+    <station name="Venice Classic Radio Italia" br="128"
+        ct="Antonio Vivaldi (1678-1741) - 'L'amoroso' per violino e orchestra in mi Maggiore RV271 (10:31) {+info: veniceclassicradio.eu}"
+        genre="Classical" id="22146" lc="1762" mt="audio/mpeg" />
     <station name="Radio Pingvin - Najbolja domaca muzika - Beograd, Srbija" br="64"
-             ct="Minea - Mimo zakona" genre="European" id="204605" lc="1735" mt="audio/mpeg"/>
+        ct="Minea - Mimo zakona" genre="European" id="204605" lc="1735" mt="audio/mpeg" />
     <station name="Otvoreni radio" br="128" genre="Light Rock" id="199951" lc="1693"
-             mt="audio/mpeg"/>
-    <station name="Shanson 101.9 Kiev - 64kbps" br="64" ct="VESENIN ANDREY - DAVAY PODNIMEM ZA NAS!" genre="International"
-             id="18580" lc="1546" mt="audio/mpeg"/>
+        mt="audio/mpeg" />
+    <station name="Shanson 101.9 Kiev - 64kbps" br="64" ct="VESENIN ANDREY - DAVAY PODNIMEM ZA NAS!"
+        genre="International" id="18580" lc="1546" mt="audio/mpeg" />
     <station name="Otvoreni" br="64" ct="TVOJ FEEL GOOD RADIO !" genre="Light Rock" id="9251152"
-             lc="1422" mt="audio/aacp"/>
-    <station name="[font color =#D41A01)    (+_+)b kpop,korea,korean,club" br="128"
-             genre="KPOP" id="33068" lc="1360" mt="audio/mpeg"/>
-    <station name="Rock FM Romania - Classic Rock" br="32" ct="OFFSPRING - SELF ESTEEM" genre="Rock" id="356601"
-             lc="1353" mt="audio/aacp"/>
-    <station name="OE 1" br="160" genre="Classical" id="171321" lc="1271" mt="audio/mpeg"/>
-    <station name="Schlagerparadies - Hier fuehl ich mich wohl mit Schlager und Discofox"
-             br="128" ct="Andreas Biber - Wie Vom Traum Verfuehrt" genre="European" id="156103"
-             lc="1247" mt="audio/mpeg"/>
-    <station name="CHILLOUT LOUNGE RADIO (1.FM TM)" br="128" ct="Moby - Everything That Rises" genre="Lounge"
-             id="351740" lc="1246" mt="audio/mpeg"/>
-    <station name="..:: MEGA RADIO ::.." br="48" ct="FRANKY - WAKE UP // : 2028" genre="Pop" id="653998"
-             lc="1233" mt="audio/aacp"/>
-    <station name="KissFM Romania - www.kissfm.ro" br="96" ct="GORGON CITY - IMAGINATION" genre="Top 40"
-             id="151778" lc="1192" mt="audio/mpeg"/>
-    <station name="RADIO BOB! BOBs Livestream" br="128" ct="www.radiobob.de" genre="Rock" id="541061"
-             lc="1176" mt="audio/mpeg"/>
-    <station name="COOL radio - Beograd" br="64" ct="Aco Pejovic - Amajlija" genre="Folk" id="636007"
-             lc="1070" mt="audio/mpeg"/>
+        lc="1422" mt="audio/aacp" />
+    <station name="[font color =#D41A01)    (+_+)b kpop,korea,korean,club" br="128" genre="KPOP"
+        id="33068" lc="1360" mt="audio/mpeg" />
+    <station name="Rock FM Romania - Classic Rock" br="32" ct="OFFSPRING - SELF ESTEEM" genre="Rock"
+        id="356601" lc="1353" mt="audio/aacp" />
+    <station name="OE 1" br="160" genre="Classical" id="171321" lc="1271" mt="audio/mpeg" />
+    <station name="Schlagerparadies - Hier fuehl ich mich wohl mit Schlager und Discofox" br="128"
+        ct="Andreas Biber - Wie Vom Traum Verfuehrt" genre="European" id="156103" lc="1247"
+        mt="audio/mpeg" />
+    <station name="CHILLOUT LOUNGE RADIO (1.FM TM)" br="128" ct="Moby - Everything That Rises"
+        genre="Lounge" id="351740" lc="1246" mt="audio/mpeg" />
+    <station name="..:: MEGA RADIO ::.." br="48" ct="FRANKY - WAKE UP // : 2028" genre="Pop"
+        id="653998" lc="1233" mt="audio/aacp" />
+    <station name="KissFM Romania - www.kissfm.ro" br="96" ct="GORGON CITY - IMAGINATION"
+        genre="Top 40" id="151778" lc="1192" mt="audio/mpeg" />
+    <station name="RADIO BOB! BOBs Livestream" br="128" ct="www.radiobob.de" genre="Rock"
+        id="541061" lc="1176" mt="audio/mpeg" />
+    <station name="COOL radio - Beograd" br="64" ct="Aco Pejovic - Amajlija" genre="Folk"
+        id="636007" lc="1070" mt="audio/mpeg" />
     <station name="RTL Radio Letzebuerg" br="256" ct="RTL Radio Lëtzebuerg" genre="News" id="180641"
-             lc="1067" mt="audio/mpeg"/>
-    <station name="Ballermann Radio" br="128" ct="Matthias Reim - Hallo Ich Mchte Gern Wissen Wie Es Dir Geht" genre="European" id="17399"
-             lc="1027" mt="audio/mpeg"/>
+        lc="1067" mt="audio/mpeg" />
+    <station name="Ballermann Radio" br="128"
+        ct="Matthias Reim - Hallo Ich Mchte Gern Wissen Wie Es Dir Geht" genre="European" id="17399"
+        lc="1027" mt="audio/mpeg" />
 </stationlist>

@@ -1,63 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:clickable="true"
-    android:background="@color/white"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:orientation="vertical">
     <!--<include layout="@layout/play_util"/>-->
     <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/icon"
-        android:src="@drawable/jukeboxicon"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"/>
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:src="@drawable/jukeboxicon" />
 
         <ImageView
             android:id="@+id/iconshout"
-            android:src="@drawable/shoutcast"
             android:layout_width="100dp"
-            android:layout_height="40dp"/>
+            android:layout_height="40dp"
+            android:src="@drawable/shoutcast" />
+
         <TextView
-            android:layout_below="@+id/iconshout"
-            android:text="streaming"
-            android:gravity="top|center"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iconshout"
+            android:gravity="top|center"
+            android:text="streaming" />
 
     </RelativeLayout>
+
     <TextView
         android:id="@+id/titleabout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Jukebox Shout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:gravity="center"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_width="match_parent"
-        android:text="Version  1.0"
-        android:typeface="monospace"
-        android:layout_height="wrap_content"/>
+        android:textStyle="bold" />
+
     <TextView
-        android:padding="10dp"
-        android:gravity="center"
-        android:autoLink="email"
         android:layout_width="match_parent"
-        android:text="sandeep.rana011@gmail.com"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Version  1.0"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/colorPrimaryDark"
+        android:typeface="monospace" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="email"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="sandeep.rana011@gmail.com" />
+
     <WebView
-        android:padding="5dp"
-        android:layout_gravity="center"
         android:id="@+id/webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="5dp" />
 </LinearLayout>

@@ -142,7 +142,7 @@ public class ListFragment extends Fragment {
             if (listView != null && stations != null && stations.size() > 0) {
                 super.onPostExecute(stations);
 
-//                listView.setAdapter(new ListAdapterStations(getActivity().getApplicationContext(), R.layout.itemlistrow,
+//                recyclerView.setAdapter(new ListAdapterStations(getActivity().getApplicationContext(), R.layout.itemlistrow,
 //                        stations));
                 AdapterStationsList adapterStationsList = new AdapterStationsList(getActivity(), stations);
                 listView.setAdapter(adapterStationsList);

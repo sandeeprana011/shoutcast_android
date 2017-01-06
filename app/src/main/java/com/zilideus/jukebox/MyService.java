@@ -8,11 +8,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.google.android.exoplayer.ExoPlaybackException;
@@ -61,7 +61,7 @@ public class MyService extends Service {
                 Exo.getPlayer().stop();
                 Exo.getPlayer().release();
                 mNotificationManager.cancelAll();
-                exit();
+                System.exit(0);
             }
         };
 //
@@ -106,7 +106,7 @@ public class MyService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 //	  prepare("icy://37.130.230.93:9092");
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     @Override
@@ -136,40 +136,67 @@ public class MyService extends Service {
     public void notification(String title, String contenttext) {
 
         CharSequence text = getText(R.string.app_name);
+        Intent intent = new Intent(this, MainActivity.class);
+
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainActivity.class), 0);
-
-        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_notification);
-
-        // Set the info for the views that show in the notification panel.
-        Notification notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)  // the status icon
-                .setTicker(contenttext)  // the status text
-                .setOngoing(true)
-                .setContent(remoteViews)
-                .setWhen(System.currentTimeMillis())  // the time stamp
-                .setContentTitle(title)  // the label of the entry
-                .setContentText(contenttext)  // the contents of the entry
-                .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
-                .build();
-
-        remoteViews.setTextViewText(R.id.station_title, title);
-        remoteViews.setTextViewText(R.id.station_description, contenttext);
-        remoteViews.setImageViewResource(R.id.station_icon, R.mipmap.ic_launcher);
-
+                intent, 0);
         PendingIntent pi = PendingIntent.getBroadcast(this,
                 NOTIFICATION_ID,
                 new Intent(Flags.CLOSE_PLAYER),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        remoteViews.setOnClickPendingIntent(R.id.station_close, pi);
+
+//        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_notification);
+
+
+        Notification notification = new NotificationCompat.Builder(getApplicationContext())
+                // Show controls on lock screen even when user hides sensitive content.
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                // Add media control buttons that invoke intents in your media service
+//                .addAction(R.drawable.ic_prev, "Previous", prevPendingIntent) // #0
+                .addAction(R.drawable.ic_exit, "Exit", pi)  // #1
+                .addAction(R.drawable.ic_play_dark, "Play", contentIntent)     // #2
+                // Apply the media style template
+//                .setStyle(new NotificationCompat.MediaStyle()
+//                        .setShowActionsInCompactView(1 /* #1: pause button */)
+//                        .setMediaSession(mMediaSession.getSessionToken()))
+                .setContentTitle(title)
+                .setContentText(contenttext)
+                .setLargeIcon(((BitmapDrawable) getResources().getDrawable(R.mipmap.ic_launcher)).getBitmap())
+                .build();
+
+
+        notification.flags |= Notification.FLAG_NO_CLEAR;
+
+
+        // Set the info for the views that show in the notification panel.
+//        Notification notification = new NotificationCompat.Builder(this)
+//                .setSmallIcon(R.mipmap.ic_launcher)  // the status icon
+//                .setTicker(contenttext)  // the status text
+//                .setOngoing(true)
+//                .setContent(remoteViews)
+//                .setWhen(System.currentTimeMillis())  // the time stamp
+//                .setContentTitle(title)  // the label of the entry
+//                .setContentText(contenttext)  // the contents of the entry
+//                .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
+//                .build();
+
+//        remoteViews.setTextViewText(R.id.station_title, title);
+//        remoteViews.setTextViewText(R.id.station_description, contenttext);
+//        remoteViews.setImageViewResource(R.id.station_icon, R.mipmap.ic_launcher);
+
+
+//        remoteViews.setOnClickPendingIntent(R.id.station_close, pi);
 
 
 // mId allows you to update the notification later on.
-        mNotificationManager.notify(NOTIFICATION_ID, notification);
+//        mNotificationManager.notify(NOTIFICATION_ID, notification);
+        startForeground(NOTIFICATION_ID, notification);
 
 
     }
+
 
     public void stop() {
         Exo.getPlayer().stop();

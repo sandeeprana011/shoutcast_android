@@ -11,7 +11,12 @@ public class Exo {
 
 
     public static Exo getInstance() {
-        return ourInstance;
+        if (exoPlayer != null) {
+            return ourInstance;
+        } else {
+            return new Exo();
+        }
+
     }
 
     public static ExoPlayer getPlayer() {

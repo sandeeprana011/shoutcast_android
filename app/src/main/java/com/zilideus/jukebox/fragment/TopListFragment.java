@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 public class TopListFragment extends Fragment {
 
 
+    private static final String TAG = "TopListFragment";
     private String url;
     private SharedPreferences preferences;
 
@@ -87,7 +89,7 @@ public class TopListFragment extends Fragment {
     private class DownloadAndShowList extends AsyncTask<String, Void, ArrayList<Station>> {
         //        ImageButton listButton;
         StationList stationList;
-        RecyclerView listView;
+        RecyclerView recyclerView;
         ProgressBar progressBar;
         ParserXMLtoJSON parser;
         Url_format url_format;
@@ -106,8 +108,20 @@ public class TopListFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             parser = new ParserXMLtoJSON();
             url_format = new Url_format();
-            listView = (RecyclerView) view.findViewById(R.id.list_stations);
+            recyclerView = (RecyclerView) view.findViewById(R.id.list_stations);
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    Log.e(TAG, String.valueOf(newState));
+                }
 
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    Log.e(TAG, String.valueOf(dx) + " dy " + String.valueOf(dy));
+                }
+            });
 
 
 //            listButton = (ImageButton) view.getRootView().findViewById(R.id.but_media_list);
@@ -138,14 +152,14 @@ public class TopListFragment extends Fragment {
         @Override
         protected void onPostExecute(final ArrayList<Station> stations) {
 
-            if (listView != null && stations != null && stations.size() > 0) {
+            if (recyclerView != null && stations != null && stations.size() > 0) {
                 super.onPostExecute(stations);
 
-//                listView.setAdapter(new ListAdapterStations(getActivity().getApplicationContext(), R.layout.itemlistrow,
+//                recyclerView.setAdapter(new ListAdapterStations(getActivity().getApplicationContext(), R.layout.itemlistrow,
 //                        stations));
                 AdapterStationsList adapterStationsList = new AdapterStationsList(getActivity(), stations);
-                listView.setAdapter(adapterStationsList);
-                listView.setLayoutManager(new LinearLayoutManager(getContext()));
+                recyclerView.setAdapter(adapterStationsList);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 //                if (listButton != null) {
 //                    listButton.setEnabled(true);
 //                }
