@@ -49,6 +49,7 @@ import com.zilideus.jukebox.fragment.Home;
 import com.zilideus.jukebox.fragment.SearchFragment;
 import com.zilideus.jukebox.fragment.TopListFragment;
 import com.zilideus.jukebox.model.CurrentStation;
+import com.zilideus.jukebox.model.SearchStation;
 import com.zilideus.jukebox.model.Station;
 
 public class MainActivity extends AppCompatActivity
@@ -188,18 +189,23 @@ public class MainActivity extends AppCompatActivity
              */
             long station_id = Station.save(new Station());
             long current_station = CurrentStation.save(new CurrentStation());
+            long search_station = SearchStation.save(new SearchStation());
 
             try {
                 Station station = Station.findById(Station.class, station_id);
                 Station.delete(station);
                 CurrentStation currentStation = CurrentStation.findById(CurrentStation.class, current_station);
                 CurrentStation.delete(currentStation);
+                SearchStation searchStation = SearchStation.findById(SearchStation.class, search_station);
+                SearchStation.delete(searchStation);
+
             } catch (Exception ignored) {
                 Log.e("Exception Raisd", "EX : " + ignored.getMessage());
             }
         } else {
             Station.findById(Station.class, (long) 1);
             CurrentStation.findById(CurrentStation.class, (long) 1);
+            SearchStation.findById(SearchStation.class, (long) 1);
         }
     }
 

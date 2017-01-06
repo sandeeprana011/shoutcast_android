@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.zilideus.jukebox.AdapterSearchStationList;
 import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.flags.Url_format;
@@ -40,7 +41,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
     private EditText editTextSearchStrin;
     private Button buttonSearch;
     private RecyclerView recyclerViewSearch;
-    private AdapterStationsList adapterStationsList;
+    private AdapterSearchStationList adapterStationsList;
     private ProgressBar progressBar;
 
     @Override
@@ -55,7 +56,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
         super.onViewCreated(view, savedInstanceState);
         editTextSearchStrin = (EditText) view.findViewById(R.id.search_text_station);
         recyclerViewSearch = (RecyclerView) view.findViewById(R.id.rv_search_fragment);
-        adapterStationsList = new AdapterStationsList(getContext());
+        adapterStationsList = new AdapterSearchStationList(getContext());
         adapterStationsList.setListenerFavouriteCallbacks(this);
         recyclerViewSearch.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewSearch.setAdapter(adapterStationsList);
