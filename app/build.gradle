@@ -37,5 +37,7 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'me.everything:overscroll-decor-android:1.0.4'
+    compile 'com.google.firebase:firebase-crash:10.0.1'
+    compile 'jp.wasabeef:recyclerview-animators:2.2.5'
 }
 apply plugin: 'com.google.gms.google-services'

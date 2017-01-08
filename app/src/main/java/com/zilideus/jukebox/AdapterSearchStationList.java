@@ -49,7 +49,7 @@ public class AdapterSearchStationList extends RecyclerView.Adapter<AdapterSearch
         this.stationList = stationList;
     }
 
-    public AdapterSearchStationList(Context context) {
+    public AdapterSearchStationList(final Context context) {
 
         builder = TextDrawable.builder()
                 .beginConfig()
@@ -59,10 +59,43 @@ public class AdapterSearchStationList extends RecyclerView.Adapter<AdapterSearch
 
         this.context = context;
 
-        List<SearchStation> searchStationList = SearchStation.listAll(SearchStation.class);
+
+//        List<SearchStation> searchStationList = SearchStation.listAll(SearchStation.class);
 
         this.stationList = new ArrayList<>();
-        this.stationList.addAll(searchStationList);
+//        this.stationList.addAll(searchStationList);
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                SearchStation.deleteAll(SearchStation.class);
+
+                for (SearchStation station : stationList) {
+                    SearchStation.save(station);
+                }
+
+                final List<SearchStation> searchStationList = SearchStation.listAll(SearchStation.class);
+
+                if (AdapterSearchStationList.this.stationList != null) {
+
+                    ((MainActivity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AdapterSearchStationList.this.stationList.clear();
+                            for (SearchStation station : searchStationList) {
+                                AdapterSearchStationList.this.stationList.add(station);
+                                AdapterSearchStationList.this.notifyDataSetChanged();
+                            }
+                        }
+                    });
+
+                } else {
+                    Log.e("Null", "Stations List");
+                }
+            }
+        });
+        thread.start();
 
 
     }
@@ -135,28 +168,79 @@ public class AdapterSearchStationList extends RecyclerView.Adapter<AdapterSearch
         this.notifyDataSetChanged();
     }
 
-    public void addNewListAndNotifyDataSetChanged(List<Station> stationList) {
+    public void addNewListAndNotifyDataSetChanged(final List<Station> stationList) {
 
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        for (Station station : stationList) {
-            SearchStation.save(SearchStation.getStation(station));
-        }
+                if (stationList != null) {
+                    SearchStation.deleteAll(SearchStation.class);
+                    for (Station station : stationList) {
+                        SearchStation.save(SearchStation.getStation(station));
+                    }
+                }
 
-        List<SearchStation> searchStationList = SearchStation.listAll(SearchStation.class);
+                final List<SearchStation> searchStationList = SearchStation.listAll(SearchStation.class);
 
-        if (this.stationList != null && stationList != null) {
-            this.stationList.clear();
-            this.stationList.addAll(searchStationList);
-            this.notifyDataSetChanged();
-        } else {
-            Log.e("Null", "Stations List");
-        }
+                if (AdapterSearchStationList.this.stationList != null) {
+
+                    ((MainActivity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AdapterSearchStationList.this.stationList.clear();
+                            for (SearchStation station : searchStationList) {
+                                AdapterSearchStationList.this.stationList.add(station);
+                                notifyItemInserted(AdapterSearchStationList.this.stationList.size() - 1);
+                            }
+                        }
+                    });
+
+                } else {
+                    Log.e("Null", "Stations List");
+                }
+            }
+        });
+        thread.start();
+
     }
 
-    public void addMoreStations(List<SearchStation> stationList) {
-        if (stationList != null) {
-            this.stationList.addAll(stationList);
+    public void addMoreStations(final List<Station> stationList) {
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (stationList == null) {
+                    return;
+                }
+
+                for (Station station : stationList) {
+                    SearchStation.save(SearchStation.getStation(station));
+                }
+
+//                final List<SearchStation> searchStationList = SearchStation.listAll(SearchStation.class);
+                ((MainActivity) context).runOnUiThread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                for (Station station : stationList) {
+                                    AdapterSearchStationList.this.stationList.add(SearchStation.getStation(station));
+                                    notifyItemInserted(AdapterSearchStationList.this.stationList.size() - 1);
+                                }
+//                                AdapterSearchStationList.this.notifyDataSetChanged();
+
+                            }
+                        }
+
+                );
+
+            }
         }
+
+        );
+        thread.start();
+
     }
 
     public void removeItemAndNotify(int adapterPosition) {
