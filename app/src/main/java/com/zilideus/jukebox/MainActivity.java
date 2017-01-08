@@ -44,6 +44,7 @@ import com.google.android.exoplayer.ExoPlayer;
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.flags.Url_format;
 import com.zilideus.jukebox.fragment.AboutUs;
+import com.zilideus.jukebox.fragment.DialogSurvey;
 import com.zilideus.jukebox.fragment.Favourite;
 import com.zilideus.jukebox.fragment.Home;
 import com.zilideus.jukebox.fragment.SearchFragment;
@@ -51,6 +52,9 @@ import com.zilideus.jukebox.fragment.TopListFragment;
 import com.zilideus.jukebox.model.CurrentStation;
 import com.zilideus.jukebox.model.SearchStation;
 import com.zilideus.jukebox.model.Station;
+import com.zilideus.jukebox.model.StationAddedManually;
+import com.zilideus.jukebox.utilities.DownloadSongDetailAndPlayOnClick;
+import com.zilideus.jukebox.utilities.IcyURLStreamHandler;
 
 public class MainActivity extends AppCompatActivity
         implements OnChangePlayerState, ViewPager.OnPageChangeListener {
@@ -190,6 +194,7 @@ public class MainActivity extends AppCompatActivity
             long station_id = Station.save(new Station());
             long current_station = CurrentStation.save(new CurrentStation());
             long search_station = SearchStation.save(new SearchStation());
+            long station_added_manually_id = StationAddedManually.save(new StationAddedManually());
 
             try {
                 Station station = Station.findById(Station.class, station_id);
@@ -198,6 +203,8 @@ public class MainActivity extends AppCompatActivity
                 CurrentStation.delete(currentStation);
                 SearchStation searchStation = SearchStation.findById(SearchStation.class, search_station);
                 SearchStation.delete(searchStation);
+                StationAddedManually stationAddedManually = StationAddedManually.findById(StationAddedManually.class, station_added_manually_id);
+                StationAddedManually.delete(station_added_manually_id);
 
             } catch (Exception ignored) {
                 Log.e("Exception Raisd", "EX : " + ignored.getMessage());
@@ -206,6 +213,7 @@ public class MainActivity extends AppCompatActivity
             Station.findById(Station.class, (long) 1);
             CurrentStation.findById(CurrentStation.class, (long) 1);
             SearchStation.findById(SearchStation.class, (long) 1);
+            StationAddedManually.findById(StationAddedManually.class, (long) 1);
         }
     }
 
@@ -490,6 +498,19 @@ public class MainActivity extends AppCompatActivity
         if (mgr != null) {
             mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
         }
+    }
+
+    public void openDialogForCustomFavourite(View view) {
+        // TODO: 08/01/17 Open Edit Dialog
+        DialogSurvey dialogSurvey = new DialogSurvey();
+//        Bundle bundle = new Bundle();
+//        bundle.putString(JKeys.NAME, station.getName());
+//        bundle.putString(JKeys.DESCRIPTION, station.getCst());
+//        bundle.putString(JKeys.URI, station.getUriArrayList().size() > 0 ? station.getUriArrayList().get(0).toString() : "");
+//        bundle.putString(JKeys.LOGO, station.getLogo());
+//        dialogSurvey.setArguments(bundle);
+        FragmentManager manager = ((MainActivity) context).getSupportFragmentManager();
+        dialogSurvey.show(manager, DialogSurvey.TITLE);
     }
 
     private class ScreenSliderPagerFragment extends FragmentPagerAdapter {

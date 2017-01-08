@@ -28,4 +28,6 @@ public class JKeys {
     public static final String CST = "cst";
     public static final String GENRE2 = "genre2";
     public static final String GENRE3 = "genre3";
+    public static final String URI = "uri";
+    public static final String DESCRIPTION = "description";
 }

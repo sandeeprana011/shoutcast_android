@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.zilideus.jukebox.fragment.FavouriteClickCallbacks;
 import com.zilideus.jukebox.model.SearchStation;
 import com.zilideus.jukebox.model.Station;
+import com.zilideus.jukebox.utilities.DownloadSongDetailAndPlayOnClick;
 
 import java.util.ArrayList;
 import java.util.List;

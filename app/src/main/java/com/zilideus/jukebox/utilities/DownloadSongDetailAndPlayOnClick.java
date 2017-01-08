@@ -1,4 +1,4 @@
-package com.zilideus.jukebox;
+package com.zilideus.jukebox.utilities;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -11,6 +11,9 @@ import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.zilideus.jukebox.MainActivity;
+import com.zilideus.jukebox.MyService;
+import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.model.CurrentStation;
 import com.zilideus.jukebox.model.Station;
 import com.zilideus.jukebox.network.DownloadContent;
@@ -97,6 +100,13 @@ public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Void, Void, Arra
         if (imageButtonPlay != null) {
             imageButtonPlay.setEnabled(true);
         }
+        if (uriArrayList != null) {
+            station.setUriArrayList(uriArrayList); //Must be not null
+        }
+        bindWithServiceAndExecute(station);
+    }
+
+    private void bindWithServiceAndExecute(final Station station) {
         Intent intent = new Intent(activity, MyService.class);
         activity.bindService(intent, new ServiceConnection() {
             @Override
@@ -105,7 +115,6 @@ public class DownloadSongDetailAndPlayOnClick extends AsyncTask<Void, Void, Arra
                 MyService myServiceEngine = servicBinder.getService();
 //  				myServiceEngine.prepare(url,"icy://37.130.230.93:9092");
                 try {
-                    station.setUriArrayList(uriArrayList); //Must be not null
                     myServiceEngine.prepare(station);
                 } catch (Exception ex) {
                     Log.e("Exception service", "while preparing for" + getClass().getName());

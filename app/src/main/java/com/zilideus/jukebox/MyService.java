@@ -133,6 +133,7 @@ public class MyService extends Service {
         }
     }
 
+
     public void notification(String title, String contenttext) {
 
         CharSequence text = getText(R.string.app_name);

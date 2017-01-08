@@ -1,6 +1,7 @@
 package com.zilideus.jukebox.model;
 
 import android.net.Uri;
+import android.support.annotation.CallSuper;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
@@ -13,6 +14,12 @@ import java.util.List;
  * Created by sandeeprana on 20/10/15.
  */
 public class Station extends SugarRecord {
+    @Ignore
+    public static final int TYPE_NONE = -1;
+    @Ignore
+    public static final int TYPE_MANUALLY_ADDED = 0;
+    @Ignore
+    public static final int TYPE_ADDED_AS_FAVOURITE_BY_CLICK = 1;
     private String name;
     private String brbitrate;
     private String ctquerystring;
@@ -188,5 +195,10 @@ public class Station extends SugarRecord {
             return super.save();
         } else return -1;
 
+    }
+
+    @CallSuper
+    public int getType() {
+        return TYPE_ADDED_AS_FAVOURITE_BY_CLICK;
     }
 }

@@ -1,6 +1,12 @@
 package com.zilideus.jukebox.fragment;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +19,13 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.zilideus.jukebox.DownloadSongDetailAndPlayOnClick;
 import com.zilideus.jukebox.MainActivity;
+import com.zilideus.jukebox.MyService;
 import com.zilideus.jukebox.R;
+import com.zilideus.jukebox.flags.JKeys;
 import com.zilideus.jukebox.model.Station;
+import com.zilideus.jukebox.model.StationAddedManually;
+import com.zilideus.jukebox.utilities.DownloadSongDetailAndPlayOnClick;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,12 +77,27 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
 
     @Override
     public AdapterStationsList.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.itemlistrow, parent, false));
+        switch (viewType) {
+            case Station.TYPE_NONE:
+                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.itemlistrow, parent, false));
+            case Station.TYPE_ADDED_AS_FAVOURITE_BY_CLICK:
+                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.itemlistrow, parent, false));
+            case Station.TYPE_MANUALLY_ADDED:
+                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.itemlistrow, parent, false));
+            default:
+                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.itemlistrow, parent, false));
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return this.stationList.get(position).getType();
     }
 
     @Override
     public void onBindViewHolder(AdapterStationsList.ViewHolder holder, int position) {
         Station station = this.stationList.get(position);
+
         holder.title.setText(station.getName());
         holder.text.setText(station.getCtqueryString());
         if (station.getBrbitrate() != null) {
@@ -118,6 +142,14 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
         }
 
 
+        switch (station.getType()) {
+            case Station.TYPE_MANUALLY_ADDED:
+                holder.imageGearSettings.setVisibility(View.VISIBLE);
+                break;
+            default:
+                holder.imageGearSettings.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override
@@ -159,8 +191,31 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
         return this.stationList.isEmpty();
     }
 
+    private void bindWithServiceAndExecute(final Station station) {
+        Intent intent = new Intent(context, MyService.class);
+        context.bindService(intent, new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                MyService.ServiceBinder servicBinder = (MyService.ServiceBinder) iBinder;
+                MyService myServiceEngine = servicBinder.getService();
+//  				myServiceEngine.prepare(url,"icy://37.130.230.93:9092");
+                try {
+                    myServiceEngine.prepare(station);
+                } catch (Exception ex) {
+                    Log.e("Exception service", "while preparing for" + getClass().getName());
+                }
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName componentName) {
+                Log.e("disconnected", "service");
+            }
+        }, Context.BIND_AUTO_CREATE);
+
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView imageLogo, imageFavourite;
+        private final ImageView imageLogo, imageFavourite, imageGearSettings;
         private final TextView title;
         private final TextView text;
         private final TextView bt;
@@ -176,19 +231,27 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
             genre = (TextView) v.findViewById(R.id.text_list_genre);
             imageLogo = (ImageView) v.findViewById(R.id.logo);
             imageFavourite = (ImageView) v.findViewById(R.id.favourite);
+            imageGearSettings = (ImageView) v.findViewById(R.id.edit_manual_favourite);
 
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Station station = stationList.get(ViewHolder.this.getAdapterPosition());
-                    if (station != null) {
-                        if (downloadSongDetailAndPlayOnclick != null) {
-                            downloadSongDetailAndPlayOnclick.cancel(true);
-                        }
-                        downloadSongDetailAndPlayOnclick = new DownloadSongDetailAndPlayOnClick(station, (MainActivity) context);
-                        downloadSongDetailAndPlayOnclick.execute();
+                    switch (station.getType()) {
+                        case Station.TYPE_MANUALLY_ADDED:
+                            bindWithServiceAndExecute(station);
+                            break;
+                        default:
+                            if (downloadSongDetailAndPlayOnclick != null) {
+                                downloadSongDetailAndPlayOnclick.cancel(true);
+                            }
+                            downloadSongDetailAndPlayOnclick = new DownloadSongDetailAndPlayOnClick(station, (MainActivity) context);
+                            downloadSongDetailAndPlayOnclick.execute();
+                            break;
+
                     }
+
                 }
             });
 
@@ -197,19 +260,51 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
                 public void onClick(View view) {
                     Station station = stationList.get(ViewHolder.this.getAdapterPosition());
                     Log.e("Favorite", "clicked" + station.getStationId());
-                    if (station.isFavourite()) {
-                        station.delete();
-                        ((ImageView) view).setImageResource(R.drawable.favourite_grey);
-                        if (AdapterStationsList.this.listenerFavouriteCallbacks != null) {
-                            listenerFavouriteCallbacks.favouriteRemoved(station, getAdapterPosition());
-                        }
-                    } else {
-                        Station.save(station);
-                        ((ImageView) view).setImageResource(R.drawable.favourite);
-                        if (listenerFavouriteCallbacks != null)
-                            listenerFavouriteCallbacks.favouriteAdded(station, getAdapterPosition());
+                    switch (station.getType()) {
+                        case Station.TYPE_MANUALLY_ADDED:
+                            StationAddedManually manually = (StationAddedManually) station;
+                            manually.delete();
+                            break;
+                        default:
+                            if (station.isFavourite()) {
+                                station.delete();
+                                ((ImageView) view).setImageResource(R.drawable.favourite_grey);
+                                if (AdapterStationsList.this.listenerFavouriteCallbacks != null) {
+                                    listenerFavouriteCallbacks.favouriteRemoved(station, getAdapterPosition());
+                                }
+                            } else {
+                                Station.save(station);
+                                ((ImageView) view).setImageResource(R.drawable.favourite);
+                                if (listenerFavouriteCallbacks != null)
+                                    listenerFavouriteCallbacks.favouriteAdded(station, getAdapterPosition());
+                            }
+                            break;
                     }
 
+                }
+            });
+
+            imageGearSettings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Station station = stationList.get(ViewHolder.this.getAdapterPosition());
+                    Log.e("GearClicked", "clicked" + station.getStationId());
+                    switch (station.getType()) {
+                        case Station.TYPE_MANUALLY_ADDED:
+                            // TODO: 08/01/17 Open Edit Dialog
+                            DialogSurvey dialogSurvey = new DialogSurvey();
+                            Bundle bundle = new Bundle();
+                            bundle.putString(JKeys.NAME, station.getName());
+                            bundle.putString(JKeys.DESCRIPTION, station.getCst());
+                            bundle.putString(JKeys.URI, station.getUriArrayList().size() > 0 ? station.getUriArrayList().get(0).toString() : "");
+                            bundle.putString(JKeys.LOGO, station.getLogo());
+                            dialogSurvey.setArguments(bundle);
+                            FragmentManager manager = ((MainActivity) context).getSupportFragmentManager();
+                            dialogSurvey.show(manager, DialogSurvey.TITLE);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             });
 
@@ -218,5 +313,4 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
 
 
     }
-
 }

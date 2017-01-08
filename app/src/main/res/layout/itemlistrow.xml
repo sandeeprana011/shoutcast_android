@@ -81,6 +81,16 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/text_list_bt"
             android:src="@drawable/favourite_grey" />
+
+        <ImageView
+            android:id="@+id/edit_manual_favourite"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/favourite"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_gear"
+            android:visibility="gone" />
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>
