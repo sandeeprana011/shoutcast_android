@@ -1,6 +1,7 @@
 package com.zilideus.jukebox.fragment;
 
 import com.zilideus.jukebox.model.Station;
+import com.zilideus.jukebox.model.StationAddedManually;
 
 /**
  * Created by sandeeprana on 24/12/16.
@@ -14,4 +15,6 @@ public interface FavouriteClickCallbacks {
     public void favouriteAdded(Station station, int position);
 
     public void favouriteRemoved(Station station, int position);
+
+    public void favrouriteDeleted(StationAddedManually manually, int adapterPosition);
 }

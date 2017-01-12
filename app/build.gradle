@@ -39,5 +39,6 @@ dependencies {
     compile 'me.everything:overscroll-decor-android:1.0.4'
     compile 'com.google.firebase:firebase-crash:10.0.1'
     compile 'jp.wasabeef:recyclerview-animators:2.2.5'
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
 }
 apply plugin: 'com.google.gms.google-services'

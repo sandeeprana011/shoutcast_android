@@ -30,4 +30,5 @@ public class JKeys {
     public static final String GENRE3 = "genre3";
     public static final String URI = "uri";
     public static final String DESCRIPTION = "description";
+    public static final java.lang.String STATION_ID = "station_id";
 }

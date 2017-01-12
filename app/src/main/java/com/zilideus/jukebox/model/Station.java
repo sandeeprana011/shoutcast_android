@@ -37,6 +37,8 @@ public class Station extends SugarRecord {
 
     @Ignore
     private ArrayList<Uri> uriArrayList;
+    @Ignore
+    private int type = -1;
 
 
     public Station() {
@@ -193,12 +195,21 @@ public class Station extends SugarRecord {
     public long save() {
         if (this.getStationId() != null && !this.getStationId().equals("")) {
             return super.save();
-        } else return -1;
+        } else
+            return -1;
 
     }
 
-    @CallSuper
     public int getType() {
-        return TYPE_ADDED_AS_FAVOURITE_BY_CLICK;
+        return this.type;
+    }
+
+    @CallSuper
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public boolean hasValidUri() {
+        return this.getUriArrayList() != null && this.getUriArrayList().size() > 0;
     }
 }

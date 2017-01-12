@@ -38,7 +38,7 @@ import java.util.List;
  * a second commercial license of your
  * choosing for companies
  */
-class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewHolder> {
+class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewHolder> implements OnNewStationSaved {
 
 
     private final Context context;
@@ -46,6 +46,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
     private final TextDrawable.IBuilder builder;
     private DownloadSongDetailAndPlayOnClick downloadSongDetailAndPlayOnclick;
     private FavouriteClickCallbacks listenerFavouriteCallbacks;
+    private OnNewStationSaved onStationSavedOrEditedListener;
 
     AdapterStationsList(Context context, List<Station> stationList) {
 
@@ -135,19 +136,19 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
             }
         }
 
-        if (station.isFavourite()) {
-            holder.imageFavourite.setImageResource(R.drawable.favourite);
-        } else {
-            holder.imageFavourite.setImageResource(R.drawable.favourite_grey);
-        }
-
 
         switch (station.getType()) {
             case Station.TYPE_MANUALLY_ADDED:
                 holder.imageGearSettings.setVisibility(View.VISIBLE);
+                holder.imageFavourite.setImageResource(R.drawable.ic_delete);
                 break;
             default:
                 holder.imageGearSettings.setVisibility(View.GONE);
+                if (station.isFavourite()) {
+                    holder.imageFavourite.setImageResource(R.drawable.favourite);
+                } else {
+                    holder.imageFavourite.setImageResource(R.drawable.favourite_grey);
+                }
                 break;
         }
     }
@@ -194,6 +195,8 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
     private void bindWithServiceAndExecute(final Station station) {
         Intent intent = new Intent(context, MyService.class);
         context.bindService(intent, new ServiceConnection() {
+            public static final String TAG = "AdapterStationsList BS";
+
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                 MyService.ServiceBinder servicBinder = (MyService.ServiceBinder) iBinder;
@@ -202,16 +205,25 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
                 try {
                     myServiceEngine.prepare(station);
                 } catch (Exception ex) {
-                    Log.e("Exception service", "while preparing for" + getClass().getName());
+                    Log.e(TAG, "while preparing for " + getClass().getName());
                 }
             }
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
-                Log.e("disconnected", "service");
+                Log.e(TAG, "service");
             }
         }, Context.BIND_AUTO_CREATE);
 
+    }
+
+    @Override
+    public void onStationSaved(StationAddedManually stationAddedManually) {
+        this.notifyDataSetChanged();
+    }
+
+    public void setOnStationSavedOrEditedListener(OnNewStationSaved onStationSavedOrEditedListener) {
+        this.onStationSavedOrEditedListener = onStationSavedOrEditedListener;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -263,7 +275,8 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
                     switch (station.getType()) {
                         case Station.TYPE_MANUALLY_ADDED:
                             StationAddedManually manually = (StationAddedManually) station;
-                            manually.delete();
+                            manually.delete(manually);
+                            listenerFavouriteCallbacks.favrouriteDeleted(manually, getAdapterPosition());
                             break;
                         default:
                             if (station.isFavourite()) {
@@ -292,15 +305,17 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
                     switch (station.getType()) {
                         case Station.TYPE_MANUALLY_ADDED:
                             // TODO: 08/01/17 Open Edit Dialog
-                            DialogSurvey dialogSurvey = new DialogSurvey();
+                            DialogSurvey dialogSurvey = DialogSurvey.getSingletonInstance("Add Station");
                             Bundle bundle = new Bundle();
                             bundle.putString(JKeys.NAME, station.getName());
-                            bundle.putString(JKeys.DESCRIPTION, station.getCst());
-                            bundle.putString(JKeys.URI, station.getUriArrayList().size() > 0 ? station.getUriArrayList().get(0).toString() : "");
+                            bundle.putString(JKeys.DESCRIPTION, station.getCtqueryString());
+                            bundle.putString(JKeys.URI, ((StationAddedManually) station).getUrlstation());
                             bundle.putString(JKeys.LOGO, station.getLogo());
+                            bundle.putString(JKeys.ID, station.getStationId());
                             dialogSurvey.setArguments(bundle);
                             FragmentManager manager = ((MainActivity) context).getSupportFragmentManager();
                             dialogSurvey.show(manager, DialogSurvey.TITLE);
+                            dialogSurvey.setOnSaveListener(onStationSavedOrEditedListener);
                             break;
                         default:
                             break;

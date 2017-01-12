@@ -25,6 +25,7 @@ import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.flags.Url_format;
 import com.zilideus.jukebox.model.Station;
+import com.zilideus.jukebox.model.StationAddedManually;
 import com.zilideus.jukebox.parser.ParserXMLtoJSON;
 
 import org.json.JSONException;
@@ -252,6 +253,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
 //        if (station != null) {
 //            station.delete();
 //        }
+    }
+
+    @Override
+    public void favrouriteDeleted(StationAddedManually manually, int adapterPosition) {
+
     }
 
     public boolean isLoadingStations() {

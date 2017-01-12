@@ -41,6 +41,7 @@
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fb_add_manual_station"
         android:onClick="openDialogForCustomFavourite"
         android:layout_width="56dp"
         android:layout_height="56dp"

@@ -4,7 +4,9 @@ package com.zilideus.jukebox.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,16 +17,19 @@ import android.widget.LinearLayout;
 
 import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.model.Station;
+import com.zilideus.jukebox.model.StationAddedManually;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Favourite extends Fragment implements FavouriteClickCallbacks {
+public class Favourite extends Fragment implements FavouriteClickCallbacks, View.OnClickListener, OnNewStationSaved {
 
 
     public static final String TITLE = "title";
+    private static final String TAG = "FavouriteFragment";
     RecyclerView recyclerViewFavouriteList;
     private AdapterStationsList adapterStationsList;
     private LinearLayout linearLayoutOnNoItem;
@@ -54,15 +59,31 @@ public class Favourite extends Fragment implements FavouriteClickCallbacks {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerViewFavouriteList = (RecyclerView) view.findViewById(R.id.list_stations);
-
-
         linearLayoutOnNoItem = (LinearLayout) view.findViewById(R.id.lin_onno_station);
-        List<Station> stationsList = Station.listAll(Station.class);
-        adapterStationsList = new AdapterStationsList(getContext(), stationsList);
+        FloatingActionButton addActionBar = (FloatingActionButton) view.findViewById(R.id.fb_add_manual_station);
+        addActionBar.setOnClickListener(this);
+
+
+//        StationAddedManually stationAddedManually = new StationAddedManually();
+//        stationAddedManually.setName("Some");
+//        stationsList.add(stationAddedManually);
+
+        adapterStationsList = new AdapterStationsList(getContext());
         adapterStationsList.setListenerFavouriteCallbacks(this);
+        adapterStationsList.setOnStationSavedOrEditedListener(this);
         recyclerViewFavouriteList.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewFavouriteList.setAdapter(adapterStationsList);
         adapterStationsList.notifyDataSetChanged();
+    }
+
+    private List<Station> getCompleteList() {
+
+        List<Station> stationsList = Station.listAll(Station.class);
+        List<StationAddedManually> stationAddedManuallies = StationAddedManually.listAll(StationAddedManually.class);
+        List<Station> completeList = new ArrayList<>();
+        completeList.addAll(stationAddedManuallies);
+        completeList.addAll(stationsList);
+        return completeList;
     }
 
     @Override
@@ -74,8 +95,8 @@ public class Favourite extends Fragment implements FavouriteClickCallbacks {
     public void onUpdateUI() {
 
         if (this.adapterStationsList != null) {
-            List<Station> stationArrayList = Station.listAll(Station.class);
-            this.adapterStationsList.addNewListAndNotifyDataSetChanged(stationArrayList);
+
+            this.adapterStationsList.addNewListAndNotifyDataSetChanged(getCompleteList());
 //            adapterStationsList.notifyDataSetChanged();
         }
         if (this.adapterStationsList != null && linearLayoutOnNoItem != null) {
@@ -99,4 +120,35 @@ public class Favourite extends Fragment implements FavouriteClickCallbacks {
         this.onUpdateUI();
     }
 
+    @Override
+    public void favrouriteDeleted(StationAddedManually manually, int adapterPosition) {
+        adapterStationsList.removeItemAndNotify(adapterPosition);
+        this.onUpdateUI();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fb_add_manual_station:
+                openDialogForCustomFavourite(v);
+                break;
+
+        }
+
+    }
+
+    public void openDialogForCustomFavourite(View view) {
+        // TODO: 08/01/17 Open Edit Dialog
+        DialogSurvey dialogSurvey = DialogSurvey.getSingletonInstance("Add Station");
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        dialogSurvey.show(manager, DialogSurvey.TITLE);
+        dialogSurvey.setOnSaveListener(this);
+
+    }
+
+
+    @Override
+    public void onStationSaved(StationAddedManually stationAddedManually) {
+        this.onUpdateUI();
+    }
 }

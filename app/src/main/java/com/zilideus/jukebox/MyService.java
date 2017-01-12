@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -27,6 +28,7 @@ import com.google.android.exoplayer.upstream.DefaultUriDataSource;
 import com.google.android.exoplayer.util.Util;
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.model.Station;
+import com.zilideus.jukebox.model.StationAddedManually;
 
 public class MyService extends Service {
 
@@ -116,12 +118,28 @@ public class MyService extends Service {
     }
 
     public void prepare(Station station) {
-        if (station != null && station.getUriArrayList().size() > 0) {
+
+        if (station != null && (station.hasValidUri() || ((StationAddedManually) station).isValidStation())) {
+
+            Uri uri = null;
+            switch (station.getType()) {
+                case Station.TYPE_MANUALLY_ADDED:
+                    uri = Uri.parse(((StationAddedManually) station).getUrlstation());
+                    break;
+                default:
+                    uri = station.getUriArrayList().get(0);
+                    break;
+
+
+            }
+
             Allocator allocator = new DefaultAllocator(BUFFER_SEGMENT_SIZE);
             DataSource dataSource = new DefaultUriDataSource(this, null, Util.getUserAgent(this,
                     "Jukebox"), true);
-            ExtractorSampleSource sampleSource = new ExtractorSampleSource(station.getUriArrayList().get(0), dataSource,
+
+            ExtractorSampleSource sampleSource = new ExtractorSampleSource(uri, dataSource,
                     allocator, BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE);
+
             MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource, MediaCodecSelector.DEFAULT);
             Exo.getPlayer().stop();
             Exo.getPlayer().prepare(audioRenderer);

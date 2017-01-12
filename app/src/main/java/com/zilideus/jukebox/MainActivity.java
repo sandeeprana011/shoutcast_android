@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity
                 SearchStation searchStation = SearchStation.findById(SearchStation.class, search_station);
                 SearchStation.delete(searchStation);
                 StationAddedManually stationAddedManually = StationAddedManually.findById(StationAddedManually.class, station_added_manually_id);
-                StationAddedManually.delete(station_added_manually_id);
+                StationAddedManually.delete(stationAddedManually);
 
             } catch (Exception ignored) {
                 Log.e("Exception Raisd", "EX : " + ignored.getMessage());
@@ -500,18 +500,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void openDialogForCustomFavourite(View view) {
-        // TODO: 08/01/17 Open Edit Dialog
-        DialogSurvey dialogSurvey = new DialogSurvey();
-//        Bundle bundle = new Bundle();
-//        bundle.putString(JKeys.NAME, station.getName());
-//        bundle.putString(JKeys.DESCRIPTION, station.getCst());
-//        bundle.putString(JKeys.URI, station.getUriArrayList().size() > 0 ? station.getUriArrayList().get(0).toString() : "");
-//        bundle.putString(JKeys.LOGO, station.getLogo());
-//        dialogSurvey.setArguments(bundle);
-        FragmentManager manager = ((MainActivity) context).getSupportFragmentManager();
-        dialogSurvey.show(manager, DialogSurvey.TITLE);
-    }
 
     private class ScreenSliderPagerFragment extends FragmentPagerAdapter {
 
