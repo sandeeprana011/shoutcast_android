@@ -121,6 +121,7 @@ public class MyService extends Service {
 
         if (station != null && (station.hasValidUri() || ((StationAddedManually) station).isValidStation())) {
 
+
             Uri uri = null;
             switch (station.getType()) {
                 case Station.TYPE_MANUALLY_ADDED:

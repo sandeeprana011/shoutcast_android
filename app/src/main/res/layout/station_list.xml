@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grey">
-
-    <ProgressBar
-        android:id="@+id/progressbarlist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/grey" />
+    android:layout_height="match_parent">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/play_layout"
-        android:layout_below="@id/progressbarlist"
+        android:layout_height="wrap_content"
         android:paddingLeft="4dp"
         android:paddingRight="4dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_stations"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:nestedScrollingEnabled="false" />
+
+        <ProgressBar
+            android:id="@+id/progressbarlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/list_stations"
             android:background="@color/grey" />
-        <!--<ListView-->
-        <!--android:id="@+id/list_stations"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@color/white" />-->
+
     </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

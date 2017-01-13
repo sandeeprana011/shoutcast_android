@@ -58,17 +58,21 @@
 
         </android.support.v7.widget.CardView>
 
-        <ProgressBar
-            android:id="@id/progressbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/card_search"
-            android:visibility="gone" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_search_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/progressbar" />
+            android:layout_below="@+id/card_search" />
+
+        <ProgressBar
+            android:id="@id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_below="@id/rv_search_fragment"
+            android:visibility="gone" />
+
     </RelativeLayout>
 </ScrollView>

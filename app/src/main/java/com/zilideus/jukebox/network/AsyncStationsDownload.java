@@ -13,25 +13,26 @@ import java.io.IOException;
  * mediatype
  * Created by sandeeprana on 04/11/2015 AD.
  */
+@Deprecated
 public class AsyncStationsDownload extends AsyncTask<String, Integer, String> {
 
 
-   private String data;
+    private String data;
 
-   @Override
-   protected String doInBackground(String... params) {
-	  Url_format uri_format = new Url_format();
-	  try {
-		 data = DownloadContent.downloadContent(uri_format.getTopStationsXML(Flags.DEV_ID,
-				 params[0],
-				 params[1],
-				 params[2]));
+    @Override
+    protected String doInBackground(String... params) {
+        Url_format uri_format = new Url_format();
+        try {
+            data = DownloadContent.downloadContent(uri_format.getTopStationsXML(Flags.DEV_ID, "0",
+                    params[0],
+                    params[1],
+                    params[2]));
 
-	  } catch (IOException e) {
-		 e.printStackTrace();
-	  }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-	  return data;
-   }
+        return data;
+    }
 
 }

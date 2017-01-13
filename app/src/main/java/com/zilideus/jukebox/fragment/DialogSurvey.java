@@ -68,7 +68,7 @@ public class DialogSurvey extends DialogFragment implements View.OnClickListener
         mEditUriLink = (EditText) view.findViewById(R.id.edit_urilink_manualfavourite);
 
         if (bundle != null) {
-            mEditName.setText(bundle.getString(JKeys.NAME, "No name"));
+            mEditName.setText(bundle.getString(JKeys.NAME, ""));
             mEditDescription.setText(bundle.getString(JKeys.DESCRIPTION, ""));
             mEditImage.setText(bundle.getString(JKeys.LOGO, ""));
             mEditUriLink.setText(bundle.getString(JKeys.URI, ""));

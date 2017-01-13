@@ -31,10 +31,12 @@ import com.zilideus.jukebox.parser.ParserXMLtoJSON;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
 import me.everything.android.ui.overscroll.IOverScrollDecor;
 import me.everything.android.ui.overscroll.IOverScrollStateListener;
+import me.everything.android.ui.overscroll.ListenerStubs;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class SearchFragment extends Fragment implements View.OnClickListener, FavouriteClickCallbacks {
@@ -47,6 +49,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
     private AdapterSearchStationList adapterStationsList;
     private ProgressBar progressBar;
     private boolean isLoadingStations;
+    private IOverScrollDecor decor;
+    private ScrollView scrollView;
+
 
     public int getOffsetOfStation() {
         return offsetOfStation;
@@ -76,9 +81,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
         super.onViewCreated(view, savedInstanceState);
         editTextSearchStrin = (EditText) view.findViewById(R.id.search_text_station);
         recyclerViewSearch = (RecyclerView) view.findViewById(R.id.rv_search_fragment);
-        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
-//        scrollView.setSmoothScrollingEnabled(true);
-//        scrollView.fling(10);
+        scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
+
 
         adapterStationsList = new AdapterSearchStationList(getContext());
         adapterStationsList.setListenerFavouriteCallbacks(this);
@@ -96,33 +100,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
                     }
                 });
         recyclerViewSearch.setItemAnimator(new FadeInDownAnimator());
-//        recyclerViewSearch.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                Log.e(TAG, String.valueOf(newState) + "new state");
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                Log.e(TAG, String.valueOf(dx) + "new state");
-//            }
-//        });
-
-        IOverScrollDecor decor = OverScrollDecoratorHelper.setUpOverScroll((ScrollView) view);
-        decor.setOverScrollStateListener(new IOverScrollStateListener() {
-            @Override
-            public void onOverScrollStateChange(IOverScrollDecor decor, int oldState, int newState) {
-                if (oldState == 3 && newState == 0) {
-                    Log.e(TAG, String.format("%d,%d", oldState, newState));
-                    addMoreStations();
-                }
-            }
-        });
-//        FlingBehavior behavior = new FlingBehavior();
-//        recyclerViewSearch.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
-//        ((ScrollView) view).setOverScrollMode(View.OVER_SCROLL_ALWAYS);
 
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
@@ -144,6 +121,17 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
 
     private void searchAndUpdateList(View view) {
 
+        decor = OverScrollDecoratorHelper.setUpOverScroll((ScrollView) scrollView);
+        decor.setOverScrollStateListener(new IOverScrollStateListener() {
+            @Override
+            public void onOverScrollStateChange(IOverScrollDecor decor, int oldState, int newState) {
+                if (oldState == 3 && newState == 0) {
+                    Log.e(TAG, String.format("%d,%d", oldState, newState));
+                    addMoreStations();
+                }
+            }
+        });
+
         adapterStationsList.clearList();
 
         setLoadingStationsStatus(true);
@@ -156,8 +144,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
         if (recyclerViewSearch != null) {
             String urlToSearch = new Url_format().getStationByKeywords(Flags.DEV_ID,
                     editTextSearchStrin.getText().toString(), String.valueOf(getOffsetOfStation()), String.valueOf(getMaxLimit()), null, null);
-            progressBar.setVisibility(View.VISIBLE);
-
+            showProgressBar();
             StringRequest request = new StringRequest(Request.Method.GET,
                     urlToSearch,
                     new Response.Listener<String>() {
@@ -194,17 +181,12 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
 
     private void addMoreStations() {
 
-//        adapterStationsList.clearList();
-
         setLoadingStationsStatus(true);
-//        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
+        showProgressBar();
         if (recyclerViewSearch != null) {
-
             String urlToSearch = new Url_format().getStationByKeywords(Flags.DEV_ID,
                     editTextSearchStrin.getText().toString(), String.valueOf(offsetOfStation), String.valueOf(20), null, null);
-            progressBar.setVisibility(View.VISIBLE);
+
 
             StringRequest request = new StringRequest(Request.Method.GET,
                     urlToSearch,
@@ -214,16 +196,19 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
                             ParserXMLtoJSON parser = new ParserXMLtoJSON();
                             progressBar.setVisibility(View.GONE);
                             try {
-                                adapterStationsList
-                                        .addMoreStations(
-                                                parser.getTopStationswithLIMIT(response).getArrayListStations()
-                                        );
+                                ArrayList<Station> list = parser.getTopStationswithLIMIT(response).getArrayListStations();
+                                adapterStationsList.addMoreStations(list);
                                 increaseCounterOfSearch();
+                                if (list == null || !(list.size() > 0)) {
+                                    decor.setOverScrollStateListener(new ListenerStubs.OverScrollStateListenerStub());
+                                }
+
 
                             } catch (IOException | JSONException e) {
                                 e.printStackTrace();
                             }
                             setLoadingStationsStatus(false);
+                            hideProgressBar();
                         }
                     },
                     new Response.ErrorListener() {
@@ -231,10 +216,19 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
                         public void onErrorResponse(VolleyError error) {
                             Log.e("Error", "" + error.getMessage());
                             setLoadingStationsStatus(false);
+                            hideProgressBar();
                         }
                     });
             Volley.newRequestQueue(getContext()).add(request);
         }
+    }
+
+    private void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void increaseCounterOfSearch() {

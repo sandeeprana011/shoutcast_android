@@ -44,7 +44,6 @@ import com.google.android.exoplayer.ExoPlayer;
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.flags.Url_format;
 import com.zilideus.jukebox.fragment.AboutUs;
-import com.zilideus.jukebox.fragment.DialogSurvey;
 import com.zilideus.jukebox.fragment.Favourite;
 import com.zilideus.jukebox.fragment.Home;
 import com.zilideus.jukebox.fragment.SearchFragment;
@@ -144,7 +143,8 @@ public class MainActivity extends AppCompatActivity
             java.net.URL.setURLStreamHandlerFactory(new java.net.URLStreamHandlerFactory() {
                 public java.net.URLStreamHandler createURLStreamHandler(String protocol) {
                     Log.d("LOG", "Asking for stream handler for protocol: '" + protocol + "'");
-                    if ("icy".equals(protocol)) return new IcyURLStreamHandler();
+                    if ("icy".equals(protocol))
+                        return new IcyURLStreamHandler();
                     return null;
                 }
             });

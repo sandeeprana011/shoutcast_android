@@ -11,13 +11,14 @@ public class Url_format {
      * @param limit
      * @param bitrate
      * @param mediaType
+     * @param offset
      * @return
      */
-    public String getTopStationsXML(String devID, String limit, String bitrate, String mediaType) {
+    public String getTopStationsXML(String devID, String offset, String limit, String bitrate, String mediaType) {
 
         String url = "http://api.shoutcast.com/legacy/Top500?k=" + devID;
         if (limit != null)
-            url = url + "&limit=" + limit;
+            url = url + "&limit=" + offset + "," + limit;
         if (bitrate != null)
             url = url + "&br=" + bitrate;
         if (mediaType != null)

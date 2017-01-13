@@ -176,6 +176,7 @@ class AdapterStationsList extends RecyclerView.Adapter<AdapterStationsList.ViewH
     public void addMoreStations(List<Station> stationList) {
         if (stationList != null) {
             this.stationList.addAll(stationList);
+            this.notifyDataSetChanged();
         }
     }
 

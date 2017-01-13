@@ -14,8 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.flags.Flags;
 import com.zilideus.jukebox.flags.Url_format;
@@ -30,6 +36,9 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import me.everything.android.ui.overscroll.IOverScrollDecor;
+import me.everything.android.ui.overscroll.IOverScrollStateListener;
+import me.everything.android.ui.overscroll.ListenerStubs;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
@@ -39,10 +48,14 @@ public class TopListFragment extends Fragment {
 
 
     private static final String TAG = "TopListFragment";
-    private String url;
+    AdapterStationsList adapterStationsList;
     private SharedPreferences preferences;
-
-//    execute(url);
+    private IOverScrollDecor decor;
+    private ScrollView scrollView;
+    private RecyclerView recyclerView;
+    private int offsetOfStation = 0;
+    private ProgressBar progressBar;
+    private int maxLimit = 20;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,34 +71,180 @@ public class TopListFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        OverScrollDecoratorHelper.setUpStaticOverScroll(view, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
-        refreshThisList(view);
+
+        scrollView = (ScrollView) view;
+        recyclerView = (RecyclerView) view.findViewById(R.id.list_stations);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        progressBar = (ProgressBar) view.findViewById(R.id.progressbarlist);
+        adapterStationsList = new AdapterStationsList(getActivity());
+        recyclerView.setAdapter(adapterStationsList);
+
+
     }
 
-    public void refreshThisList(View view) {
-
-    }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        url = new Url_format().getTopStationsXML(Flags.DEV_ID, "50",
+        searchAndUpdateList(null);
+//        if (DownloadContent.isAvailable(getActivity())) {
+//
+//            DownloadAndShowList downloadAndShowList = new DownloadAndShowList(getView());
+//            downloadAndShowList.execute(url);
+//
+//        } else {
+//            Toast.makeText(getActivity(), "Network connection not available", Toast.LENGTH_LONG).show();
+//        }
+    }
+
+    private void searchAndUpdateList(View view) {
+        resetOffsetStation();
+
+        String url = new Url_format().getTopStationsXML(
+                Flags.DEV_ID,
+                String.valueOf(getOffsetOfStation()),
+                String.valueOf(getMaxLimit()),
                 null, null);
 
-        if (DownloadContent.isAvailable(getActivity())) {
+        decor = OverScrollDecoratorHelper.setUpOverScroll((ScrollView) scrollView);
+        decor.setOverScrollStateListener(new IOverScrollStateListener() {
+            @Override
+            public void onOverScrollStateChange(IOverScrollDecor decor, int oldState, int newState) {
+                if (oldState == 3 && newState == 0) {
+                    Log.e(TAG, String.format("%d,%d", oldState, newState));
+                    addMoreStations();
+                }
+            }
+        });
 
-            DownloadAndShowList downloadAndShowList = new DownloadAndShowList(getView());
-            downloadAndShowList.execute(url);
+        showProgressBar();
 
-        } else {
-            Toast.makeText(getActivity(), "Network connection not available", Toast.LENGTH_LONG).show();
+        adapterStationsList.clearList();
+
+
+//        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+
+        if (recyclerView != null) {
+//            String urlToSearch = new Url_format().getStationByKeywords(Flags.DEV_ID,
+//                    editTextSearchStrin.getText().toString(), String.valueOf(getOffsetOfStation()), String.valueOf(getMaxLimit()), null, null);
+            showProgressBar();
+
+            StringRequest request = new StringRequest(Request.Method.GET,
+                    url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            ParserXMLtoJSON parser = new ParserXMLtoJSON();
+                            hideProgressBar();
+                            try {
+                                ArrayList<Station> list = parser.getTopStationswithLIMIT(response).getArrayListStations();
+                                adapterStationsList.addNewListAndNotifyDataSetChanged(list);
+                                increaseCounterOfSearch();
+                            } catch (IOException | JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("Error", "" + error.getMessage());
+
+                            hideProgressBar();
+                        }
+                    });
+            Volley.newRequestQueue(getContext()).add(request);
         }
     }
+
+    private void resetOffsetStation() {
+        setOffsetOfStation(0);
+    }
+
+    private void addMoreStations() {
+        String url = new Url_format().getTopStationsXML(
+                Flags.DEV_ID,
+                String.valueOf(getOffsetOfStation()),
+                String.valueOf(getMaxLimit()),
+                null, null);
+
+
+        showProgressBar();
+        if (recyclerView != null) {
+
+
+            StringRequest request = new StringRequest(Request.Method.GET,
+                    url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            ParserXMLtoJSON parser = new ParserXMLtoJSON();
+                            hideProgressBar();
+                            try {
+                                ArrayList<Station> list = parser.getTopStationswithLIMIT(response).getArrayListStations();
+                                adapterStationsList.addMoreStations(list);
+                                increaseCounterOfSearch();
+                                if (list == null || !(list.size() > 0)) {
+                                    decor.setOverScrollStateListener(new ListenerStubs.OverScrollStateListenerStub());
+                                }
+
+
+                            } catch (IOException | JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            hideProgressBar();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("Error", "" + error.getMessage());
+
+                            hideProgressBar();
+                        }
+                    });
+            Volley.newRequestQueue(getContext()).add(request);
+        }
+    }
+
+    private void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void increaseCounterOfSearch() {
+        setOffsetOfStation(getOffsetOfStation() + getMaxLimit());
+    }
+
+    public int getOffsetOfStation() {
+        return offsetOfStation;
+    }
+
+    public void setOffsetOfStation(int offsetOfStation) {
+        this.offsetOfStation = offsetOfStation;
+    }
+
+    public int getMaxLimit() {
+        return maxLimit;
+    }
+
+    public void setMaxLimit(int maxLimit) {
+        this.maxLimit = maxLimit;
+    }
+
 
     /**
      * Class downloads the list and shows on the ListView
      */
+    @Deprecated
     private class DownloadAndShowList extends AsyncTask<String, Void, ArrayList<Station>> {
         //        ImageButton listButton;
         StationList stationList;
@@ -167,7 +326,7 @@ public class TopListFragment extends Fragment {
             } else {
                 Toast.makeText(getContext(), "No station found", Toast.LENGTH_LONG).show();
                 preferences.edit().putString(Flags.JSON_URL, new Url_format().getTopStationsXML(Flags
-                        .DEV_ID, "30", null, null)).apply();
+                        .DEV_ID, "0", "30", null, null)).apply();
                 if (progressBar != null && progressBar.isShown()) {
                     progressBar.setVisibility(View.GONE);
                 }
@@ -178,4 +337,5 @@ public class TopListFragment extends Fragment {
 
 
     }
+
 }

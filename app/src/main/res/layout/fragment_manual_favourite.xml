@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_station_name"
             android:drawablePadding="10dp"
-            android:hint="Station Name"
+            android:hint="Name"
             android:inputType="textUri" />
     </android.support.design.widget.TextInputLayout>
 
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_uri"
             android:drawablePadding="10dp"
-            android:hint="Station Url"
+            android:hint="Station Url icy://&lt;url&gt;:port"
             android:inputType="textUri" />
     </android.support.design.widget.TextInputLayout>
 
@@ -63,12 +63,13 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_art_image"
             android:drawablePadding="10dp"
-            android:hint="Logo URL"
+            android:hint="Art image url"
             android:inputType="textUri" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/save_fragment_manualfavourite"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/til_logo"

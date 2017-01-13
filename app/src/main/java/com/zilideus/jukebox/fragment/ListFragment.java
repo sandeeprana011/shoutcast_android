@@ -33,6 +33,7 @@ import java.util.Collections;
 /**
  * A simple {@link Fragment} subclass.
  */
+@Deprecated
 public class ListFragment extends Fragment {
 
 
@@ -66,11 +67,11 @@ public class ListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (preferences != null) {
-            url = preferences.getString(Flags.JSON_URL, new Url_format().getTopStationsXML(Flags.DEV_ID, "50",
+            url = preferences.getString(Flags.JSON_URL, new Url_format().getTopStationsXML(Flags.DEV_ID, "0", "50",
                     null, null));
         } else {
             preferences = getActivity().getSharedPreferences(Flags.SETTINGS, Context.MODE_PRIVATE);
-            url = preferences.getString(Flags.JSON_URL, new Url_format().getTopStationsXML(Flags.DEV_ID, "50",
+            url = preferences.getString(Flags.JSON_URL, new Url_format().getTopStationsXML(Flags.DEV_ID, "0", "50",
                     null, null));
         }
 
@@ -153,8 +154,8 @@ public class ListFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             } else {
                 Toast.makeText(getContext(), "No station found", Toast.LENGTH_LONG).show();
-                preferences.edit().putString(Flags.JSON_URL, new Url_format().getTopStationsXML(Flags
-                        .DEV_ID, "30", null, null)).apply();
+                url = preferences.getString(Flags.JSON_URL, new Url_format().getTopStationsXML(Flags.DEV_ID, "0", "50",
+                        null, null));
                 if (progressBar != null && progressBar.isShown()) {
                     progressBar.setVisibility(View.GONE);
                 }
