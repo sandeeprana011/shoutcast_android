@@ -1,67 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:clickable="true"
-    android:orientation="vertical">
-    <!--<include layout="@layout/play_util"/>-->
-    <RelativeLayout
+    android:layout_height="match_parent">
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:src="@drawable/jukeboxicon" />
-
-        <ImageView
-            android:id="@+id/iconshout"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:src="@drawable/shoutcast" />
-
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/iconshout"
-            android:gravity="top|center"
-            android:text="streaming" />
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/titleabout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Jukebox Shout"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Version  1.0"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/colorPrimaryDark"
-        android:typeface="monospace" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autoLink="email"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="sandeep.rana011@gmail.com" />
-
-    <WebView
-        android:id="@+id/webview"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:padding="5dp" />
-</LinearLayout>
+        android:background="@color/white"
+        android:clickable="true"
+        android:orientation="vertical">
+        <!--<include layout="@layout/play_util"/>-->
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:padding="30dp"
+                android:src="@drawable/jukeboxicon" />
+
+            <ImageView
+                android:id="@+id/iconshout"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:src="@drawable/shoutcast" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iconshout"
+                android:gravity="top|center"
+                android:text="streaming" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/titleabout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Jukebox Shoutcast"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/version_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Version  1.0"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorPrimaryDark"
+            android:typeface="monospace" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="email"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="sandeep.rana011@gmail.com" />
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:nestedScrollingEnabled="false"
+            android:padding="5dp" />
+    </LinearLayout>
+</ScrollView>

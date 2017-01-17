@@ -18,10 +18,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneStateListener;
@@ -61,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     private static final int BUFFER_SEGMENT_COUNT = 256;
     private static final String TAG = "JUKEBOX";
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 14;
+    private static int COUNT_EXIT = 0;
     PagerAdapter adapter;
     //   private static ExoPlayer player;
     private Context context;
@@ -252,20 +251,39 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        if (COUNT_EXIT == 0) {
+            COUNT_EXIT++;
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Snackbar.make(getCurrentFocus(), "Press again to exit", Snackbar.LENGTH_SHORT)
+                                        .setAction("Minimize", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Intent i = new Intent(Intent.ACTION_MAIN);
+                                                i.addCategory(Intent.CATEGORY_HOME);
+                                                startActivity(i);
+                                            }
+                                        })
+                                        .setActionTextColor(getResources().getColor(R.color.colorPremiere))
+                                        .show();
 
-        if (viewPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
+                            }
+                        });
+                        Thread.sleep(1500);
+                        COUNT_EXIT = 0;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
         } else {
-            // Otherwise, select the previous step.
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            finish();
         }
     }
 

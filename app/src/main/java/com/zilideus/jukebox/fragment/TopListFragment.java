@@ -218,6 +218,7 @@ public class TopListFragment extends Fragment {
 
     private void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
+        progressBar.requestFocus();
     }
 
     private void increaseCounterOfSearch() {
