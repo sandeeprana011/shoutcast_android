@@ -69,10 +69,12 @@
             android:id="@id/progressbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
             android:layout_below="@id/rv_search_fragment"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="15dp"
+            android:elevation="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:visibility="gone" />
-
     </RelativeLayout>
 </ScrollView>

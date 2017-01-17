@@ -3,7 +3,6 @@ package com.zilideus.jukebox.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +26,7 @@ import com.zilideus.jukebox.flags.Url_format;
 import com.zilideus.jukebox.model.Station;
 import com.zilideus.jukebox.model.StationAddedManually;
 import com.zilideus.jukebox.parser.ParserXMLtoJSON;
+import com.zilideus.jukebox.utilities.LinearLayoutManagerWrapper;
 
 import org.json.JSONException;
 
@@ -86,7 +86,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
 
         adapterStationsList = new AdapterSearchStationList(getContext());
         adapterStationsList.setListenerFavouriteCallbacks(this);
-        recyclerViewSearch.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewSearch.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));
         recyclerViewSearch.setAdapter(adapterStationsList);
         recyclerViewSearch.setNestedScrollingEnabled(false);
         recyclerViewSearch.addOnScrollListener(
@@ -225,10 +225,13 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fa
 
     private void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
+        progressBar.clearFocus();
     }
 
     private void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
+        progressBar.requestFocus();
+        scrollView.scrollTo(0, scrollView.getBottom());
     }
 
     private void increaseCounterOfSearch() {
