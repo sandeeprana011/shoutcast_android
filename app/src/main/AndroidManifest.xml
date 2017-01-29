@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
 
-        <meta-data
+        <!--<meta-data
             android:name="DATABASE"
             android:value="stations.db" />
         <meta-data
@@ -38,7 +38,7 @@
             android:value="9" />
         <meta-data
             android:name="QUERY_LOG"
-            android:value="true" />
+            android:value="true" />-->
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.zilideus.jukebox.model" />
