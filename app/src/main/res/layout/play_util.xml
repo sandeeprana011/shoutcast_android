@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/play_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:background="@color/colorPrimary"
-    android:gravity="center"
-    android:onClick="openHome">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/play_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:onClick="openHome">
 
     <ImageView
         android:id="@+id/strip_logo"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_margin="7dp"
-        android:src="@drawable/radio_waves" />
+        android:src="@drawable/radio_waves"/>
 
-    <TextView
+    <fr.arnaudguyon.smartfontslib.FontTextView
         android:id="@+id/strip_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,9 +26,10 @@
         android:singleLine="true"
         android:text="--/--"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        app:font="@string/fontBold"/>
 
-    <TextView
+    <fr.arnaudguyon.smartfontslib.FontTextView
         android:id="@+id/strip_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +38,8 @@
         android:layout_toRightOf="@+id/strip_logo"
         android:singleLine="true"
         android:text="--/--"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        app:font="@string/fontRegular"/>
 
     <ImageButton
         android:id="@+id/but_media_play"
@@ -46,6 +49,6 @@
         android:layout_centerVertical="true"
         android:background="@drawable/media_button"
         android:onClick="playpause"
-        android:src="@mipmap/ic_stop" />
+        android:src="@mipmap/ic_stop"/>
 
 </RelativeLayout>

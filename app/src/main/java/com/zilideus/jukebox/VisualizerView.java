@@ -2,7 +2,6 @@ package com.zilideus.jukebox;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -47,7 +46,8 @@ public class VisualizerView extends View {
         mBytes = null;
         mForePaint.setStrokeWidth(2f);
         mForePaint.setAntiAlias(false);
-        mForePaint.setColor(Color.rgb(0, 128, 255));
+//        mForePaint.setColor(Color.rgb(0, 128, 255));
+        mForePaint.setColor(getContext().getResources().getColor(R.color.colorPremiere));
     }
 
     public void updateVisualizer(byte[] bytes) {

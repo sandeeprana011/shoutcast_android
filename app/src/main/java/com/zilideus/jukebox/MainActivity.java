@@ -36,6 +36,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer.ExoPlaybackException;
 import com.google.android.exoplayer.ExoPlayer;
@@ -92,6 +93,9 @@ public class MainActivity extends AppCompatActivity
         textViewTitle = (TextView) findViewById(R.id.strip_title);
         textViewText = (TextView) findViewById(R.id.strip_text);
         imageViewLogo = (ImageView) findViewById(R.id.strip_logo);
+
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabs.setViewPager(viewPager);
 
 
         this.askForRuntimePermissions();
@@ -399,8 +403,12 @@ public class MainActivity extends AppCompatActivity
                 Log.e(TAG, "State Idle");
                 break;
             case ExoPlayer.STATE_PREPARING:
-                refreshCurrentSong();
-                Snackbar.make((View) imageButtonPlayStop.getParent(), "Preparing...", Snackbar.LENGTH_SHORT).show();
+                try {
+                    refreshCurrentSong();
+                    Snackbar.make((View) imageButtonPlayStop.getParent(), "Preparing...", Snackbar.LENGTH_SHORT).show();
+                } catch (Exception ex) {
+                    Log.e(TAG, "" + ex.getMessage());
+                }
                 break;
             default:
                 Log.e(TAG, "Default Unknown state");

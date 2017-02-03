@@ -8,8 +8,8 @@ android {
         applicationId "com.zilideus.jukebox"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 15
-        versionName "Aryabhatta 17th Jan 2017 | 15"
+        versionCode 18
+        versionName "Ramanujan 27th Jan 2017 | 18"
         multiDexEnabled true
     }
     buildTypes {
@@ -35,11 +35,13 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.android.volley:volley:1.0.0'
-    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+//    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'me.everything:overscroll-decor-android:1.0.4'
     compile 'com.google.firebase:firebase-crash:10.0.1'
     compile 'jp.wasabeef:recyclerview-animators:2.2.5'
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.jpardogo.materialtabstrip:library:1.1.1'
+    compile 'com.github.smart-fun:SmartFonts:1.0.2'
 }
 apply plugin: 'com.google.gms.google-services'

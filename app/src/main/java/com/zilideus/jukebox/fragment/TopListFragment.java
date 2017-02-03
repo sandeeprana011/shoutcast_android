@@ -30,6 +30,7 @@ import com.zilideus.jukebox.network.DownloadContent;
 import com.zilideus.jukebox.parser.ParserXMLtoJSON;
 import com.zilideus.jukebox.parser.StationList;
 import com.zilideus.jukebox.parser.TuneIn;
+import com.zilideus.jukebox.utilities.LinearLayoutManagerWrapper;
 
 import org.json.JSONException;
 
@@ -74,7 +75,7 @@ public class TopListFragment extends Fragment {
 
         scrollView = (ScrollView) view;
         recyclerView = (RecyclerView) view.findViewById(R.id.list_stations);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));
         progressBar = (ProgressBar) view.findViewById(R.id.progressbarlist);
         adapterStationsList = new AdapterStationsList(getActivity());
         recyclerView.setAdapter(adapterStationsList);

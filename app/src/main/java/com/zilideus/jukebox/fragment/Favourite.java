@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import com.zilideus.jukebox.R;
 import com.zilideus.jukebox.model.Station;
 import com.zilideus.jukebox.model.StationAddedManually;
+import com.zilideus.jukebox.utilities.LinearLayoutManagerWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,7 @@ public class Favourite extends Fragment implements FavouriteClickCallbacks, View
         adapterStationsList = new AdapterStationsList(getContext());
         adapterStationsList.setListenerFavouriteCallbacks(this);
         adapterStationsList.setOnStationSavedOrEditedListener(this);
-        recyclerViewFavouriteList.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewFavouriteList.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));
         recyclerViewFavouriteList.setAdapter(adapterStationsList);
         adapterStationsList.notifyDataSetChanged();
     }

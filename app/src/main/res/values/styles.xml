@@ -23,6 +23,6 @@
     <style name="AppTheme.Widget" />
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
-        <item name="fontPath">fonts/font-light.ttf</item>
+        <!--<item name="fontPath">fonts/font-light.ttf</item>-->
     </style>
 </resources>

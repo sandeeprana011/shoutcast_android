@@ -279,13 +279,15 @@ public class AdapterSearchStationList extends RecyclerView.Adapter<AdapterSearch
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SearchStation station = stationList.get(ViewHolder.this.getAdapterPosition());
-                    if (station != null) {
-                        if (downloadSongDetailAndPlayOnclick != null) {
-                            downloadSongDetailAndPlayOnclick.cancel(true);
+                    if (stationList != null) {
+                        SearchStation station = stationList.get(ViewHolder.this.getAdapterPosition());
+                        if (station != null) {
+                            if (downloadSongDetailAndPlayOnclick != null) {
+                                downloadSongDetailAndPlayOnclick.cancel(true);
+                            }
+                            downloadSongDetailAndPlayOnclick = new DownloadSongDetailAndPlayOnClick(SearchStation.getStation(station), (MainActivity) context);
+                            downloadSongDetailAndPlayOnclick.execute();
                         }
-                        downloadSongDetailAndPlayOnclick = new DownloadSongDetailAndPlayOnClick(SearchStation.getStation(station), (MainActivity) context);
-                        downloadSongDetailAndPlayOnclick.execute();
                     }
                 }
             });
