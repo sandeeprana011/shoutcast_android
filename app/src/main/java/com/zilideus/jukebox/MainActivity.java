@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -95,6 +96,10 @@ public class MainActivity extends AppCompatActivity
         imageViewLogo = (ImageView) findViewById(R.id.strip_logo);
 
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+
+        Typeface face = Typeface.createFromAsset(getAssets(),
+                "fonts/Quicksand-Regular.ttf");
+        tabs.setTypeface(face, android.R.style.TextAppearance_DeviceDefault);
         tabs.setViewPager(viewPager);
 
 
